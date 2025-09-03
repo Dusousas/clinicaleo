@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-Inter: var(--font-inter);
+  --font-Quicksand: var(--font-quicksand);
+  --color-Primary: #F5F1EE;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Inter", sans-serif;
+}
+
+.maxW{
+  max-width: 1620px;
+  padding: 0 2%;
+  margin: 0 auto;
+}
+
+.bgCardsmain{
+  background-image: url('/id.webp');
+  background-size: cover;
+  background-position: center;
+}
