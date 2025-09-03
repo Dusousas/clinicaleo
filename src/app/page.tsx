@@ -8,6 +8,7 @@ export default function Home() {
   return (
     <>
       <Main />
+      teste
       <CardsMain />
       <Tutorial />
       <Treatments />
