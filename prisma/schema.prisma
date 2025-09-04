@@ -8,17 +8,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  ADMIN
+  MEDICO
+  PACIENTE
+}
+
 model User {
-  id            String    @id
-  name          String    @db.Text
+  id            String         @id
+  name          String         @db.Text
   email         String
   emailVerified Boolean
-  image         String?   @db.Text
-  dateOfBirth   DateTime? @db.Date
+  image         String?        @db.Text
+  dateOfBirth   DateTime?      @db.Date
+  whatsapp      String?        @db.VarChar(20)
+  acceptsOffers Boolean        @default(false)
+  role          UserRole       @default(PACIENTE)
   createdAt     DateTime
   updatedAt     DateTime
   sessions      Session[]
   accounts      Account[]
+  quizResponses QuizResponse[]
 
   @@unique([email])
   @@map("user")
@@ -225,4 +235,17 @@ enum pedidos_status {
   enviado
   entregue
   cancelado
+}
+
+model QuizResponse {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quizType    String // Tipo do quiz (ex: "sexual_health", "hair_loss", etc.)
+  responses   Json // Armazena as respostas em formato JSON
+  completedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("quiz_responses")
 }
