@@ -2,9 +2,27 @@
 
 import React, { useState, useEffect, JSX } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
+import { useRole } from '@/lib/hooks/useRole';
+import { authClient } from '@/lib/auth-client';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 export default function Navbar(): JSX.Element {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const { user } = useRole();
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        try {
+            await authClient.signOut();
+            toast.success("Logout realizado com sucesso!");
+            router.push("/");
+            setIsOpen(false);
+        } catch (error) {
+            console.error("Erro no logout:", error);
+            toast.error("Erro ao fazer logout");
+        }
+    };
 
     useEffect(() => {
         if (isOpen) {
@@ -68,10 +86,15 @@ export default function Navbar(): JSX.Element {
                         <li><button onClick={() => handleNavigation('/', 'home')} className="hover:opacity-70 transition-opacity uppercase cursor-pointer" type="button">Início</button></li>
                         <li><button onClick={() => handleNavigation('/', 'home')} className="hover:opacity-70 transition-opacity uppercase cursor-pointer" type="button">Produtos</button></li>
                         <li><button onClick={() => handleNavigation('/', 'home')} className="hover:opacity-70 transition-opacity uppercase cursor-pointer" type="button">Quem somos</button></li>
-                        <li><button onClick={() => handleNavigation('/', 'home')} className="hover:opacity-70 transition-opacity uppercase cursor-pointer" type="button">Minha conta</button></li>
-                        <li><button onClick={() => handleNavigation('/login', '')} className="hover:opacity-70 transition-opacity uppercase cursor-pointer" type="button">Minha conta</button></li>
-
-
+                        
+                        {user ? (
+                            <>
+                                <li><button onClick={() => handleNavigation('/dashboard', '')} className="hover:opacity-70 transition-opacity uppercase cursor-pointer" type="button">Dashboard</button></li>
+                                <li><button onClick={handleLogout} className="hover:opacity-70 transition-opacity uppercase cursor-pointer text-red-600" type="button">Sair</button></li>
+                            </>
+                        ) : (
+                            <li><button onClick={() => handleNavigation('/login', '')} className="hover:opacity-70 transition-opacity uppercase cursor-pointer" type="button">Minha conta</button></li>
+                        )}
                     </ul>
                 </nav>
             </div>
