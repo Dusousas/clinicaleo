@@ -1,0 +1,544 @@
+"use client"
+import React, { useState } from 'react';
+
+interface FormData {
+  cpf: string;
+  email: string;
+  cep: string;
+  endereco: string;
+  cidade: string;
+  paymentMethod: string;
+  cardNumber: string;
+  cardExpiry: string;
+  cardCvv: string;
+  cardName: string;
+}
+
+interface FormErrors {
+  cpf: boolean;
+  email: boolean;
+  cep: boolean;
+  endereco: boolean;
+  cidade: boolean;
+}
+
+export default function CheckoutPage() {
+  const [currentStep, setCurrentStep] = useState<number>(1);
+  const [formData, setFormData] = useState<FormData>({
+    cpf: '',
+    email: '',
+    cep: '',
+    endereco: '',
+    cidade: '',
+    paymentMethod: '',
+    cardNumber: '',
+    cardExpiry: '',
+    cardCvv: '',
+    cardName: '',
+  });
+  const [errors, setErrors] = useState<FormErrors>({
+    cpf: false,
+    email: false,
+    cep: false,
+    endereco: false,
+    cidade: false,
+  });
+
+  // Formatação de CPF
+  const formatCPF = (value: string): string => {
+    const numbers = value.replace(/\D/g, '');
+    return numbers
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+  };
+
+  // Formatação de CEP
+  const formatCEP = (value: string): string => {
+    const numbers = value.replace(/\D/g, '');
+    return numbers.replace(/(\d{5})(\d)/, '$1-$2');
+  };
+
+  // Formatação de cartão de crédito
+  const formatCardNumber = (value: string): string => {
+    const numbers = value.replace(/\D/g, '');
+    return numbers.replace(/(\d{4})(?=\d)/g, '$1 ');
+  };
+
+  // Formatação de data de validade
+  const formatExpiry = (value: string): string => {
+    const numbers = value.replace(/\D/g, '');
+    return numbers.replace(/(\d{2})(\d)/, '$1/$2');
+  };
+
+  // Validação de CPF
+  const validateCPF = (cpf: string): boolean => {
+    const numbers = cpf.replace(/[^\d]+/g, '');
+    if (numbers === '') return false;
+    if (numbers.length !== 11) return false;
+    
+    const invalidCPFs = [
+      '00000000000', '11111111111', '22222222222', '33333333333',
+      '44444444444', '55555555555', '66666666666', '77777777777',
+      '88888888888', '99999999999'
+    ];
+    
+    if (invalidCPFs.includes(numbers)) return false;
+    
+    let add = 0;
+    for (let i = 0; i < 9; i++) {
+      add += parseInt(numbers.charAt(i)) * (10 - i);
+    }
+    let rev = 11 - (add % 11);
+    if (rev === 10 || rev === 11) rev = 0;
+    if (rev !== parseInt(numbers.charAt(9))) return false;
+    
+    add = 0;
+    for (let i = 0; i < 10; i++) {
+      add += parseInt(numbers.charAt(i)) * (11 - i);
+    }
+    rev = 11 - (add % 11);
+    if (rev === 10 || rev === 11) rev = 0;
+    if (rev !== parseInt(numbers.charAt(10))) return false;
+    
+    return true;
+  };
+
+  // Validação de e-mail
+  const validateEmail = (email: string): boolean => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
+
+  // Validação de CEP
+  const validateCEPFormat = (cep: string): boolean => {
+    const cepPattern = /^\d{5}-\d{3}$/;
+    return cepPattern.test(cep);
+  };
+
+  // Handler para mudanças nos inputs
+  const handleInputChange = (field: keyof FormData, value: string) => {
+    let formattedValue = value;
+
+    switch (field) {
+      case 'cpf':
+        formattedValue = formatCPF(value);
+        break;
+      case 'cep':
+        formattedValue = formatCEP(value);
+        break;
+      case 'cardNumber':
+        formattedValue = formatCardNumber(value);
+        break;
+      case 'cardExpiry':
+        formattedValue = formatExpiry(value);
+        break;
+      default:
+        formattedValue = value;
+    }
+
+    setFormData(prev => ({ ...prev, [field]: formattedValue }));
+    
+    // Remover erro quando o usuário começar a digitar
+    if (field in errors) {
+      setErrors(prev => ({ ...prev, [field]: false }));
+    }
+  };
+
+  // Validação da Etapa 1
+  const validateStep1 = (): boolean => {
+    const newErrors = { ...errors };
+    let isValid = true;
+
+    if (!validateCPF(formData.cpf)) {
+      newErrors.cpf = true;
+      isValid = false;
+    }
+
+    if (!validateEmail(formData.email)) {
+      newErrors.email = true;
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+
+    if (isValid) {
+      setCurrentStep(2);
+    }
+
+    return isValid;
+  };
+
+  // Validação da Etapa 2
+  const validateStep2 = (): boolean => {
+    const newErrors = { ...errors };
+    let isValid = true;
+
+    if (!validateCEPFormat(formData.cep)) {
+      newErrors.cep = true;
+      isValid = false;
+    }
+
+    if (formData.endereco.trim() === '') {
+      newErrors.endereco = true;
+      isValid = false;
+    }
+
+    if (formData.cidade.trim() === '') {
+      newErrors.cidade = true;
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+
+    if (isValid) {
+      setCurrentStep(3);
+    }
+
+    return isValid;
+  };
+
+  // Seleção do método de pagamento
+  const selectPaymentMethod = (method: string) => {
+    setFormData(prev => ({ ...prev, paymentMethod: method }));
+  };
+
+  // Finalizar compra
+  const finalizePurchase = () => {
+    if (!formData.paymentMethod) {
+      alert('Selecione um método de pagamento');
+      return;
+    }
+
+    if (formData.paymentMethod === 'card') {
+      if (!formData.cardNumber || !formData.cardExpiry || !formData.cardCvv || !formData.cardName) {
+        alert('Preencha todos os dados do cartão');
+        return;
+      }
+    }
+
+    alert('Compra realizada com sucesso! 🎉');
+  };
+
+  return (
+    <>
+      <section className="relative top-[10px]">
+        <div className="py-10">
+          <div className="mx-auto p-5 grid grid-cols-1 lg:grid-cols-3 gap-10">
+            {/* Header */}
+            <div className="col-span-full text-center">
+              <h1 className="text-3xl font-light tracking-wider text-gray-800">MINHALOGO</h1>
+            </div>
+
+            {/* Checkout Steps */}
+            <div className="lg:col-span-2 bg-white rounded-xl p-8 shadow-sm">
+              {/* Etapa 1: Conta */}
+              <div className={`mb-8 transition-opacity duration-300 ${currentStep >= 1 ? 'opacity-100' : 'opacity-40'}`}>
+                <div className="flex items-center mb-5 pb-3 border-b border-gray-200">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-4 font-bold text-white transition-colors duration-300 ${
+                    currentStep > 1 ? 'bg-green-500' : currentStep === 1 ? 'bg-blue-500' : 'bg-gray-300'
+                  }`}>
+                    {currentStep > 1 ? '✓' : '1'}
+                  </div>
+                  <h2 className="text-xl font-semibold text-gray-800">Conta</h2>
+                </div>
+                
+                {currentStep === 1 && (
+                  <div className="pl-12">
+                    <div className="mb-5">
+                      <label className="block mb-2 font-medium text-gray-600">CPF</label>
+                      <input
+                        type="text"
+                        value={formData.cpf}
+                        onChange={(e) => handleInputChange('cpf', e.target.value)}
+                        className={`w-full p-3 border-2 rounded-lg text-base transition-colors ${
+                          errors.cpf ? 'border-red-500' : 'border-gray-200 focus:border-blue-500'
+                        } focus:outline-none`}
+                        placeholder="000.000.000-00"
+                        maxLength={14}
+                      />
+                      {errors.cpf && <div className="text-red-500 text-sm mt-1">CPF inválido</div>}
+                    </div>
+                    
+                    <div className="mb-5">
+                      <label className="block mb-2 font-medium text-gray-600">E-mail</label>
+                      <input
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => handleInputChange('email', e.target.value)}
+                        className={`w-full p-3 border-2 rounded-lg text-base transition-colors ${
+                          errors.email ? 'border-red-500' : 'border-gray-200 focus:border-blue-500'
+                        } focus:outline-none`}
+                        placeholder="seu@email.com"
+                      />
+                      {errors.email && <div className="text-red-500 text-sm mt-1">E-mail inválido</div>}
+                    </div>
+                    
+                    <button
+                      onClick={validateStep1}
+                      className="bg-[#09243C] cursor-pointer text-white px-8 py-2 rounded-xl uppercase tracking-wider font-Quicksand font-semibold"
+                    >
+                      Continuar
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Etapa 2: Entrega */}
+              <div className={`mb-8 transition-opacity duration-300 ${currentStep >= 2 ? 'opacity-100' : 'opacity-40'}`}>
+                <div className="flex items-center mb-5 pb-3 border-b border-gray-200">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-4 font-bold text-white transition-colors duration-300 ${
+                    currentStep > 2 ? 'bg-green-500' : currentStep === 2 ? 'bg-blue-500' : 'bg-gray-300'
+                  }`}>
+                    {currentStep > 2 ? '✓' : '2'}
+                  </div>
+                  <h2 className="text-xl font-semibold text-gray-800">Informações de Entrega</h2>
+                </div>
+                
+                {currentStep === 2 && (
+                  <div className="pl-12">
+                    <div className="mb-5">
+                      <label className="block mb-2 font-medium text-gray-600">CEP</label>
+                      <input
+                        type="text"
+                        value={formData.cep}
+                        onChange={(e) => handleInputChange('cep', e.target.value)}
+                        className={`w-full p-3 border-2 rounded-lg text-base transition-colors ${
+                          errors.cep ? 'border-red-500' : 'border-gray-200 focus:border-blue-500'
+                        } focus:outline-none`}
+                        placeholder="00000-000"
+                        maxLength={9}
+                      />
+                      {errors.cep && <div className="text-red-500 text-sm mt-1">CEP inválido</div>}
+                    </div>
+                    
+                    <div className="mb-5">
+                      <label className="block mb-2 font-medium text-gray-600">Endereço</label>
+                      <input
+                        type="text"
+                        value={formData.endereco}
+                        onChange={(e) => handleInputChange('endereco', e.target.value)}
+                        className={`w-full p-3 border-2 rounded-lg text-base transition-colors ${
+                          errors.endereco ? 'border-red-500' : 'border-gray-200 focus:border-blue-500'
+                        } focus:outline-none`}
+                        placeholder="Rua, número"
+                      />
+                      {errors.endereco && <div className="text-red-500 text-sm mt-1">Endereço obrigatório</div>}
+                    </div>
+                    
+                    <div className="mb-5">
+                      <label className="block mb-2 font-medium text-gray-600">Cidade</label>
+                      <input
+                        type="text"
+                        value={formData.cidade}
+                        onChange={(e) => handleInputChange('cidade', e.target.value)}
+                        className={`w-full p-3 border-2 rounded-lg text-base transition-colors ${
+                          errors.cidade ? 'border-red-500' : 'border-gray-200 focus:border-blue-500'
+                        } focus:outline-none`}
+                        placeholder="São Paulo"
+                      />
+                      {errors.cidade && <div className="text-red-500 text-sm mt-1">Cidade obrigatória</div>}
+                    </div>
+                    
+                    <button
+                      onClick={validateStep2}
+                      className="bg-[#09243C] cursor-pointer text-white px-8 py-2 rounded-xl uppercase tracking-wider font-Quicksand font-semibold"
+                    >
+                      Continuar
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Etapa 3: Pagamento */}
+              <div className={`mb-8 transition-opacity duration-300 ${currentStep >= 3 ? 'opacity-100' : 'opacity-40'}`}>
+                <div className="flex items-center mb-5 pb-3 border-b border-gray-200">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-4 font-bold text-white transition-colors duration-300 ${
+                    currentStep === 3 ? 'bg-blue-500' : 'bg-gray-300'
+                  }`}>
+                    3
+                  </div>
+                  <h2 className="text-xl font-semibold text-gray-800">Método de Pagamento</h2>
+                </div>
+                
+                {currentStep === 3 && (
+                  <div className="pl-12">
+                    <div className="grid gap-3 mb-5">
+                      <div
+                        onClick={() => selectPaymentMethod('pix')}
+                        className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                          formData.paymentMethod === 'pix' 
+                            ? 'border-blue-500 bg-blue-50' 
+                            : 'border-gray-200 hover:border-blue-500'
+                        }`}
+                      >
+                        <input
+                          type="radio"
+                          name="payment"
+                          value="pix"
+                          checked={formData.paymentMethod === 'pix'}
+                          onChange={() => selectPaymentMethod('pix')}
+                          className="mr-3"
+                        />
+                        <label>PIX - Pague à vista</label>
+                      </div>
+                      
+                      <div
+                        onClick={() => selectPaymentMethod('card')}
+                        className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                          formData.paymentMethod === 'card' 
+                            ? 'border-blue-500 bg-blue-50' 
+                            : 'border-gray-200 hover:border-blue-500'
+                        }`}
+                      >
+                        <input
+                          type="radio"
+                          name="payment"
+                          value="card"
+                          checked={formData.paymentMethod === 'card'}
+                          onChange={() => selectPaymentMethod('card')}
+                          className="mr-3"
+                        />
+                        <label>Cartão de Crédito - Parcele em até 6x</label>
+                      </div>
+                    </div>
+                    
+                    {formData.paymentMethod === 'card' && (
+                      <div className="mt-5">
+                        <div className="mb-5">
+                          <label className="block mb-2 font-medium text-gray-600">Número do Cartão</label>
+                          <input
+                            type="text"
+                            value={formData.cardNumber}
+                            onChange={(e) => handleInputChange('cardNumber', e.target.value)}
+                            className="w-full p-3 border-2 border-gray-200 rounded-lg text-base focus:border-blue-500 focus:outline-none"
+                            placeholder="0000 0000 0000 0000"
+                            maxLength={19}
+                          />
+                        </div>
+                        
+                        <div className="flex gap-4 mb-5">
+                          <div className="flex-1">
+                            <label className="block mb-2 font-medium text-gray-600">Validade</label>
+                            <input
+                              type="text"
+                              value={formData.cardExpiry}
+                              onChange={(e) => handleInputChange('cardExpiry', e.target.value)}
+                              className="w-full p-3 border-2 border-gray-200 rounded-lg text-base focus:border-blue-500 focus:outline-none"
+                              placeholder="MM/AA"
+                              maxLength={5}
+                            />
+                          </div>
+                          <div className="flex-1">
+                            <label className="block mb-2 font-medium text-gray-600">CVV</label>
+                            <input
+                              type="text"
+                              value={formData.cardCvv}
+                              onChange={(e) => handleInputChange('cardCvv', e.target.value)}
+                              className="w-full p-3 border-2 border-gray-200 rounded-lg text-base focus:border-blue-500 focus:outline-none"
+                              placeholder="000"
+                              maxLength={3}
+                            />
+                          </div>
+                        </div>
+                        
+                        <div className="mb-5">
+                          <label className="block mb-2 font-medium text-gray-600">Nome no Cartão</label>
+                          <input
+                            type="text"
+                            value={formData.cardName}
+                            onChange={(e) => handleInputChange('cardName', e.target.value)}
+                            className="w-full p-3 border-2 border-gray-200 rounded-lg text-base focus:border-blue-500 focus:outline-none"
+                            placeholder="Nome como está no cartão"
+                          />
+                        </div>
+                      </div>
+                    )}
+                    
+                    <button
+                      onClick={finalizePurchase}
+                      className="bg-blue-500 text-white px-6 py-3 rounded-lg text-base font-medium hover:bg-blue-600 transition-colors mt-5"
+                    >
+                      Finalizar Compra
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Resumo do Pedido */}
+            <div className="bg-white rounded-xl p-8 shadow-sm h-fit sticky top-5">
+              <h3 className="text-xl font-semibold mb-5 text-gray-800">Resumo da Compra</h3>
+              
+              <div className="space-y-4 mb-6">
+                <div className="flex items-center pb-4 border-b border-gray-100">
+                  <div className="w-12 h-12 bg-gray-100 rounded-lg mr-4 flex items-center justify-center text-xs text-gray-500">
+                    IMG
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-medium mb-1">Bloqueador de DHT</div>
+                    <div className="text-gray-600 text-sm">R$ 15,75/mês</div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center pb-4 border-b border-gray-100">
+                  <div className="w-12 h-12 bg-gray-100 rounded-lg mr-4 flex items-center justify-center text-xs text-gray-500">
+                    IMG
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-medium mb-1">Ativador de crescimento</div>
+                    <div className="text-gray-600 text-sm">R$ 31,50/mês</div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center pb-4 border-b border-gray-100">
+                  <div className="w-12 h-12 bg-gray-100 rounded-lg mr-4 flex items-center justify-center text-xs text-gray-500">
+                    IMG
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-medium mb-1">Shampoo Antiqueda</div>
+                    <div className="text-gray-600 text-sm">R$ 21,00/mês</div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center pb-4 border-b border-gray-100">
+                  <div className="w-12 h-12 bg-gray-100 rounded-lg mr-4 flex items-center justify-center text-xs text-gray-500">
+                    IMG
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-medium mb-1">Biotina</div>
+                    <div className="text-gray-600 text-sm">R$ 23,94/mês</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="space-y-2 mb-6">
+                <div className="flex justify-between py-1">
+                  <span>Avaliação Médica (prescrição)</span>
+                  <span>R$ 10,00</span>
+                </div>
+                <div className="flex justify-between py-1">
+                  <span>30% OFF Primeira Pedido</span>
+                  <span className="text-green-600">-R$ 27,06</span>
+                </div>
+                <div className="flex justify-between py-1">
+                  <span>Entrega</span>
+                  <span className="text-green-600">Grátis</span>
+                </div>
+                <div className="flex justify-between py-1">
+                  <span>Presente MANUAL</span>
+                  <span>-R$ 10,00</span>
+                </div>
+              </div>
+              
+              <div className="flex justify-between text-lg font-bold pt-4 border-t-2 border-gray-200">
+                <span>Total</span>
+                <span>R$ 553,14</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
