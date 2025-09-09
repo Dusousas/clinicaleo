@@ -1,149 +1,217 @@
-import React from 'react';
-import { TrendingUp, Calendar, BarChart3, Activity, Target } from 'lucide-react';
+import React, { useState } from 'react';
+import { Plus, Calendar, Image, X, Eye } from 'lucide-react';
+
+type Foto = {
+  id: number;
+  src: string;
+  data: string;
+  titulo: string;
+};
 
 const EvolucaoPage = () => {
+  const [fotos, setFotos] = useState<Foto[]>([
+    {
+      id: 1,
+      src: 'https://via.placeholder.com/300x400/3b82f6/ffffff?text=Foto+1',
+      data: '2025-08-01',
+      titulo: 'Início do tratamento'
+    },
+    {
+      id: 2,
+      src: 'https://via.placeholder.com/300x400/10b981/ffffff?text=Foto+2',
+      data: '2025-08-15',
+      titulo: '2 semanas'
+    },
+    {
+      id: 3,
+      src: 'https://via.placeholder.com/300x400/f59e0b/ffffff?text=Foto+3',
+      data: '2025-09-01',
+      titulo: '1 mês'
+    }
+  ]);
+  
+  const [fotoSelecionada, setFotoSelecionada] = useState<Foto | null>(null);
+  const [mostrarModal, setMostrarModal] = useState(false);
+
+  const adicionarFoto = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files[0]) {
+      const arquivo = files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (!e.target) return;
+        const novaFoto: Foto = {
+          id: Date.now(),
+          src: e.target.result as string,
+          data: new Date().toISOString().split('T')[0],
+          titulo: `Progresso ${fotos.length + 1}`
+        };
+        setFotos([...fotos, novaFoto]);
+      };
+      reader.readAsDataURL(arquivo);
+    }
+  };
+
+  const removerFoto = (id: number) => {
+    setFotos(fotos.filter(foto => foto.id !== id));
+  };
+
+  const visualizarFoto = (foto: Foto) => {
+    setFotoSelecionada(foto);
+    setMostrarModal(true);
+  };
+
+  const formatarData = (data: string | number | Date) => {
+    return new Date(data).toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  };
+
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold text-teal-700 mb-8">Evolução</h1>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        {/* Card de estatísticas */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="bg-teal-100 rounded-lg p-2">
-              <Target className="w-6 h-6 text-teal-600" />
-            </div>
-            <span className="text-2xl font-bold text-gray-800">85%</span>
-          </div>
-          <h3 className="font-semibold text-gray-800 mb-1">Progresso Geral</h3>
-          <p className="text-sm text-gray-500">Meta atingida este mês</p>
+    <div className="p-8 bg-gray-50 min-h-screen">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-3xl font-bold text-[#09243C] mb-2 uppercase">Minha evolução</h1>
+        <p className="text-gray-600 mb-8">Acompanhe seu progresso através de fotos</p>
+        
+        {/* Botão para adicionar foto */}
+        <div className="mb-8">
+          <label className="inline-flex items-center px-6 py-3 bg-teal-600 text-white rounded-lg cursor-pointer hover:bg-teal-700 transition-colors">
+            <Plus className="w-5 h-5 mr-2" />
+            Adicionar Nova Foto
+            <input
+              type="file"
+              accept="image/*"
+              onChange={adicionarFoto}
+              className="hidden"
+            />
+          </label>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="bg-blue-100 rounded-lg p-2">
-              <Activity className="w-6 h-6 text-blue-600" />
+        {/* Grid de fotos */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {fotos.map((foto, index) => (
+            <div key={foto.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+              <div className="relative group">
+                <img
+                  src={foto.src}
+                  alt={foto.titulo}
+                  className="w-full h-64 object-cover"
+                />
+                
+                {/* Overlay com ações */}
+                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-200 flex items-center justify-center">
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
+                    <button
+                      onClick={() => visualizarFoto(foto)}
+                      className="p-2 bg-white rounded-full hover:bg-gray-100 transition-colors"
+                      title="Visualizar"
+                    >
+                      <Eye className="w-4 h-4 text-gray-700" />
+                    </button>
+                    <button
+                      onClick={() => removerFoto(foto.id)}
+                      className="p-2 bg-red-500 rounded-full hover:bg-red-600 transition-colors"
+                      title="Remover"
+                    >
+                      <X className="w-4 h-4 text-white" />
+                    </button>
+                  </div>
+                </div>
+                
+                {/* Badge de progresso */}
+                <div className="absolute top-3 left-3 bg-teal-600 text-white px-2 py-1 rounded-full text-xs font-medium">
+                  #{index + 1}
+                </div>
+              </div>
+              
+              <div className="p-4">
+                <h3 className="font-semibold text-gray-800 mb-2">{foto.titulo}</h3>
+                <div className="flex items-center text-sm text-gray-500">
+                  <Calendar className="w-4 h-4 mr-1" />
+                  {formatarData(foto.data)}
+                </div>
+              </div>
             </div>
-            <span className="text-2xl font-bold text-gray-800">12</span>
-          </div>
-          <h3 className="font-semibold text-gray-800 mb-1">Dias Consecutivos</h3>
-          <p className="text-sm text-gray-500">Seguindo o tratamento</p>
+          ))}
+          
+          {/* Card para adicionar primeira foto (quando não há fotos) */}
+          {fotos.length === 0 && (
+            <div className="col-span-full">
+              <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-teal-300 border-dashed rounded-lg cursor-pointer bg-teal-50 hover:bg-teal-100 transition-colors">
+                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                  <Image className="w-12 h-12 mb-4 text-teal-500" />
+                  <p className="mb-2 text-lg text-teal-600 font-medium">Adicione sua primeira foto</p>
+                  <p className="text-sm text-teal-500">Clique aqui para começar seu acompanhamento</p>
+                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={adicionarFoto}
+                  className="hidden"
+                />
+              </label>
+            </div>
+          )}
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="bg-green-100 rounded-lg p-2">
-              <TrendingUp className="w-6 h-6 text-green-600" />
+        {/* Estatísticas */}
+        {fotos.length > 0 && (
+          <div className="mt-8 bg-white rounded-lg p-6 shadow-md">
+            <h2 className="text-lg font-semibold text-gray-800 mb-4">Estatísticas</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-teal-600">{fotos.length}</div>
+                <div className="text-sm text-gray-500">Fotos registradas</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-blue-600">
+                  {fotos.length > 0 
+                    ? Math.ceil((new Date().getTime() - new Date(fotos[0].data).getTime()) / (1000 * 60 * 60 * 24))
+                    : 0}
+                </div>
+                <div className="text-sm text-gray-500">Dias de acompanhamento</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-green-600">
+                  {fotos.length > 1 
+                    ? `${Math.ceil((new Date(fotos[fotos.length - 1].data).getTime() - new Date(fotos[0].data).getTime()) / (1000 * 60 * 60 * 24))} dias`
+                    : '0 dias'}
+                </div>
+                <div className="text-sm text-gray-500">Período de progresso</div>
+              </div>
             </div>
-            <span className="text-2xl font-bold text-gray-800">+15%</span>
           </div>
-          <h3 className="font-semibold text-gray-800 mb-1">Melhoria</h3>
-          <p className="text-sm text-gray-500">Comparado ao mês anterior</p>
-        </div>
+        )}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Gráfico de progresso */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-semibold text-gray-800">Progresso Semanal</h2>
-            <BarChart3 className="w-5 h-5 text-gray-400" />
-          </div>
-          
-          {/* Simulação de um gráfico simples */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Segunda</span>
-              <div className="flex-1 mx-4 bg-gray-200 rounded-full h-2">
-                <div className="bg-teal-600 h-2 rounded-full" style={{ width: '80%' }}></div>
+      {/* Modal para visualizar foto */}
+      {mostrarModal && fotoSelecionada && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg max-w-2xl max-h-[90vh] overflow-hidden">
+            <div className="flex items-center justify-between p-4 border-b">
+              <div>
+                <h3 className="text-lg font-semibold">{fotoSelecionada.titulo}</h3>
+                <p className="text-sm text-gray-500">{formatarData(fotoSelecionada.data)}</p>
               </div>
-              <span className="text-sm font-medium text-gray-800">80%</span>
+              <button
+                onClick={() => setMostrarModal(false)}
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
-            
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Terça</span>
-              <div className="flex-1 mx-4 bg-gray-200 rounded-full h-2">
-                <div className="bg-teal-600 h-2 rounded-full" style={{ width: '95%' }}></div>
-              </div>
-              <span className="text-sm font-medium text-gray-800">95%</span>
-            </div>
-            
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Quarta</span>
-              <div className="flex-1 mx-4 bg-gray-200 rounded-full h-2">
-                <div className="bg-teal-600 h-2 rounded-full" style={{ width: '70%' }}></div>
-              </div>
-              <span className="text-sm font-medium text-gray-800">70%</span>
-            </div>
-            
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Quinta</span>
-              <div className="flex-1 mx-4 bg-gray-200 rounded-full h-2">
-                <div className="bg-teal-600 h-2 rounded-full" style={{ width: '90%' }}></div>
-              </div>
-              <span className="text-sm font-medium text-gray-800">90%</span>
-            </div>
-            
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Sexta</span>
-              <div className="flex-1 mx-4 bg-gray-200 rounded-full h-2">
-                <div className="bg-teal-600 h-2 rounded-full" style={{ width: '85%' }}></div>
-              </div>
-              <span className="text-sm font-medium text-gray-800">85%</span>
+            <div className="p-4">
+              <img
+                src={fotoSelecionada.src}
+                alt={fotoSelecionada.titulo}
+                className="max-w-full max-h-96 mx-auto object-contain"
+              />
             </div>
           </div>
         </div>
-
-        {/* Histórico recente */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-semibold text-gray-800">Histórico Recente</h2>
-            <Calendar className="w-5 h-5 text-gray-400" />
-          </div>
-          
-          <div className="space-y-4">
-            <div className="flex items-start">
-              <div className="bg-green-100 rounded-full p-1 mr-3 mt-1">
-                <div className="w-2 h-2 bg-green-600 rounded-full"></div>
-              </div>
-              <div className="flex-1">
-                <p className="text-sm font-medium text-gray-800">Medicação tomada</p>
-                <p className="text-xs text-gray-500">Hoje, 08:30</p>
-              </div>
-            </div>
-            
-            <div className="flex items-start">
-              <div className="bg-blue-100 rounded-full p-1 mr-3 mt-1">
-                <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-              </div>
-              <div className="flex-1">
-                <p className="text-sm font-medium text-gray-800">Consulta agendada</p>
-                <p className="text-xs text-gray-500">Ontem, 14:00</p>
-              </div>
-            </div>
-            
-            <div className="flex items-start">
-              <div className="bg-teal-100 rounded-full p-1 mr-3 mt-1">
-                <div className="w-2 h-2 bg-teal-600 rounded-full"></div>
-              </div>
-              <div className="flex-1">
-                <p className="text-sm font-medium text-gray-800">Meta semanal atingida</p>
-                <p className="text-xs text-gray-500">2 dias atrás</p>
-              </div>
-            </div>
-            
-            <div className="flex items-start">
-              <div className="bg-purple-100 rounded-full p-1 mr-3 mt-1">
-                <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
-              </div>
-              <div className="flex-1">
-                <p className="text-sm font-medium text-gray-800">Novo plano iniciado</p>
-                <p className="text-xs text-gray-500">1 semana atrás</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

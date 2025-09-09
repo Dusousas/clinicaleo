@@ -27,34 +27,14 @@ const InicioPage = () => {
           <div className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer">
             <div className="flex flex-col items-center text-center">
               <Clock className="w-12 h-12 text-gray-400 mb-3" />
-              <h3 className="font-semibold text-gray-800 mb-2">Disfunção Erétil</h3>
+              <h3 className="font-semibold text-gray-800 mb-2">Teste 1</h3>
               <p className="text-sm text-gray-500">Sem planos ativos</p>
             </div>
           </div>
           
-          <div className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer">
-            <div className="flex flex-col items-center text-center">
-              <Target className="w-12 h-12 text-gray-400 mb-3" />
-              <h3 className="font-semibold text-gray-800 mb-2">Queda de cabelo</h3>
-              <p className="text-sm text-gray-500">Sem planos ativos</p>
-            </div>
-          </div>
+
           
-          <div className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer">
-            <div className="flex flex-col items-center text-center">
-              <Moon className="w-12 h-12 text-gray-400 mb-3" />
-              <h3 className="font-semibold text-gray-800 mb-2">Sono</h3>
-              <p className="text-sm text-gray-500">Sem planos ativos</p>
-            </div>
-          </div>
-          
-          <div className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer">
-            <div className="flex flex-col items-center text-center">
-              <Smile className="w-12 h-12 text-gray-400 mb-3" />
-              <h3 className="font-semibold text-gray-800 mb-2">Emagrecimento</h3>
-              <p className="text-sm text-gray-500">Sem planos ativos</p>
-            </div>
-          </div>
+
         </div>
       </div>
     </div>

@@ -30,13 +30,7 @@ const SuportePage = () => {
             <ChevronRight className="w-5 h-5 text-gray-400" />
           </div>
           
-          <div className="bg-white border border-gray-200 rounded-lg p-4 flex items-center justify-between hover:shadow-md transition-shadow cursor-pointer">
-            <div className="flex items-center">
-              <MessageSquare className="w-6 h-6 text-blue-600 mr-3" />
-              <span className="font-medium text-gray-800">Chat em tempo real</span>
-            </div>
-            <ChevronRight className="w-5 h-5 text-gray-400" />
-          </div>
+
         </div>
       </div>
 

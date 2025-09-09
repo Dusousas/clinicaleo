@@ -221,324 +221,330 @@ export default function CheckoutPage() {
   };
 
   return (
-    <>
-      <section className="relative top-[10px]">
-        <div className="py-10">
-          <div className="mx-auto p-5 grid grid-cols-1 lg:grid-cols-3 gap-10">
+    <div className="min-h-screen bg-gray-50">
+      <section className="relative">
+        <div className="py-4 sm:py-6 md:py-10">
+          <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             {/* Header */}
-            <div className="col-span-full text-center">
-              <h1 className="text-3xl font-light tracking-wider text-gray-800">MINHALOGO</h1>
+            <div className="text-center mb-6 md:mb-10">
+              <h1 className="text-2xl sm:text-3xl font-light tracking-wider text-gray-800">MINHALOGO</h1>
             </div>
 
-            {/* Checkout Steps */}
-            <div className="lg:col-span-2 bg-white rounded-xl p-8 shadow-sm">
-              {/* Etapa 1: Conta */}
-              <div className={`mb-8 transition-opacity duration-300 ${currentStep >= 1 ? 'opacity-100' : 'opacity-40'}`}>
-                <div className="flex items-center mb-5 pb-3 border-b border-gray-200">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-4 font-bold text-white transition-colors duration-300 ${
-                    currentStep > 1 ? 'bg-green-500' : currentStep === 1 ? 'bg-blue-500' : 'bg-gray-300'
-                  }`}>
-                    {currentStep > 1 ? '✓' : '1'}
-                  </div>
-                  <h2 className="text-xl font-semibold text-gray-800">Conta</h2>
-                </div>
-                
-                {currentStep === 1 && (
-                  <div className="pl-12">
-                    <div className="mb-5">
-                      <label className="block mb-2 font-medium text-gray-600">CPF</label>
-                      <input
-                        type="text"
-                        value={formData.cpf}
-                        onChange={(e) => handleInputChange('cpf', e.target.value)}
-                        className={`w-full p-3 border-2 rounded-lg text-base transition-colors ${
-                          errors.cpf ? 'border-red-500' : 'border-gray-200 focus:border-blue-500'
-                        } focus:outline-none`}
-                        placeholder="000.000.000-00"
-                        maxLength={14}
-                      />
-                      {errors.cpf && <div className="text-red-500 text-sm mt-1">CPF inválido</div>}
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-10">
+              {/* Checkout Steps */}
+              <div className="xl:col-span-2 bg-white rounded-xl p-4 sm:p-6 md:p-8 shadow-sm">
+                {/* Etapa 1: Conta */}
+                <div className={`mb-6 md:mb-8 transition-opacity duration-300 ${currentStep >= 1 ? 'opacity-100' : 'opacity-40'}`}>
+                  <div className="flex items-center mb-4 md:mb-5 pb-3 border-b border-gray-200">
+                    <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center mr-3 md:mr-4 font-bold text-white text-sm transition-colors duration-300 ${
+                      currentStep > 1 ? 'bg-green-500' : currentStep === 1 ? 'bg-blue-500' : 'bg-gray-300'
+                    }`}>
+                      {currentStep > 1 ? '✓' : '1'}
                     </div>
-                    
-                    <div className="mb-5">
-                      <label className="block mb-2 font-medium text-gray-600">E-mail</label>
-                      <input
-                        type="email"
-                        value={formData.email}
-                        onChange={(e) => handleInputChange('email', e.target.value)}
-                        className={`w-full p-3 border-2 rounded-lg text-base transition-colors ${
-                          errors.email ? 'border-red-500' : 'border-gray-200 focus:border-blue-500'
-                        } focus:outline-none`}
-                        placeholder="seu@email.com"
-                      />
-                      {errors.email && <div className="text-red-500 text-sm mt-1">E-mail inválido</div>}
-                    </div>
-                    
-                    <button
-                      onClick={validateStep1}
-                      className="bg-[#09243C] cursor-pointer text-white px-8 py-2 rounded-xl uppercase tracking-wider font-Quicksand font-semibold"
-                    >
-                      Continuar
-                    </button>
+                    <h2 className="text-lg sm:text-xl font-semibold text-gray-800">Conta</h2>
                   </div>
-                )}
-              </div>
-
-              {/* Etapa 2: Entrega */}
-              <div className={`mb-8 transition-opacity duration-300 ${currentStep >= 2 ? 'opacity-100' : 'opacity-40'}`}>
-                <div className="flex items-center mb-5 pb-3 border-b border-gray-200">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-4 font-bold text-white transition-colors duration-300 ${
-                    currentStep > 2 ? 'bg-green-500' : currentStep === 2 ? 'bg-blue-500' : 'bg-gray-300'
-                  }`}>
-                    {currentStep > 2 ? '✓' : '2'}
-                  </div>
-                  <h2 className="text-xl font-semibold text-gray-800">Informações de Entrega</h2>
-                </div>
-                
-                {currentStep === 2 && (
-                  <div className="pl-12">
-                    <div className="mb-5">
-                      <label className="block mb-2 font-medium text-gray-600">CEP</label>
-                      <input
-                        type="text"
-                        value={formData.cep}
-                        onChange={(e) => handleInputChange('cep', e.target.value)}
-                        className={`w-full p-3 border-2 rounded-lg text-base transition-colors ${
-                          errors.cep ? 'border-red-500' : 'border-gray-200 focus:border-blue-500'
-                        } focus:outline-none`}
-                        placeholder="00000-000"
-                        maxLength={9}
-                      />
-                      {errors.cep && <div className="text-red-500 text-sm mt-1">CEP inválido</div>}
-                    </div>
-                    
-                    <div className="mb-5">
-                      <label className="block mb-2 font-medium text-gray-600">Endereço</label>
-                      <input
-                        type="text"
-                        value={formData.endereco}
-                        onChange={(e) => handleInputChange('endereco', e.target.value)}
-                        className={`w-full p-3 border-2 rounded-lg text-base transition-colors ${
-                          errors.endereco ? 'border-red-500' : 'border-gray-200 focus:border-blue-500'
-                        } focus:outline-none`}
-                        placeholder="Rua, número"
-                      />
-                      {errors.endereco && <div className="text-red-500 text-sm mt-1">Endereço obrigatório</div>}
-                    </div>
-                    
-                    <div className="mb-5">
-                      <label className="block mb-2 font-medium text-gray-600">Cidade</label>
-                      <input
-                        type="text"
-                        value={formData.cidade}
-                        onChange={(e) => handleInputChange('cidade', e.target.value)}
-                        className={`w-full p-3 border-2 rounded-lg text-base transition-colors ${
-                          errors.cidade ? 'border-red-500' : 'border-gray-200 focus:border-blue-500'
-                        } focus:outline-none`}
-                        placeholder="São Paulo"
-                      />
-                      {errors.cidade && <div className="text-red-500 text-sm mt-1">Cidade obrigatória</div>}
-                    </div>
-                    
-                    <button
-                      onClick={validateStep2}
-                      className="bg-[#09243C] cursor-pointer text-white px-8 py-2 rounded-xl uppercase tracking-wider font-Quicksand font-semibold"
-                    >
-                      Continuar
-                    </button>
-                  </div>
-                )}
-              </div>
-
-              {/* Etapa 3: Pagamento */}
-              <div className={`mb-8 transition-opacity duration-300 ${currentStep >= 3 ? 'opacity-100' : 'opacity-40'}`}>
-                <div className="flex items-center mb-5 pb-3 border-b border-gray-200">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-4 font-bold text-white transition-colors duration-300 ${
-                    currentStep === 3 ? 'bg-blue-500' : 'bg-gray-300'
-                  }`}>
-                    3
-                  </div>
-                  <h2 className="text-xl font-semibold text-gray-800">Método de Pagamento</h2>
-                </div>
-                
-                {currentStep === 3 && (
-                  <div className="pl-12">
-                    <div className="grid gap-3 mb-5">
-                      <div
-                        onClick={() => selectPaymentMethod('pix')}
-                        className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
-                          formData.paymentMethod === 'pix' 
-                            ? 'border-blue-500 bg-blue-50' 
-                            : 'border-gray-200 hover:border-blue-500'
-                        }`}
-                      >
+                  
+                  {currentStep === 1 && (
+                    <div className="pl-4 sm:pl-8 md:pl-12">
+                      <div className="mb-4 md:mb-5">
+                        <label className="block mb-2 font-medium text-gray-600 text-sm sm:text-base">CPF</label>
                         <input
-                          type="radio"
-                          name="payment"
-                          value="pix"
-                          checked={formData.paymentMethod === 'pix'}
-                          onChange={() => selectPaymentMethod('pix')}
-                          className="mr-3"
+                          type="text"
+                          value={formData.cpf}
+                          onChange={(e) => handleInputChange('cpf', e.target.value)}
+                          className={`w-full p-3 border-2 rounded-lg text-sm sm:text-base transition-colors ${
+                            errors.cpf ? 'border-red-500' : 'border-gray-200 focus:border-blue-500'
+                          } focus:outline-none`}
+                          placeholder="000.000.000-00"
+                          maxLength={14}
                         />
-                        <label>PIX - Pague à vista</label>
+                        {errors.cpf && <div className="text-red-500 text-xs sm:text-sm mt-1">CPF inválido</div>}
                       </div>
                       
-                      <div
-                        onClick={() => selectPaymentMethod('card')}
-                        className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
-                          formData.paymentMethod === 'card' 
-                            ? 'border-blue-500 bg-blue-50' 
-                            : 'border-gray-200 hover:border-blue-500'
-                        }`}
-                      >
+                      <div className="mb-4 md:mb-5">
+                        <label className="block mb-2 font-medium text-gray-600 text-sm sm:text-base">E-mail</label>
                         <input
-                          type="radio"
-                          name="payment"
-                          value="card"
-                          checked={formData.paymentMethod === 'card'}
-                          onChange={() => selectPaymentMethod('card')}
-                          className="mr-3"
+                          type="email"
+                          value={formData.email}
+                          onChange={(e) => handleInputChange('email', e.target.value)}
+                          className={`w-full p-3 border-2 rounded-lg text-sm sm:text-base transition-colors ${
+                            errors.email ? 'border-red-500' : 'border-gray-200 focus:border-blue-500'
+                          } focus:outline-none`}
+                          placeholder="seu@email.com"
                         />
-                        <label>Cartão de Crédito - Parcele em até 6x</label>
+                        {errors.email && <div className="text-red-500 text-xs sm:text-sm mt-1">E-mail inválido</div>}
                       </div>
+                      
+                      <button
+                        onClick={validateStep1}
+                        className="w-full sm:w-auto bg-[#09243C] cursor-pointer text-white px-6 sm:px-8 py-3 rounded-xl uppercase tracking-wider font-semibold text-sm sm:text-base hover:bg-[#0a2a47] transition-colors"
+                      >
+                        Continuar
+                      </button>
                     </div>
-                    
-                    {formData.paymentMethod === 'card' && (
-                      <div className="mt-5">
-                        <div className="mb-5">
-                          <label className="block mb-2 font-medium text-gray-600">Número do Cartão</label>
-                          <input
-                            type="text"
-                            value={formData.cardNumber}
-                            onChange={(e) => handleInputChange('cardNumber', e.target.value)}
-                            className="w-full p-3 border-2 border-gray-200 rounded-lg text-base focus:border-blue-500 focus:outline-none"
-                            placeholder="0000 0000 0000 0000"
-                            maxLength={19}
-                          />
+                  )}
+                </div>
+
+                {/* Etapa 2: Entrega */}
+                <div className={`mb-6 md:mb-8 transition-opacity duration-300 ${currentStep >= 2 ? 'opacity-100' : 'opacity-40'}`}>
+                  <div className="flex items-center mb-4 md:mb-5 pb-3 border-b border-gray-200">
+                    <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center mr-3 md:mr-4 font-bold text-white text-sm transition-colors duration-300 ${
+                      currentStep > 2 ? 'bg-green-500' : currentStep === 2 ? 'bg-blue-500' : 'bg-gray-300'
+                    }`}>
+                      {currentStep > 2 ? '✓' : '2'}
+                    </div>
+                    <h2 className="text-lg sm:text-xl font-semibold text-gray-800">Informações de Entrega</h2>
+                  </div>
+                  
+                  {currentStep === 2 && (
+                    <div className="pl-4 sm:pl-8 md:pl-12">
+                      <div className="mb-4 md:mb-5">
+                        <label className="block mb-2 font-medium text-gray-600 text-sm sm:text-base">CEP</label>
+                        <input
+                          type="text"
+                          value={formData.cep}
+                          onChange={(e) => handleInputChange('cep', e.target.value)}
+                          className={`w-full p-3 border-2 rounded-lg text-sm sm:text-base transition-colors ${
+                            errors.cep ? 'border-red-500' : 'border-gray-200 focus:border-blue-500'
+                          } focus:outline-none`}
+                          placeholder="00000-000"
+                          maxLength={9}
+                        />
+                        {errors.cep && <div className="text-red-500 text-xs sm:text-sm mt-1">CEP inválido</div>}
+                      </div>
+                      
+                      <div className="mb-4 md:mb-5">
+                        <label className="block mb-2 font-medium text-gray-600 text-sm sm:text-base">Endereço</label>
+                        <input
+                          type="text"
+                          value={formData.endereco}
+                          onChange={(e) => handleInputChange('endereco', e.target.value)}
+                          className={`w-full p-3 border-2 rounded-lg text-sm sm:text-base transition-colors ${
+                            errors.endereco ? 'border-red-500' : 'border-gray-200 focus:border-blue-500'
+                          } focus:outline-none`}
+                          placeholder="Rua, número"
+                        />
+                        {errors.endereco && <div className="text-red-500 text-xs sm:text-sm mt-1">Endereço obrigatório</div>}
+                      </div>
+                      
+                      <div className="mb-4 md:mb-5">
+                        <label className="block mb-2 font-medium text-gray-600 text-sm sm:text-base">Cidade</label>
+                        <input
+                          type="text"
+                          value={formData.cidade}
+                          onChange={(e) => handleInputChange('cidade', e.target.value)}
+                          className={`w-full p-3 border-2 rounded-lg text-sm sm:text-base transition-colors ${
+                            errors.cidade ? 'border-red-500' : 'border-gray-200 focus:border-blue-500'
+                          } focus:outline-none`}
+                          placeholder="São Paulo"
+                        />
+                        {errors.cidade && <div className="text-red-500 text-xs sm:text-sm mt-1">Cidade obrigatória</div>}
+                      </div>
+                      
+                      <button
+                        onClick={validateStep2}
+                        className="w-full sm:w-auto bg-[#09243C] cursor-pointer text-white px-6 sm:px-8 py-3 rounded-xl uppercase tracking-wider font-semibold text-sm sm:text-base hover:bg-[#0a2a47] transition-colors"
+                      >
+                        Continuar
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Etapa 3: Pagamento */}
+                <div className={`mb-6 md:mb-8 transition-opacity duration-300 ${currentStep >= 3 ? 'opacity-100' : 'opacity-40'}`}>
+                  <div className="flex items-center mb-4 md:mb-5 pb-3 border-b border-gray-200">
+                    <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center mr-3 md:mr-4 font-bold text-white text-sm transition-colors duration-300 ${
+                      currentStep === 3 ? 'bg-blue-500' : 'bg-gray-300'
+                    }`}>
+                      3
+                    </div>
+                    <h2 className="text-lg sm:text-xl font-semibold text-gray-800">Método de Pagamento</h2>
+                  </div>
+                  
+                  {currentStep === 3 && (
+                    <div className="pl-4 sm:pl-8 md:pl-12">
+                      <div className="grid gap-3 mb-4 md:mb-5">
+                        <div
+                          onClick={() => selectPaymentMethod('pix')}
+                          className={`p-3 sm:p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                            formData.paymentMethod === 'pix' 
+                              ? 'border-blue-500 bg-blue-50' 
+                              : 'border-gray-200 hover:border-blue-500'
+                          }`}
+                        >
+                          <div className="flex items-center">
+                            <input
+                              type="radio"
+                              name="payment"
+                              value="pix"
+                              checked={formData.paymentMethod === 'pix'}
+                              onChange={() => selectPaymentMethod('pix')}
+                              className="mr-3"
+                            />
+                            <label className="text-sm sm:text-base cursor-pointer flex-1">PIX - Pague à vista</label>
+                          </div>
                         </div>
                         
-                        <div className="flex gap-4 mb-5">
-                          <div className="flex-1">
-                            <label className="block mb-2 font-medium text-gray-600">Validade</label>
+                        <div
+                          onClick={() => selectPaymentMethod('card')}
+                          className={`p-3 sm:p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                            formData.paymentMethod === 'card' 
+                              ? 'border-blue-500 bg-blue-50' 
+                              : 'border-gray-200 hover:border-blue-500'
+                          }`}
+                        >
+                          <div className="flex items-center">
                             <input
-                              type="text"
-                              value={formData.cardExpiry}
-                              onChange={(e) => handleInputChange('cardExpiry', e.target.value)}
-                              className="w-full p-3 border-2 border-gray-200 rounded-lg text-base focus:border-blue-500 focus:outline-none"
-                              placeholder="MM/AA"
-                              maxLength={5}
+                              type="radio"
+                              name="payment"
+                              value="card"
+                              checked={formData.paymentMethod === 'card'}
+                              onChange={() => selectPaymentMethod('card')}
+                              className="mr-3"
                             />
+                            <label className="text-sm sm:text-base cursor-pointer flex-1">Cartão de Crédito - Parcele em até 6x</label>
                           </div>
-                          <div className="flex-1">
-                            <label className="block mb-2 font-medium text-gray-600">CVV</label>
-                            <input
-                              type="text"
-                              value={formData.cardCvv}
-                              onChange={(e) => handleInputChange('cardCvv', e.target.value)}
-                              className="w-full p-3 border-2 border-gray-200 rounded-lg text-base focus:border-blue-500 focus:outline-none"
-                              placeholder="000"
-                              maxLength={3}
-                            />
-                          </div>
-                        </div>
-                        
-                        <div className="mb-5">
-                          <label className="block mb-2 font-medium text-gray-600">Nome no Cartão</label>
-                          <input
-                            type="text"
-                            value={formData.cardName}
-                            onChange={(e) => handleInputChange('cardName', e.target.value)}
-                            className="w-full p-3 border-2 border-gray-200 rounded-lg text-base focus:border-blue-500 focus:outline-none"
-                            placeholder="Nome como está no cartão"
-                          />
                         </div>
                       </div>
-                    )}
-                    
-                    <button
-                      onClick={finalizePurchase}
-                      className="bg-blue-500 text-white px-6 py-3 rounded-lg text-base font-medium hover:bg-blue-600 transition-colors mt-5"
-                    >
-                      Finalizar Compra
-                    </button>
-                  </div>
-                )}
+                      
+                      {formData.paymentMethod === 'card' && (
+                        <div className="mt-4 md:mt-5">
+                          <div className="mb-4 md:mb-5">
+                            <label className="block mb-2 font-medium text-gray-600 text-sm sm:text-base">Número do Cartão</label>
+                            <input
+                              type="text"
+                              value={formData.cardNumber}
+                              onChange={(e) => handleInputChange('cardNumber', e.target.value)}
+                              className="w-full p-3 border-2 border-gray-200 rounded-lg text-sm sm:text-base focus:border-blue-500 focus:outline-none"
+                              placeholder="0000 0000 0000 0000"
+                              maxLength={19}
+                            />
+                          </div>
+                          
+                          <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-4 md:mb-5">
+                            <div>
+                              <label className="block mb-2 font-medium text-gray-600 text-sm sm:text-base">Validade</label>
+                              <input
+                                type="text"
+                                value={formData.cardExpiry}
+                                onChange={(e) => handleInputChange('cardExpiry', e.target.value)}
+                                className="w-full p-3 border-2 border-gray-200 rounded-lg text-sm sm:text-base focus:border-blue-500 focus:outline-none"
+                                placeholder="MM/AA"
+                                maxLength={5}
+                              />
+                            </div>
+                            <div>
+                              <label className="block mb-2 font-medium text-gray-600 text-sm sm:text-base">CVV</label>
+                              <input
+                                type="text"
+                                value={formData.cardCvv}
+                                onChange={(e) => handleInputChange('cardCvv', e.target.value)}
+                                className="w-full p-3 border-2 border-gray-200 rounded-lg text-sm sm:text-base focus:border-blue-500 focus:outline-none"
+                                placeholder="000"
+                                maxLength={3}
+                              />
+                            </div>
+                          </div>
+                          
+                          <div className="mb-4 md:mb-5">
+                            <label className="block mb-2 font-medium text-gray-600 text-sm sm:text-base">Nome no Cartão</label>
+                            <input
+                              type="text"
+                              value={formData.cardName}
+                              onChange={(e) => handleInputChange('cardName', e.target.value)}
+                              className="w-full p-3 border-2 border-gray-200 rounded-lg text-sm sm:text-base focus:border-blue-500 focus:outline-none"
+                              placeholder="Nome como está no cartão"
+                            />
+                          </div>
+                        </div>
+                      )}
+                      
+                      <button
+                        onClick={finalizePurchase}
+                        className="w-full bg-blue-500 text-white px-6 py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-blue-600 transition-colors mt-4 md:mt-5"
+                      >
+                        Finalizar Compra
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
 
-            {/* Resumo do Pedido */}
-            <div className="bg-white rounded-xl p-8 shadow-sm h-fit sticky top-5">
-              <h3 className="text-xl font-semibold mb-5 text-gray-800">Resumo da Compra</h3>
-              
-              <div className="space-y-4 mb-6">
-                <div className="flex items-center pb-4 border-b border-gray-100">
-                  <div className="w-12 h-12 bg-gray-100 rounded-lg mr-4 flex items-center justify-center text-xs text-gray-500">
-                    IMG
+              {/* Resumo do Pedido */}
+              <div className="bg-white rounded-xl p-4 sm:p-6 md:p-8 shadow-sm h-fit xl:sticky xl:top-5">
+                <h3 className="text-lg sm:text-xl font-semibold mb-4 md:mb-5 text-gray-800">Resumo da Compra</h3>
+                
+                <div className="space-y-3 sm:space-y-4 mb-5 md:mb-6">
+                  <div className="flex items-center pb-3 sm:pb-4 border-b border-gray-100">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-100 rounded-lg mr-3 sm:mr-4 flex items-center justify-center text-xs text-gray-500">
+                      IMG
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium mb-1 text-sm sm:text-base truncate">Bloqueador de DHT</div>
+                      <div className="text-gray-600 text-xs sm:text-sm">R$ 15,75/mês</div>
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <div className="font-medium mb-1">Bloqueador de DHT</div>
-                    <div className="text-gray-600 text-sm">R$ 15,75/mês</div>
+                  
+                  <div className="flex items-center pb-3 sm:pb-4 border-b border-gray-100">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-100 rounded-lg mr-3 sm:mr-4 flex items-center justify-center text-xs text-gray-500">
+                      IMG
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium mb-1 text-sm sm:text-base truncate">Ativador de crescimento</div>
+                      <div className="text-gray-600 text-xs sm:text-sm">R$ 31,50/mês</div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center pb-3 sm:pb-4 border-b border-gray-100">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-100 rounded-lg mr-3 sm:mr-4 flex items-center justify-center text-xs text-gray-500">
+                      IMG
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium mb-1 text-sm sm:text-base truncate">Shampoo Antiqueda</div>
+                      <div className="text-gray-600 text-xs sm:text-sm">R$ 21,00/mês</div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center pb-3 sm:pb-4 border-b border-gray-100">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-100 rounded-lg mr-3 sm:mr-4 flex items-center justify-center text-xs text-gray-500">
+                      IMG
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium mb-1 text-sm sm:text-base truncate">Biotina</div>
+                      <div className="text-gray-600 text-xs sm:text-sm">R$ 23,94/mês</div>
+                    </div>
                   </div>
                 </div>
                 
-                <div className="flex items-center pb-4 border-b border-gray-100">
-                  <div className="w-12 h-12 bg-gray-100 rounded-lg mr-4 flex items-center justify-center text-xs text-gray-500">
-                    IMG
+                <div className="space-y-1 sm:space-y-2 mb-5 md:mb-6">
+                  <div className="flex justify-between py-1 text-sm sm:text-base">
+                    <span className="truncate mr-2">Avaliação Médica (prescrição)</span>
+                    <span className="whitespace-nowrap">R$ 10,00</span>
                   </div>
-                  <div className="flex-1">
-                    <div className="font-medium mb-1">Ativador de crescimento</div>
-                    <div className="text-gray-600 text-sm">R$ 31,50/mês</div>
+                  <div className="flex justify-between py-1 text-sm sm:text-base">
+                    <span className="truncate mr-2">30% OFF Primeira Pedido</span>
+                    <span className="text-green-600 whitespace-nowrap">-R$ 27,06</span>
+                  </div>
+                  <div className="flex justify-between py-1 text-sm sm:text-base">
+                    <span className="truncate mr-2">Entrega</span>
+                    <span className="text-green-600 whitespace-nowrap">Grátis</span>
+                  </div>
+                  <div className="flex justify-between py-1 text-sm sm:text-base">
+                    <span className="truncate mr-2">Presente MANUAL</span>
+                    <span className="whitespace-nowrap">-R$ 10,00</span>
                   </div>
                 </div>
                 
-                <div className="flex items-center pb-4 border-b border-gray-100">
-                  <div className="w-12 h-12 bg-gray-100 rounded-lg mr-4 flex items-center justify-center text-xs text-gray-500">
-                    IMG
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-medium mb-1">Shampoo Antiqueda</div>
-                    <div className="text-gray-600 text-sm">R$ 21,00/mês</div>
-                  </div>
+                <div className="flex justify-between text-lg sm:text-xl font-bold pt-3 sm:pt-4 border-t-2 border-gray-200">
+                  <span>Total</span>
+                  <span>R$ 553,14</span>
                 </div>
-                
-                <div className="flex items-center pb-4 border-b border-gray-100">
-                  <div className="w-12 h-12 bg-gray-100 rounded-lg mr-4 flex items-center justify-center text-xs text-gray-500">
-                    IMG
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-medium mb-1">Biotina</div>
-                    <div className="text-gray-600 text-sm">R$ 23,94/mês</div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="space-y-2 mb-6">
-                <div className="flex justify-between py-1">
-                  <span>Avaliação Médica (prescrição)</span>
-                  <span>R$ 10,00</span>
-                </div>
-                <div className="flex justify-between py-1">
-                  <span>30% OFF Primeira Pedido</span>
-                  <span className="text-green-600">-R$ 27,06</span>
-                </div>
-                <div className="flex justify-between py-1">
-                  <span>Entrega</span>
-                  <span className="text-green-600">Grátis</span>
-                </div>
-                <div className="flex justify-between py-1">
-                  <span>Presente MANUAL</span>
-                  <span>-R$ 10,00</span>
-                </div>
-              </div>
-              
-              <div className="flex justify-between text-lg font-bold pt-4 border-t-2 border-gray-200">
-                <span>Total</span>
-                <span>R$ 553,14</span>
               </div>
             </div>
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }

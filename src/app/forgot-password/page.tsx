@@ -35,7 +35,7 @@ export default function PasswordResetPage() {
         <section className='h-[calc(100vh-72px)] bg-gray-100 flex items-center justify-center px-4'>
             <div className='w-full maxW'>
 
-                <div className='bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto mt-25'>
+                <div className='bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto lg:mt-25'>
                     <h1 className='text-2xl font-bold text-[#09243C] text-center mb-2'>Quer redefinir sua senha?</h1>
                     <p className='text-gray-600 text-center mb-8 text-sm leading-relaxed'>Não se preocupe. Enviaremos por e-mail as<br />instruções para redefinir sua senha</p>
 
