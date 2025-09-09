@@ -10,8 +10,8 @@ export default function Footer() {
                         <div className='flex flex-col lg:justify-start justify-center items-center lg:items-start'>
                             <a className='text-3xl uppercase text-white text-center' href="/">Minhalogo</a>
                             <div className='flex gap-4 mt-2'>
-                                <a className='text-[10px] text-left' href="">Política de privacidade</a>
-                                <a className='text-[10px] text-left' href="">Termos e condições</a>
+                                <a className='text-[10px] text-left' target='_blank' href="/politica-privacidade">Política de privacidade</a>
+                                <a className='text-[10px] text-left' target='_blank' href="/termos">Termos e condições</a>
                             </div>
                             <p className='text-[12px] mt-4 lg:max-w-[400px] text-center lg:text-left'>A Minhalogo não é uma farmácia. Todos produtos adquiridos são
                                 manipulados pelas farmácias credenciadas, de acordo com as normas da Anvisa.</p>

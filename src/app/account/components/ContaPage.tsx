@@ -92,15 +92,15 @@ const ContaPage = () => {
         <h2 className="text-lg font-semibold text-gray-800 mb-4">Ações da Conta</h2>
 
         <div className="flex flex-wrap gap-4">
-          <button className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors">
+          <button className="px-4 py-2 cursor-pointer bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors">
             Editar Perfil
           </button>
 
-          <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+          <button className="px-4 py-2 cursor-pointer border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
             Alterar Senha
           </button>
 
-          <button className="px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors">
+          <button className="px-4 py-2 cursor-pointer border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors">
             Desativar Conta
           </button>
         </div>
