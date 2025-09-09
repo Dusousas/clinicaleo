@@ -1,170 +1,220 @@
 'use client';
-
-import { Link } from 'lucide-react';
 import React, { useState } from 'react';
 
-export default function Tratamento() {
-    const [selectedPlan, setSelectedPlan] = useState('6meses');
+type ProductId = 'gel' | 'serum';
 
-    const plans = [
+type Color = {
+    id: string;
+    name: string;
+    hex: string;
+    description: string;
+};
+
+type ColorsMap = {
+    [key in ProductId]: Color[];
+};
+
+export default function SeletorProdutos() {
+    const [selectedProduct, setSelectedProduct] = useState<ProductId | ''>('');
+    const [selectedColor, setSelectedColor] = useState('');
+
+    const products = [
         {
-            id: '3meses',
-            duration: '3 meses',
-            price: 'R$ 102,43',
-            priceDetail: '/mês',
-            installment: 'R$ 146,33 a partir do 2º mês',
-            savings: false
+            id: 'gel',
+            name: 'Gel para Sobrancelha',
+            description: 'Gel fixador com pigmentação para definir e modelar suas sobrancelhas',
+            price: 'R$ 45,90',
+            image: '💄'
         },
         {
-            id: '6meses',
-            duration: '6 meses',
-            price: 'R$ 92,19',
-            priceDetail: '/mês',
-            installment: 'R$ 131,70 a partir do 2º mês',
-            savings: true,
-            savingsText: 'Maior desconto'
+            id: 'serum',
+            name: 'Sérum para Sobrancelha',
+            description: 'Serum fortalecedor para estimular o crescimento e fortalecer os fios',
+            price: 'R$ 65,90',
+            image: '🧴'
         }
     ];
 
-    const installmentPlans = [
-        { installments: '1ª até 3ª', plan3: 'R$ 102,43', plan6: 'R$ 92,19' },
-        { installments: '4ª até 6ª', plan3: 'R$ 146,33', plan6: 'R$ 92,19' },
-        { installments: '7ª em diante', plan3: 'R$ 146,33', plan6: 'R$ 131,70' }
-    ];
+    const colors: ColorsMap = {
+        gel: [
+            { id: 'loiro-claro', name: 'Loiro Claro', hex: '#D4B896', description: 'Para sobrancelhas loiras' },
+            { id: 'castanho-claro', name: 'Castanho Claro', hex: '#A0703C', description: 'Para sobrancelhas castanho claro' },
+            { id: 'castanho-medio', name: 'Castanho Médio', hex: '#8B5A2B', description: 'Para sobrancelhas castanho médio' },
+            { id: 'castanho-escuro', name: 'Castanho Escuro', hex: '#654321', description: 'Para sobrancelhas castanho escuro' },
+            { id: 'preto', name: 'Preto', hex: '#2C1810', description: 'Para sobrancelhas pretas' }
+        ],
+        serum: [
+            { id: 'transparente', name: 'Transparente', hex: '#F0F0F0', description: 'Serum incolor para todos os tipos' }
+        ]
+    };
 
-    const benefits = [
-        {
-            title: 'Receba seu tratamento em casa',
-            description: 'A gestão da compra e entrega do tratamento é por nossa conta, sem nenhum custo adicional.'
-        },
-        {
-            title: 'Se preocupe só em se cuidar',
-            description: 'Nós cuidamos de tudo: te informamos sobre seu tratamento, datas de entregas e renovações.'
-        },
-        {
-            title: 'Suporte Clínico ilimitado',
-            description: 'Fale com um especialista pelo WhatsApp para dúvidas, mudanças ou avaliar seus resultados, sempre que quiser.'
-        },
-        {
-            title: 'Planos Flexíveis',
-            description: 'Você pode pausar, mudar a data de entrega ou cancelar quando precisar, sem complicações.'
-        }
-    ];
+    const availableColors = selectedProduct && selectedProduct in colors
+        ? colors[selectedProduct as ProductId]
+        : [];
 
     return (
-        <section className='h-full'>
-            <div className='maxW mx-auto h-full'>
-                <h2 className='font-Quicksand font-semibold text-3xl text-[#09243C] mb-12 text-center'>
-                    Escolha a frequência do seu plano
-                </h2>
+        <section className='bg-gray-50  lg:mt-20'>
+            <div className='max-w-4xl mx-auto px-4'>
 
-                {/* Plan Selection Cards */}
-                <div className='space-y-4 mb-12 max-w-[700px] mx-auto'>
-                    {plans.map((plan) => (
-                        <div
-                            key={plan.id}
-                            className={`relative p-6 border-2 rounded-lg cursor-pointer  transition-all ${
-                                selectedPlan === plan.id
-                                    ? 'border-[#FF6B6B] bg-white shadow-lg'
-                                    : 'border-gray-200 bg-white hover:border-gray-300'
-                            }`}
-                            onClick={() => setSelectedPlan(plan.id)}
-                        >
-                            {plan.savings && (
-                                <div className='absolute -top-3 left-6 bg-[#4CAF50] text-white px-3 py-1 rounded-full text-sm font-medium'>
-                                    {plan.savingsText}
+                <h2 className='font-bold text-4xl text-[#09243C] mb-2 text-center'>
+                    Escolha seu produto para sobrancelha
+                </h2>
+                <p className='text-gray-600 text-center mb-8 text-lg'>
+                    Selecione o tipo de produto e a cor ideal para suas sobrancelhas
+                </p>
+
+                <div className='mb-12'>
+                    <h3 className='font-semibold text-2xl text-[#09243C] mb-6'>
+                        Tipo de Produto
+                    </h3>
+                    <div className='grid md:grid-cols-2 gap-6'>
+                        {products.map((product) => (
+                            <div
+                                key={product.id}
+                                className={`relative p-6 border-2 rounded-xl cursor-pointer transition-all transform hover:scale-105 ${selectedProduct === product.id
+                                        ? 'border-[#09243C] bg-white shadow-xl ring-2 ring-[#09243C] ring-opacity-20'
+                                        : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-md'
+                                    }`}
+                                onClick={() => {
+                                    setSelectedProduct(product.id as ProductId);
+                                    setSelectedColor('');
+                                }}
+                            >
+                                {selectedProduct === product.id && (
+                                    <div className='absolute -top-3 left-6 bg-[#4CAF50] text-white px-3 py-1 rounded-full text-sm font-medium'>
+                                        Selecionado
+                                    </div>
+                                )}
+
+                                <div className='text-center'>
+                                    <h4 className='font-bold text-xl text-[#09243C] mb-2'>
+                                        {product.name}
+                                    </h4>
+                                    <p className='text-gray-600 text-sm mb-4 leading-relaxed'>
+                                        {product.description}
+                                    </p>
+                                    <div className='text-2xl font-bold text-[#09243C]'>
+                                        {product.price}
+                                    </div>
                                 </div>
-                            )}
-                            
-                            <div className='flex items-center justify-between'>
-                                <div className='flex items-center space-x-4'>
-                                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                                        selectedPlan === plan.id
-                                            ? 'border-[#FF6B6B] bg-[#FF6B6B]'
+
+                                <div className='flex justify-center mt-4'>
+                                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${selectedProduct === product.id
+                                            ? 'border-[#09243C] bg-[#09243C]'
                                             : 'border-gray-300'
-                                    }`}>
-                                        {selectedPlan === plan.id && (
-                                            <div className='w-2 h-2 bg-white rounded-full'></div>
+                                        }`}>
+                                        {selectedProduct === product.id && (
+                                            <div className='w-3 h-3 bg-white rounded-full'></div>
                                         )}
                                     </div>
-                                    <span className='font-semibold text-[#09243C] text-lg'>
-                                        {plan.duration}
-                                    </span>
-                                </div>
-                                
-                                <div className='text-right'>
-                                    <div className='text-2xl font-bold text-[#09243C]'>
-                                        {plan.price}
-                                        <span className='text-sm font-normal text-gray-600'>{plan.priceDetail}</span>
-                                    </div>
-                                    <div className='text-sm text-gray-600'>
-                                        {plan.installment}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
-                {/* Installments Comparison */}
-                <div className='bg-white rounded-lg p-6 mb-12 shadow-sm max-w-[700px] mx-auto'>
-                    <h3 className='font-semibold text-[#09243C] text-lg mb-6'>Compare as parcelas</h3>
-                    
-                    <div className='overflow-x-auto'>
-                        <table className='w-full'>
-                            <thead>
-                                <tr className='border-b'>
-                                    <th className='text-left py-3 text-gray-600 font-medium'>Parcelas</th>
-                                    <th className='text-center py-3 text-gray-600 font-medium'>3 meses</th>
-                                    <th className='text-center py-3 text-gray-600 font-medium'>6 meses</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {installmentPlans.map((row, index) => (
-                                    <tr key={index} className='border-b'>
-                                        <td className='py-4 text-[#09243C] font-medium'>{row.installments}</td>
-                                        <td className='py-4 text-center text-[#09243C] font-semibold'>{row.plan3}</td>
-                                        <td className='py-4 text-center text-[#09243C] font-semibold'>{row.plan6}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <p className='text-sm text-gray-600 mt-4'>
-                        *Desconto aplicado apenas na 1ª compra
-                    </p>
-                </div>
-
-                {/* Benefits Section */}
-                <div className='mb-4'>
-                    <h3 className='font-Quicksand font-semibold text-2xl uppercase text-[#09243C]'>
-                        Prático, flexível e sempre por perto
-                    </h3>
-                    
-                    <div className='gap-6 mt-4'>
-                        {benefits.map((benefit, index) => (
-                            <div key={index} className='flex space-x-4'>
-                                <div className='flex-shrink-0'>
-                                    <div className='w-6 h-6 bg-[#4CAF50] rounded-full flex items-center justify-center'>
-                                        <svg className='w-4 h-4 text-white' fill='currentColor' viewBox='0 0 20 20'>
-                                            <path fillRule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' clipRule='evenodd'></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div className='mb-3'>
-                                    <h4 className='font-semibold text-[#09243C]'>{benefit.title}</h4>
-                                    <p className='text-gray-600 text-sm leading-relaxed'>{benefit.description}</p>
                                 </div>
                             </div>
                         ))}
                     </div>
                 </div>
-                    <div className='flex justify-center mt-8'>
-                        <a href='/checkout' className='bg-[#09243C] cursor-pointer text-white px-8 py-2 rounded-xl uppercase tracking-wider font-Quicksand font-semibold'>Continuar</a>
-                    </div>
 
+                {selectedProduct && (
+                    <div className='mb-12 animate-fadeIn'>
+                        <h3 className='font-semibold text-2xl text-[#09243C] mb-6'>
+                            Escolha a Cor
+                        </h3>
+                        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4'>
+                            {availableColors.map((color) => (
+                                <div
+                                    key={color.id}
+                                    className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${selectedColor === color.id
+                                            ? 'border-[#09243C] bg-white shadow-lg ring-2 ring-[#09243C] ring-opacity-20'
+                                            : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-md'
+                                        }`}
+                                    onClick={() => setSelectedColor(color.id)}
+                                >
+                                    <div className='text-center'>
+                                        <div
+                                            className='w-12 h-12 rounded-full mx-auto mb-3 border-2 border-gray-200'
+                                            style={{ backgroundColor: color.hex }}
+                                        ></div>
+                                        <h5 className='font-semibold text-[#09243C] text-sm mb-1'>
+                                            {color.name}
+                                        </h5>
+                                        <p className='text-gray-600 text-xs leading-tight'>
+                                            {color.description}
+                                        </p>
+                                    </div>
+
+                                    <div className='flex justify-center mt-3'>
+                                        <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${selectedColor === color.id
+                                                ? 'border-[#09243C] bg-[#09243C]'
+                                                : 'border-gray-300'
+                                            }`}>
+                                            {selectedColor === color.id && (
+                                                <div className='w-2 h-2 bg-white rounded-full'></div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {selectedProduct && selectedColor && (
+                    <div className='bg-white rounded-xl p-6 shadow-lg mb-8'>
+                        <h3 className='font-semibold text-xl text-[#09243C] mb-4'>
+                            Resumo da sua escolha:
+                        </h3>
+                        <div className='flex flex-col sm:flex-row justify-between items-center'>
+                            <div>
+                                <p className='text-gray-800 font-medium'>
+                                    Produto: {products.find(p => p.id === selectedProduct)?.name}
+                                </p>
+                                <p className='text-gray-800 font-medium'>
+                                    Cor: {availableColors.find(c => c.id === selectedColor)?.name}
+                                </p>
+                                <p className='text-2xl font-bold text-[#09243C] mt-2'>
+                                    {products.find(p => p.id === selectedProduct)?.price}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+
+                <div className='flex justify-center'>
+                    <button
+                        className={`px-12 py-4 rounded-xl uppercase tracking-wider font-semibold text-lg transition-all transform hover:scale-105 ${selectedProduct && selectedColor
+                                ? 'bg-[#09243C] text-white cursor-pointer hover:bg-[#0a1a2e] shadow-lg'
+                                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                            }`}
+                        disabled={!selectedProduct || !selectedColor}
+                        onClick={() => {
+                            if (selectedProduct && selectedColor) {
+                                console.log('Produto selecionado:', selectedProduct);
+                                console.log('Cor selecionada:', selectedColor);
+                                // window.location.href = '/checkout';
+                            }
+                        }}
+                    >
+                        {selectedProduct && selectedColor ? 'Continuar' : 'Selecione produto e cor'}
+                    </button>
+                </div>
             </div>
+
+            <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-fadeIn {
+          animation: fadeIn 0.5s ease-out;
+        }
+      `}</style>
         </section>
     );
 }
