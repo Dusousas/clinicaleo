@@ -1,0 +1,31 @@
+{
+  "categorias": [
+    {
+      "slug": "como-funcionamos",
+      "title": "Como funcionamos?",
+      "icon": "/icons/4.png",
+      "faqs": [
+        { "id": 1, "question": "Quem somos?", "answer": "Somos uma empresa focada em oferecer soluções personalizadas." },
+        { "id": 2, "question": "Como funciona a assinatura?", "answer": "Você escolhe o plano, realiza o pagamento e começa a receber os produtos em casa." },
+        { "id": 3, "question": "Como funciona a assinatura?", "answer": "Você escolhe o plano, realiza o pagamento e começa a receber os produtos em casa." }
+      ]
+    },
+    {
+      "slug": "tratamentos-servicos",
+      "title": "Tratamentos e Serviços",
+      "icon": "/icons/4.png",
+      "faqs": [
+        { "id": 3, "question": "Eficácia dos produtos?", "answer": "Nossos produtos são testados e aprovados por especialistas." },
+        { "id": 4, "question": "Fotos para análise?", "answer": "Você pode enviar fotos pelo app para acompanhamento do progresso." }
+      ]
+    },
+    {
+      "slug": "minha-conta",
+      "title": "Minha conta",
+      "icon": "/icons/4.png",
+      "faqs": [
+        { "id": 5, "question": "Como alterar minha senha?", "answer": "Acesse configurações da conta e clique em alterar senha." }
+      ]
+    }
+  ]
+}
