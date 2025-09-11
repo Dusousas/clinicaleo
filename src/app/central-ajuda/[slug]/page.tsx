@@ -23,10 +23,10 @@ export default function FaqSlugPage() {
         <h1 className="text-3xl font-bold text-red-600 mb-6">
           Categoria não encontrada
         </h1>
-        <p className="text-gray-600">Tente voltar para a central de ajuda.</p>
+        <p className="text-gray-700">Tente voltar para a central de ajuda.</p>
         <Link
           href="/central-ajuda"
-          className="inline-block mt-6 px-6 py-2 bg-[#09243C] text-white rounded-lg shadow hover:bg-[#123b63] transition"
+          className="inline-block mt-6 px-6 py-2 bg-textPrimary text-white rounded-lg shadow hover:bg-[#123b63] transition"
         >
           Voltar para Central de Ajuda
         </Link>
@@ -40,15 +40,15 @@ export default function FaqSlugPage() {
       <div className="mb-8">
         <Link
           href="/central-ajuda"
-          className="inline-block px-5 py-2 bg-[#09243C] text-white rounded-lg shadow hover:bg-[#123b63] transition"
+          className="inline-block px-5 py-2 bg-textPrimary text-white rounded-lg shadow hover:bg-[#123b63] transition"
         >
           ← Voltar para Central da Ajuda
         </Link>
       </div>
 
-      <h1 className="text-3xl text-center font-Quicksand uppercase font-bold text-[#09243C] mb-6">
+      <h2 className="text-3xl text-center uppercase font-bold mb-6">
         {category.title}
-      </h1>
+      </h2>
 
       <div className="space-y-4">
         {category.faqs.map(
@@ -68,20 +68,20 @@ export default function FaqSlugPage() {
                 onClick={() => toggleFaq(index)}
                 className="w-full flex justify-between items-center text-left px-6 py-4"
               >
-                <h3 className="font-semibold text-lg text-[#09243C]">
+                <h3 className="font-semibold text-lg text-texbg-textPrimary">
                   {faq.question}
                 </h3>
                 <span
                   className={`transform transition-transform duration-300 ${
                     openIndex === index ? "rotate-45" : "rotate-0"
-                  } text-[#09243C] text-2xl`}
+                  } text-texbg-textPrimary text-2xl`}
                 >
                   +
                 </span>
               </button>
               {openIndex === index && (
                 <div className="px-6 pb-4">
-                  <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                  <p className="text-gray-700 leading-relaxed">{faq.answer}</p>
                 </div>
               )}
             </div>

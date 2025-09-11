@@ -13,26 +13,20 @@ export default function Page() {
   };
 
   return (
-    <section className="bg-gray-50 lg:px-12 p-4 lg:pt-34">
-      {/* Hero */}
-      <div className="bg-[#09243C] rounded-xl">
-        <div className="relative z-10 max-w-4xl pt-10 pb-4 mx-auto px-4 text-center">
-          <h1 className="font-bold text-4xl text-white mb-8 font-Quicksand">
-            Suas perguntas, respondidas!
-          </h1>
+    <section className="bg-Bg1 lg:px-12 p-4 lg:pt-34">
+      <div className="bg-textPrimary rounded-xl">
+        <div className="relative z-10 pt-10 pb-4 mx-auto px-4 text-center">
+          <h3 className="font-bold text-4xl text-white mb-8 font-Quicksand">Suas perguntas, respondidas!</h3>
         </div>
       </div>
 
-      {/* Categories Grid */}
       <div className="max-w-6xl mx-auto px-4 py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
           {data.categorias.map((category, index) => (
             <Link
               key={index}
               href={`/central-ajuda/${category.slug}`}
-              className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-all cursor-pointer text-center block"
-            >
-              {/* Ícone da categoria */}
+              className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-all cursor-pointer text-center block">
               <div className="mb-4 flex justify-center">
                 <Image
                   src={category.icon} 
@@ -43,18 +37,15 @@ export default function Page() {
                 />
               </div>
 
-              <h3 className="font-semibold text-lg text-[#09243C]">
+              <h2 className="font-semibold text-lg">
                 {category.title}
-              </h3>
+              </h2>
             </Link>
           ))}
         </div>
 
-        {/* FAQ Section */}
         <div className="max-w-4xl mx-auto">
-          <h2 className="font-bold text-3xl text-[#09243C] mb-8 text-center lg:text-left">
-            Perguntas frequentes
-          </h2>
+          <h2 className="font-bold text-3xl mb-8 text-center lg:text-left">Perguntas frequentes</h2>
 
           <div className="space-y-4 mb-16">
             {data.categorias.flatMap((category) =>
@@ -70,7 +61,7 @@ export default function Page() {
                         className="w-full p-6 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition-colors"
                         onClick={() => toggleFaq(faqKey)}
                       >
-                        <h3 className="font-medium text-[#09243C]">
+                        <h3 className="font-medium text-textPrimary">
                           {faq.question}
                         </h3>
                         <div
@@ -103,7 +94,7 @@ export default function Page() {
                       >
                         <div className="px-6 pb-6">
                           <div className="border-t border-gray-100 pt-4">
-                            <p className="text-gray-600 leading-relaxed">
+                            <p className="text-gray-700 leading-relaxed">
                               {faq.answer}
                             </p>
                           </div>

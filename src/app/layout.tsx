@@ -1,5 +1,3 @@
-
-
 import type { Metadata } from "next";
 import { Inter, Quicksand } from "next/font/google";
 import "./globals.css";
@@ -11,12 +9,14 @@ import { Toaster } from "sonner";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: 'swap', // Adiciona display swap para melhor performance
 });
 
 // Fonte Quicksand
 const quicksand = Quicksand({
   subsets: ["latin"],
   variable: "--font-quicksand",
+  display: 'swap', // Adiciona display swap para melhor performance
 });
 
 export const metadata: Metadata = {
@@ -30,8 +30,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt">
-      <body className={`${inter.variable} ${quicksand.variable} antialiased`}>
+    <html lang="pt" className={`${inter.variable} ${quicksand.variable}`}>
+      <body className="antialiased">
         <Header />
         <main>{children}</main>
         <Footer />

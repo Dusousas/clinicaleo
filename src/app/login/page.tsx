@@ -86,9 +86,9 @@ export default function LoginPage() {
       <div className="maxW h-full flex justify-center items-center flex-col">
         <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden relative lg:top-30">
           <div className="bg-[#09243C] px-8 py-6 text-center">
-            <h1 className="text-2xl font-bold text-white mb-2">
+            <h3 className="text-2xl font-bold text-white mb-2">
               Bem-vindo de volta!
-            </h1>
+            </h3>
             <p className="text-blue-100 text-sm">Faça login para continuar</p>
           </div>
 

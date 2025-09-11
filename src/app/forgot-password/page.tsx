@@ -36,7 +36,7 @@ export default function PasswordResetPage() {
             <div className='w-full maxW'>
 
                 <div className='bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto lg:mt-25'>
-                    <h1 className='text-2xl font-bold text-[#09243C] text-center mb-2'>Quer redefinir sua senha?</h1>
+                    <h3 className='text-2xl font-bold text-textPrimary text-center mb-2'>Quer redefinir sua senha?</h3>
                     <p className='text-gray-600 text-center mb-8 text-sm leading-relaxed'>Não se preocupe. Enviaremos por e-mail as<br />instruções para redefinir sua senha</p>
 
                     <div className='mb-4'>
@@ -58,7 +58,7 @@ export default function PasswordResetPage() {
                     <div className='text-center'>
                         <button
                             onClick={handleBackToLogin}
-                            className='text-blue-600 hover:text-[#09243C] text-sm font-medium border-none uppercase bg-transparent cursor-pointer'>Voltar para login</button>
+                            className='text-blue-600 hover:text-textPrimary text-sm font-medium border-none uppercase bg-transparent cursor-pointer'>Voltar para login</button>
                     </div>
                 </div>
             </div>

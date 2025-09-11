@@ -70,12 +70,11 @@ const EvolucaoPage = () => {
   };
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-[#09243C] mb-2 uppercase">Minha evolução</h1>
-        <p className="text-gray-600 mb-8">Acompanhe seu progresso através de fotos</p>
+    <div className="p-8  min-h-screen">
+      <div className="">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-2">Minha evolução</h2>
+        <p className="text-gray-700 mb-8">Acompanhe seu progresso através de fotos</p>
         
-        {/* Botão para adicionar foto */}
         <div className="mb-8">
           <label className="inline-flex items-center px-6 py-3 bg-teal-600 text-white rounded-lg cursor-pointer hover:bg-teal-700 transition-colors">
             <Plus className="w-5 h-5 mr-2" />
@@ -155,35 +154,6 @@ const EvolucaoPage = () => {
             </div>
           )}
         </div>
-
-        {/* Estatísticas */}
-        {fotos.length > 0 && (
-          <div className="mt-8 bg-white rounded-lg p-6 shadow-md">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4">Estatísticas</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-teal-600">{fotos.length}</div>
-                <div className="text-sm text-gray-500">Fotos registradas</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">
-                  {fotos.length > 0 
-                    ? Math.ceil((new Date().getTime() - new Date(fotos[0].data).getTime()) / (1000 * 60 * 60 * 24))
-                    : 0}
-                </div>
-                <div className="text-sm text-gray-500">Dias de acompanhamento</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">
-                  {fotos.length > 1 
-                    ? `${Math.ceil((new Date(fotos[fotos.length - 1].data).getTime() - new Date(fotos[0].data).getTime()) / (1000 * 60 * 60 * 24))} dias`
-                    : '0 dias'}
-                </div>
-                <div className="text-sm text-gray-500">Período de progresso</div>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Modal para visualizar foto */}

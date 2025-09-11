@@ -1,8 +1,8 @@
 "use client"
+
 import Link from 'next/link';
 import { useState } from 'react';
 import { IoAdd } from 'react-icons/io5';
-import { MdBolt } from 'react-icons/md';
 
 export default function Treatments() {
     const [openAccordion, setOpenAccordion] = useState<number | null>(null);
@@ -35,11 +35,11 @@ export default function Treatments() {
     };
 
     return (
-        <section className='py-16 bg-gray-50'>
+        <section className='py-16 bg-Bg1'>
             <div className='maxW'>
                 <div className='mb-12'>
-                    <p className='text-sm uppercase font-bold text-[#09243C] text-center'>Como funciona?</p>
-                    <h2 className='font-Quicksand font-semibold text-3xl uppercase text-center mt-2 text-[#09243C]'>Lorem ipsum dolor sit amet</h2>
+                    <h3 className='text-sm uppercase font-bold text-textPrimary text-center'>Como funciona?</h3>
+                    <h2 className='font-semibold text-3xl uppercase text-center mt-2'>Lorem ipsum dolor sit amet</h2>
                 </div>
 
                 <div className='flex flex-col justify-center gap-20 items-center lg:flex-row'>
@@ -48,21 +48,21 @@ export default function Treatments() {
                     </div>
 
                     <div className='space-y-6 lg:w-1/2'>
-                        <p className='text-sm uppercase font-bold text-[#09243C] text-center lg:text-left'>Lorem ipsum dolor sit amet consectetur.</p>
-                        <h2 className='font-Quicksand font-semibold text-3xl uppercase mt-2 text-[#09243C] text-center lg:text-left'>Lorem ipsum dolor sit.</h2>
+                        <p className='text-sm uppercase font-bold text-textPrimary text-center lg:text-left'>Lorem ipsum dolor sit amet consectetur.</p>
+                        <h2 className='font-semibold text-3xl uppercase mt-2 text-center lg:text-left'>Lorem ipsum dolor sit.</h2>
                         {treatmentSteps.map((step) => (
-                            <div key={step.id} className='bg-white rounded-2xl borde- border-[#09243C] overflow-hidden w-full outline'>
+                            <div key={step.id} className='bg-white rounded-2xl borde- border-textPrtext-textPrimary overflow-hidden w-full outline'>
                                 <button onClick={() => toggleAccordion(step.id)} className='w-full px-8 py-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-200'>
                                     <div className='flex items-center gap-2'>
                                         <div className='font-Quicksand text-sm font-black'>
                                             {step.id.toString().padStart(2, '0')}.
                                         </div>
-                                        <span className='text-lg font-Quicksand font-semibold text-[#09243C]'>
+                                        <span className='text-lg font-Quicksand font-semibold text-textPrimary'>
                                             {step.title}
                                         </span>
                                     </div>
                                     <div className='flex-shrink-0 ml-4'>
-                                        <IoAdd className='w-5 h-5 text-[#09243C]' />
+                                        <IoAdd className='w-5 h-5 text-textPrimary' />
                                     </div>
                                 </button>
 
@@ -79,7 +79,7 @@ export default function Treatments() {
                         ))}
 
                         <div className='flex justify-center mt-8 lg:justify-start'>
-                            <Link className='bg-[#09243C] text-white px-6 py-2 rounded-xl uppercase tracking-wider font-Quicksand font-semibold' href="/questionario">Começar agora</Link>
+                            <Link className='bg-textPrimary text-white px-6 py-2 rounded-xl uppercase tracking-wider font-Quicksand font-semibold' href="/questionario">Começar agora</Link>
                         </div>
                     </div>
                 </div>

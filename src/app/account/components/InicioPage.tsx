@@ -88,28 +88,19 @@ const AprovacaoMedicaPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
+    <div className="min-h-screen p-4 sm:p-6 lg:p-8">
+      <div className="">
+
         <div className="mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
-            Aprovação Médica
-          </h1>
-          <p className="text-gray-600">
-            Acompanhe o status da análise médica dos seus produtos
-          </p>
+          <h2 className="text-2xl sm:text-3xl font-bold mb-2">Aprovação Médica</h2>
+          <p className="text-gray-700">Acompanhe o status da análise médica dos seus produtos</p>
         </div>
 
-        {/* Lista de Produtos */}
         {produtos.length === 0 ? (
           <div className="bg-white rounded-lg shadow-sm p-8 text-center">
             <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">
-              Nenhum produto em análise
-            </h3>
-            <p className="text-gray-500">
-              Você ainda não possui produtos aguardando aprovação médica.
-            </p>
+            <h3 className="text-lg font-semibold text-gray-700 mb-2">Nenhum produto em análise</h3>
+            <p className="text-gray-700">Você ainda não possui produtos aguardando aprovação médica.</p>
           </div>
         ) : (
           <div className="space-y-6">
@@ -119,29 +110,22 @@ const AprovacaoMedicaPage = () => {
               
               return (
                 <div key={produto.id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                  {/* Header do Card */}
                   <div className="p-4 sm:p-6">
                     <div className="flex flex-col sm:flex-row gap-4">
-                      {/* Imagem do Produto */}
                       <div className="flex-shrink-0">
                         <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 rounded-lg flex items-center justify-center">
                           <Package className="w-10 h-10 text-gray-400" />
                         </div>
                       </div>
 
-                      {/* Informações do Produto */}
                       <div className="flex-1 min-w-0">
                         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                           <div>
-                            <h3 className="font-semibold text-gray-900 text-lg mb-1">
-                              {produto.nomeProduto}
-                            </h3>
-                            <p className="text-sm text-gray-500 mb-2">
-                              Pedido {produto.numeroPedido} • R$ {produto.preco.toFixed(2).replace('.', ',')}
-                            </p>
+                            <h2 className="font-bold  text-lg mb-1">{produto.nomeProduto}</h2>
+                            <p className="text-sm text-gray-700 mb-2">Pedido {produto.numeroPedido} • R$ {produto.preco.toFixed(2).replace('.', ',')}</p>
                             
                             {/* Médico Responsável */}
-                            <div className="flex items-center gap-2 text-sm text-gray-600">
+                            <div className="flex items-center gap-2 text-sm text-gray-700">
                               <User className="w-4 h-4" />
                               <span>{produto.medicoResponsavel}</span>
                               {produto.dataAnalise && (
