@@ -1,12 +1,12 @@
 import React from 'react';
-import ChatMedico from './components/ChatMedico';
+import ChatAdmin from './components/ChatAdmin';
 
 export default function page() {
     return (
         <>
             <section className='lg:pt-40 lg:pb-20'>
-                <div className=''>
-                    <ChatMedico />
+                <div className='maxW'>
+                    <ChatAdmin />
                 </div>
             </section>
         </>

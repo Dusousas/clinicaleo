@@ -12,14 +12,16 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
   const sidebarItems = [
     { id: 'Usuários', label: 'Usuários', icon: Home },
     { id: 'Mensagens', label: 'Mensagens', icon: Home },
+    { id: 'Consultas', label: 'Consultas', icon: Home },
+
 
   ];
 
   return (
     <>
       {/* Desktop Sidebar */}
-      <div className="hidden lg:block w-64 bg-white shadow-lg">
-        <div className="p-6 pt-40">
+      <div className="hidden lg:block w-64 bg-white shadow-lg z-[99] relative">
+        <div className="p-6 pt-50">
           <nav className="space-y-2">
             {sidebarItems.map((item) => {
               const IconComponent = item.icon;
