@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import { Home } from 'lucide-react';
+import { ClipboardPlus, DollarSign, MessageSquare, PackageSearch, UserRoundPen } from 'lucide-react';
 
 interface SidebarProps {
   activeTab: string;
@@ -10,18 +10,19 @@ interface SidebarProps {
 
 export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
   const sidebarItems = [
-    { id: 'Usuários', label: 'Usuários', icon: Home },
-    { id: 'Mensagens', label: 'Mensagens', icon: Home },
-    { id: 'Consultas', label: 'Consultas', icon: Home },
-
+    { id: 'Usuários', label: 'Usuários', icon: UserRoundPen },
+    { id: 'Mensagens', label: 'Mensagens', icon: MessageSquare },
+    { id: 'Consultas', label: 'Consultas', icon: ClipboardPlus },
+    { id: 'Financeiro', label: 'Financeiro', icon: DollarSign },
+    { id: 'Produtos', label: 'Produtos', icon: PackageSearch },
 
   ];
 
   return (
     <>
       {/* Desktop Sidebar */}
-      <div className="hidden lg:block w-64 bg-white shadow-lg z-[99] relative">
-        <div className="p-6 pt-50">
+      <div className="hidden lg:block w-64 bg-white shadow-lg ">
+        <div className="p-6 pt-50 h-full">
           <nav className="space-y-2">
             {sidebarItems.map((item) => {
               const IconComponent = item.icon;

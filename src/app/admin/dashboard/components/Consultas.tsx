@@ -81,6 +81,7 @@ const consultasExemplo: QuizResponse[] = [
 export default function Consultas() {
   const [consultas, setConsultas] = useState<QuizResponse[]>(consultasExemplo);
   const [filtroStatus, setFiltroStatus] = useState<string>('todos');
+  const [pesquisaNome, setPesquisaNome] = useState<string>('');
   const [consultaSelecionada, setConsultaSelecionada] = useState<QuizResponse | null>(null);
 
   const formatarData = (data: string) => {
@@ -94,8 +95,14 @@ export default function Consultas() {
   };
 
   const consultasFiltradas = consultas.filter(consulta => {
-    if (filtroStatus === 'todos') return true;
-    return consulta.status === filtroStatus;
+    // Filtro por status
+    const passaFiltroStatus = filtroStatus === 'todos' || consulta.status === filtroStatus;
+    
+    // Filtro por nome (busca case-insensitive)
+    const passaFiltroPesquisa = pesquisaNome === '' || 
+      consulta.paciente.nome.toLowerCase().includes(pesquisaNome.toLowerCase());
+    
+    return passaFiltroStatus && passaFiltroPesquisa;
   });
 
   const atualizarStatus = (id: string, novoStatus: 'aprovado' | 'negado', observacoes?: string) => {
@@ -133,28 +140,48 @@ export default function Consultas() {
         <div className='maxW px-4 sm:px-6 lg:px-8'>
           <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6'>
             <div>
-              <h1 className='text-2xl font-bold text-gray-900'>Consultas</h1>
-              <p className='text-gray-600 mt-1'>Avalie os questionários dos pacientes</p>
+              <h2 className='text-3xl font-bold'>Consultas</h2>
+              <p className='text-gray-700 mt-1'>Avalie os questionários dos pacientes</p>
             </div>
             
             <div className='flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full sm:w-auto'>
-              <select 
-                value={filtroStatus}
-                onChange={(e) => setFiltroStatus(e.target.value)}
-                className='px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full sm:w-auto'
-              >
-                <option value="todos">Todos os status</option>
-                <option value="pendente">Pendentes</option>
-                <option value="aprovado">Aprovados</option>
-                <option value="negado">Negados</option>
-              </select>
-              
               <div className='bg-blue-50 px-3 py-2 rounded-lg w-full sm:w-auto text-center'>
                 <span className='text-sm font-medium text-blue-700'>
                   {consultasFiltradas.length} consulta{consultasFiltradas.length !== 1 ? 's' : ''}
                 </span>
               </div>
             </div>
+          </div>
+
+          {/* Filtros */}
+          <div className='mb-6 flex flex-col md:flex-row gap-4'>
+            <div className='flex-1'>
+              <div className='relative'>
+                <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
+                  <svg className='h-5 w-5 text-gray-400' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' />
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Pesquisar por nome do paciente..."
+                  value={pesquisaNome}
+                  onChange={(e) => setPesquisaNome(e.target.value)}
+                  className='block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+                />
+              </div>
+            </div>
+            
+            <select 
+              value={filtroStatus}
+              onChange={(e) => setFiltroStatus(e.target.value)}
+              className='px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full md:w-auto'
+            >
+              <option value="todos">Todos os status</option>
+              <option value="pendente">Pendentes</option>
+              <option value="aprovado">Aprovados</option>
+              <option value="negado">Negados</option>
+            </select>
           </div>
 
           {/* Lista de Consultas */}
@@ -167,7 +194,20 @@ export default function Consultas() {
                   </svg>
                 </div>
                 <h3 className='text-lg font-medium text-gray-900 mb-2'>Nenhuma consulta encontrada</h3>
-                <p className='text-gray-500'>Não há consultas com o filtro selecionado.</p>
+                <p className='text-gray-500'>
+                  {pesquisaNome ? 
+                    `Não há consultas que correspondam à pesquisa "${pesquisaNome}".` :
+                    'Não há consultas com o filtro selecionado.'
+                  }
+                </p>
+                {pesquisaNome && (
+                  <button
+                    onClick={() => setPesquisaNome('')}
+                    className='mt-3 text-blue-600 hover:text-blue-700 text-sm font-medium'
+                  >
+                    Limpar pesquisa
+                  </button>
+                )}
               </div>
             ) : (
               <div className='divide-y divide-gray-200'>

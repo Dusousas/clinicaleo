@@ -5,6 +5,8 @@ import Users from '../../users/components/Users';
 import Sidebar from './Sidebar';
 import ChatAdmin from '../../chat-medico/components/ChatAdmin';
 import Consultas from './Consultas';
+import Financeiro from './Financeiro';
+import Produtos from './Produtos';
 
 
 export default function Dashboard() {
@@ -18,6 +20,10 @@ export default function Dashboard() {
         return <ChatAdmin />;
       case 'Consultas':
         return <Consultas />;
+      case 'Financeiro':
+        return <Financeiro />;
+      case 'Produtos':
+        return <Produtos />;
       default:
         return <Users />;
     }

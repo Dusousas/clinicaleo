@@ -1,9 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { RoleGuard } from "@/components/RoleGuard";
 import { UserRole, getRoleName } from "@/lib/utils/roles";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Search, X } from "lucide-react";
 import { toast } from "sonner";
 
 interface User {
@@ -27,6 +29,20 @@ function AdminUsersContent() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Filtrar usuários baseado no termo de pesquisa
+  const filteredUsers = useMemo(() => {
+    if (!searchTerm.trim()) {
+      return users;
+    }
+    
+    const term = searchTerm.toLowerCase().trim();
+    return users.filter(user =>
+      user.name.toLowerCase().includes(term) ||
+      user.email.toLowerCase().includes(term)
+    );
+  }, [users, searchTerm]);
 
   const fetchUsers = async () => {
     try {
@@ -81,6 +97,10 @@ function AdminUsersContent() {
     }
   };
 
+  const clearSearch = () => {
+    setSearchTerm("");
+  };
+
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -110,9 +130,38 @@ function AdminUsersContent() {
 
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200">
-            <h3 className="text-lg">
-              Lista de Usuários ({users.length})
-            </h3>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <h3 className="text-lg">
+                Lista de Usuários ({filteredUsers.length})
+                {searchTerm && (
+                  <span className="text-sm text-gray-500 ml-2">
+                    de {users.length} total
+                  </span>
+                )}
+              </h3>
+              
+              {/* Campo de pesquisa */}
+              <div className="relative max-w-md">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Search className="h-4 w-4 text-gray-400" />
+                </div>
+                <Input
+                  type="text"
+                  placeholder="Pesquisar por nome ou email..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 pr-10"
+                />
+                {searchTerm && (
+                  <button
+                    onClick={clearSearch}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center hover:text-gray-600"
+                  >
+                    <X className="h-4 w-4 text-gray-400" />
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
 
           <div className="overflow-x-auto">
@@ -134,14 +183,16 @@ function AdminUsersContent() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {users.map((user) => (
+                {filteredUsers.map((user) => (
                   <tr key={user.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div>
                         <div className="text-sm font-medium text-gray-900">
-                          {user.name}
+                          {highlightSearchTerm(user.name, searchTerm)}
                         </div>
-                        <div className="text-sm text-gray-500">{user.email}</div>
+                        <div className="text-sm text-gray-500">
+                          {highlightSearchTerm(user.email, searchTerm)}
+                        </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -176,9 +227,24 @@ function AdminUsersContent() {
             </table>
           </div>
 
-          {users.length === 0 && (
+          {filteredUsers.length === 0 && !loading && (
             <div className="text-center py-8">
-              <p className="text-gray-500">Nenhum usuário encontrado.</p>
+              {searchTerm ? (
+                <div>
+                  <p className="text-gray-500 mb-2">
+                    Nenhum usuário encontrado para "{searchTerm}"
+                  </p>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={clearSearch}
+                  >
+                    Limpar pesquisa
+                  </Button>
+                </div>
+              ) : (
+                <p className="text-gray-500">Nenhum usuário encontrado.</p>
+              )}
             </div>
           )}
         </div>
@@ -195,4 +261,28 @@ function getRoleColor(role: UserRole): string {
   };
 
   return colors[role] || "bg-gray-100 text-gray-800";
+}
+
+// Função auxiliar para destacar o termo pesquisado
+function highlightSearchTerm(text: string, searchTerm: string) {
+  if (!searchTerm.trim()) {
+    return text;
+  }
+
+  const regex = new RegExp(`(${searchTerm.trim()})`, 'gi');
+  const parts = text.split(regex);
+
+  return (
+    <>
+      {parts.map((part, index) => 
+        regex.test(part) ? (
+          <mark key={index} className="bg-yellow-200 px-1 rounded">
+            {part}
+          </mark>
+        ) : (
+          part
+        )
+      )}
+    </>
+  );
 }
