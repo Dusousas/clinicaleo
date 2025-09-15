@@ -1,0 +1,251 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  MEDICO
+  PACIENTE
+}
+
+model User {
+  id            String         @id
+  name          String         @db.Text
+  email         String
+  emailVerified Boolean
+  image         String?        @db.Text
+  dateOfBirth   DateTime?      @db.Date
+  whatsapp      String?        @db.VarChar(20)
+  acceptsOffers Boolean        @default(false)
+  role          UserRole       @default(PACIENTE)
+  createdAt     DateTime
+  updatedAt     DateTime
+  sessions      Session[]
+  accounts      Account[]
+  quizResponses QuizResponse[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?  @db.Text
+  userAgent String?  @db.Text
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String    @db.Text
+  providerId            String    @db.Text
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?   @db.Text
+  refreshToken          String?   @db.Text
+  idToken               String?   @db.Text
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?   @db.Text
+  password              String?   @db.Text
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String    @db.Text
+  value      String    @db.Text
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}
+
+model avaliacoes_clinicas {
+  id                 BigInt                     @id @default(autoincrement()) @db.UnsignedBigInt
+  paciente_id        BigInt                     @db.UnsignedBigInt
+  medico_id          BigInt?                    @db.UnsignedBigInt
+  status             avaliacoes_clinicas_status @default(aguardando_avaliacao)
+  dados_questionario Json
+  caminho_foto       String?                    @db.VarChar(255)
+  motivo_negativa    String?                    @db.Text
+  notas_medicas      String?                    @db.Text
+  submetido_em       DateTime?                  @default(now()) @db.Timestamp(0)
+  avaliado_em        DateTime?                  @db.Timestamp(0)
+  pacientes          pacientes                  @relation(fields: [paciente_id], references: [id], map: "avaliacoes_clinicas_ibfk_1")
+  medicos            medicos?                   @relation(fields: [medico_id], references: [id], map: "avaliacoes_clinicas_ibfk_2")
+  pedidos            pedidos[]
+  prescricoes        prescricoes?
+
+  @@index([medico_id], map: "idx_avaliacoes_medico_id")
+  @@index([paciente_id], map: "idx_avaliacoes_paciente_id")
+}
+
+model consentimentos {
+  id           BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  paciente_id  BigInt    @db.UnsignedBigInt
+  ip_address   String    @db.VarChar(45)
+  user_agent   String?   @db.Text
+  versao_termo String    @db.VarChar(50)
+  aceito_em    DateTime? @default(now()) @db.Timestamp(0)
+  pacientes    pacientes @relation(fields: [paciente_id], references: [id], onDelete: Cascade, map: "consentimentos_ibfk_1")
+
+  @@index([paciente_id], map: "idx_consentimentos_paciente_id")
+}
+
+model enderecos {
+  id           BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  paciente_id  BigInt    @db.UnsignedBigInt
+  cep          String    @db.VarChar(9)
+  logradouro   String    @db.VarChar(255)
+  numero       String    @db.VarChar(20)
+  complemento  String?   @db.VarChar(100)
+  bairro       String    @db.VarChar(100)
+  cidade       String    @db.VarChar(100)
+  estado       String    @db.VarChar(2)
+  is_principal Boolean?  @default(false)
+  created_at   DateTime? @default(now()) @db.Timestamp(0)
+  updated_at   DateTime? @default(now()) @db.Timestamp(0)
+  pacientes    pacientes @relation(fields: [paciente_id], references: [id], onDelete: Cascade, map: "enderecos_ibfk_1")
+  pedidos      pedidos[]
+
+  @@index([paciente_id], map: "paciente_id")
+}
+
+model medicos {
+  id                  BigInt                @id @default(autoincrement()) @db.UnsignedBigInt
+  nome_completo       String                @db.VarChar(255)
+  email               String                @unique(map: "email") @db.VarChar(255)
+  senha_hash          String                @db.VarChar(255)
+  crm                 String                @unique(map: "crm") @db.VarChar(20)
+  ativo               Boolean               @default(true)
+  created_at          DateTime?             @default(now()) @db.Timestamp(0)
+  updated_at          DateTime?             @default(now()) @db.Timestamp(0)
+  avaliacoes_clinicas avaliacoes_clinicas[]
+  prescricoes         prescricoes[]
+}
+
+model pacientes {
+  id                  BigInt                @id @default(autoincrement()) @db.UnsignedBigInt
+  nome_completo       String                @db.VarChar(255)
+  email               String                @unique(map: "email") @db.VarChar(255)
+  senha_hash          String                @db.VarChar(255)
+  cpf                 String                @unique(map: "cpf") @db.VarChar(14)
+  telefone            String?               @db.VarChar(20)
+  data_nascimento     DateTime              @db.Date
+  created_at          DateTime?             @default(now()) @db.Timestamp(0)
+  updated_at          DateTime?             @default(now()) @db.Timestamp(0)
+  avaliacoes_clinicas avaliacoes_clinicas[]
+  consentimentos      consentimentos[]
+  enderecos           enderecos[]
+  pedidos             pedidos[]
+  prescricoes         prescricoes[]
+}
+
+model pagamentos {
+  id            BigInt            @id @default(autoincrement()) @db.UnsignedBigInt
+  pedido_id     BigInt            @db.UnsignedBigInt
+  gateway_id    String            @db.VarChar(255)
+  metodo        pagamentos_metodo
+  status        pagamentos_status
+  processado_em DateTime?         @default(now()) @db.Timestamp(0)
+  pedidos       pedidos           @relation(fields: [pedido_id], references: [id], onDelete: Cascade, map: "pagamentos_ibfk_1")
+
+  @@index([gateway_id], map: "idx_gateway_id")
+  @@index([pedido_id], map: "idx_pagamentos_pedido_id")
+}
+
+model pedidos {
+  id                  BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
+  avaliacao_id        BigInt              @db.UnsignedBigInt
+  paciente_id         BigInt              @db.UnsignedBigInt
+  endereco_entrega_id BigInt              @db.UnsignedBigInt
+  valor_total         Decimal             @db.Decimal(10, 2)
+  status              pedidos_status      @default(aguardando_pagamento)
+  created_at          DateTime?           @default(now()) @db.Timestamp(0)
+  updated_at          DateTime?           @default(now()) @db.Timestamp(0)
+  pagamentos          pagamentos[]
+  avaliacoes_clinicas avaliacoes_clinicas @relation(fields: [avaliacao_id], references: [id], map: "pedidos_ibfk_1")
+  pacientes           pacientes           @relation(fields: [paciente_id], references: [id], map: "pedidos_ibfk_2")
+  enderecos           enderecos           @relation(fields: [endereco_entrega_id], references: [id], map: "pedidos_ibfk_3")
+
+  @@index([endereco_entrega_id], map: "endereco_entrega_id")
+  @@index([avaliacao_id], map: "idx_pedidos_avaliacao_id")
+  @@index([paciente_id], map: "idx_pedidos_paciente_id")
+}
+
+model prescricoes {
+  id                    BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
+  avaliacao_id          BigInt              @unique(map: "avaliacao_id") @db.UnsignedBigInt
+  medico_id             BigInt              @db.UnsignedBigInt
+  paciente_id           BigInt              @db.UnsignedBigInt
+  id_externo_prescricao String?             @db.VarChar(255)
+  url_prescricao        String              @db.VarChar(255)
+  emitida_em            DateTime?           @default(now()) @db.Timestamp(0)
+  valida_ate            DateTime            @db.Date
+  avaliacoes_clinicas   avaliacoes_clinicas @relation(fields: [avaliacao_id], references: [id], map: "prescricoes_ibfk_1")
+  medicos               medicos             @relation(fields: [medico_id], references: [id], map: "prescricoes_ibfk_2")
+  pacientes             pacientes           @relation(fields: [paciente_id], references: [id], map: "prescricoes_ibfk_3")
+
+  @@index([medico_id], map: "medico_id")
+  @@index([paciente_id], map: "paciente_id")
+}
+
+enum pagamentos_metodo {
+  cartao_credito
+  pix
+  boleto
+}
+
+enum avaliacoes_clinicas_status {
+  aguardando_avaliacao
+  em_analise
+  aprovada
+  negada
+  requer_esclarecimento
+}
+
+enum pagamentos_status {
+  sucesso
+  falha
+  pendente
+}
+
+enum pedidos_status {
+  aguardando_pagamento
+  pago
+  enviado
+  entregue
+  cancelado
+}
+
+model QuizResponse {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quizType    String // Tipo do quiz (ex: "sexual_health", "hair_loss", etc.)
+  responses   Json // Armazena as respostas em formato JSON
+  completedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("quiz_responses")
+}

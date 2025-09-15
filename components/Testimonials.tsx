@@ -174,7 +174,7 @@ const Testimonials: React.FC = () => {
             
             ">
                 <div className="maxW px-4 sm:px-0">
-                    <h2 className="font-bold text-2xl sm:text-3xl uppercase mt-2 text-[#09243C] text-center  mb-8 sm:mb-10 lg:text-left">
+                    <h2 className="font-bold text-2xl sm:text-3xl uppercase mt-2 text-textPrimary text-center  mb-8 sm:mb-10 lg:text-left">
                         O que nossos clientes dizem
                     </h2>
 
@@ -217,7 +217,7 @@ const Testimonials: React.FC = () => {
                                         </p>
                                         
                                         {/* Customer Name */}
-                                        <h3 className="text-[#09243C] font-bold text-center text-base sm:text-lg">
+                                        <h3 className="text-textPrimary font-bold text-center text-base sm:text-lg">
                                             {testimonial.name}
                                         </h3>
                                     </article>
@@ -230,7 +230,7 @@ const Testimonials: React.FC = () => {
                     <div className="mt-6 sm:mt-8 max-w-xs sm:max-w-md mx-auto px-4 sm:px-0">
                         <div className="w-full bg-gray-200 rounded-full h-1">
                             <div 
-                                className="bg-[#09243C] h-1 rounded-full transition-all duration-500"
+                                className="bg-texttext-textPrimary h-1 rounded-full transition-all duration-500"
                                 style={{ width: `${maxSlide === 0 ? 100 : ((currentSlide + 1) / (maxSlide + 1)) * 100}%` }}
                             />
                         </div>
