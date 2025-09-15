@@ -123,7 +123,7 @@ export default function Question1() {
     <section className="h-[calc(100vh-72px)] flex items-center justify-center w-full">
       <div className="maxW max-w-2xl mx-auto px-4">
         <div className="text-center mb-8">
-          <h2 className="text-center text-2xl font-Quicksand uppercase font-semibold text-[#09243C] mb-8 w-[750px] mx-auto">
+          <h2 className="text-center text-2xl font-Quicksand uppercase font-semibold text-[#09243C] mb-8 lg:w-[750px] lg:mx-auto">
             {currentQuestion.question}
           </h2>
         </div>
@@ -133,7 +133,7 @@ export default function Question1() {
             <button
               key={index}
               onClick={() => handleAnswerSelect(option)}
-              className="p-4 text-left bg-white border-2 border-gray-200 rounded-lg hover:border-[#09243C] hover:bg-gray-50 transition-all duration-200 group w-[750px] mx-auto"
+              className="p-4 text-left bg-white border-2 border-gray-200 rounded-lg hover:border-[#09243C] hover:bg-gray-50 w-full transition-all duration-200 group lg:w-[750px] mx-auto"
             >
               <div className="flex items-center">
                 <div className="w-5 h-5 border-2 border-gray-300 rounded-full mr-4 group-hover:border-[#09243C] transition-colors">

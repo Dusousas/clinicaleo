@@ -82,13 +82,13 @@ export default function LoginPage() {
   };
 
   return (
-    <section className="h-[calc(100vh-72px)]">
+    <section className="lg:h-[calc(100vh-72px)] py-20 lg:py-0">
       <div className="maxW h-full flex justify-center items-center flex-col">
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden relative top-30">
+        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden relative lg:top-30">
           <div className="bg-[#09243C] px-8 py-6 text-center">
-            <h1 className="text-2xl font-bold text-white mb-2">
+            <h3 className="text-2xl font-bold text-white mb-2">
               Bem-vindo de volta!
-            </h1>
+            </h3>
             <p className="text-blue-100 text-sm">Faça login para continuar</p>
           </div>
 
@@ -97,7 +97,7 @@ export default function LoginPage() {
               onClick={handleGoogleLogin}
               disabled={form.formState.isSubmitting}
               variant="outline"
-              className="w-full mb-6 flex items-center justify-center gap-3 px-4 py-3 border-2 border-gray-200 rounded-xl hover:border-gray-300 hover:bg-gray-50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed group h-auto"
+              className="w-full mb-6 flex items-center justify-center gap-3 px-4 py-3 border-2 border-gray-200 rounded-xl hover:border-gray-300 hover:bg-gray-50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed group lg:h-auto"
             >
               <AiOutlineGoogle className="w-5 h-5 text-blue-700 group-hover:scale-110 transition-transform" />
               <span className="font-medium text-gray-700">
@@ -116,7 +116,7 @@ export default function LoginPage() {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-4"
+                className="space-y-4 "
               >
                 <FormField
                   control={form.control}
@@ -244,7 +244,7 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <div className="mt-33 text-center text-xs text-gray-500">
+        <div className="text-center text-xs text-gray-500 mt-4 lg:mt-33">
           <p>Ao continuar, você concorda com nossos</p>
           <div className="flex justify-center gap-4 mt-1">
             <button className="hover:text-blue-600 transition-colors">
