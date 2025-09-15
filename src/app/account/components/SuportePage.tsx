@@ -14,13 +14,13 @@ const SuportePage = () => {
         </p>
         
         <div className="space-y-4">
-          <div className="bg-white border border-gray-200 rounded-lg p-4 flex items-center justify-between hover:shadow-md transition-shadow cursor-pointer">
+          <a href='/central-ajuda' className="bg-white border border-gray-200 rounded-lg p-4 flex items-center justify-between hover:shadow-md transition-shadow cursor-pointer">
             <div className="flex items-center">
               <HelpCircle className="w-6 h-6 text-teal-600 mr-3" />
-              <a href='/central-ajuda' className="font-medium text-gray-800">Central de Ajuda</a>
+              <p className="font-medium text-gray-800">Central de Ajuda</p>
             </div>
             <ChevronRight className="w-5 h-5 text-gray-400" />
-          </div>
+          </a>
           
           <div className="bg-white border border-gray-200 rounded-lg p-4 flex items-center justify-between hover:shadow-md transition-shadow cursor-pointer">
             <div className="flex items-center">
@@ -40,14 +40,14 @@ const SuportePage = () => {
           Fale com o suporte clínico e tire dúvidas sobre os medicamentos e o tratamento (modo de uso, resultados,
           efeitos colaterais, entre outros)
         </p>
-        
-        <div className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer">
+
+        <div  className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <div className="bg-blue-50 rounded-lg p-3 mr-4">
                 <MessageCircle className="w-6 h-6 text-blue-600" />
               </div>
-              <a href='chat-medicos'>
+              <a href=''>
                 <h3 className="font-medium text-gray-800">Mensagens</h3>
                 <p className="text-sm text-gray-500">Conversar com um especialista</p>
               </a>
