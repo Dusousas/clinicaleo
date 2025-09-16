@@ -21,7 +21,7 @@ export default function ProtectedQuiz({ children }: ProtectedQuizProps) {
               Apenas pacientes podem realizar o questionário.
             </p>
             <a
-              href="/dashboard"
+              href="/account"
               className="bg-[#09243C] text-white px-6 py-2 rounded-lg hover:bg-[#0a2a40] transition-colors"
             >
               Voltar ao Dashboard

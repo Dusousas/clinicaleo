@@ -1,236 +1,249 @@
-import React from 'react';
-import { 
-  CheckCircle, 
-  XCircle, 
-  Clock,
-  RefreshCcw,
-  Package,
-  User
-} from 'lucide-react';
+"use client";
 
-// Tipos TypeScript
-interface ProdutoAprovacao {
+import React, { useState, useEffect } from "react";
+import {
+  FileText,
+  Calendar,
+  User,
+  Clock,
+  CheckCircle,
+  XCircle,
+  AlertCircle,
+} from "lucide-react";
+
+interface Avaliacao {
   id: string;
-  numeroPedido: string;
-  nomeProduto: string;
-  imagemProduto: string;
-  preco: number;
-  status: 'aprovado' | 'recusado' | 'analisando';
-  medicoResponsavel: string;
-  dataAnalise?: string;
-  motivoRecusa?: string;
+  status: "pendente" | "aprovado" | "negado";
+  statusOriginal: string;
+  medicamento: string;
+  respostas: Array<{ pergunta: string; resposta: string }>;
+  caminhoFoto?: string;
+  motivoNegativa?: string;
+  notasMedicas?: string;
+  submetidoEm: string;
+  avaliadoEm?: string;
+  medico?: {
+    id: string;
+    nome: string;
+  };
 }
 
-const AprovacaoMedicaPage = () => {
-  // Dados mockados das aprovações
-  const produtos: ProdutoAprovacao[] = [
-    {
-      id: '1',
-      numeroPedido: '#12345',
-      nomeProduto: 'Sérum Crescimento Sobrancelhas Premium',
-      imagemProduto: '/api/placeholder/80/80',
-      preco: 89.90,
-      status: 'aprovado',
-      medicoResponsavel: 'Dr. Maria Silva',
-      dataAnalise: '2024-01-15'
-    },
-    {
-      id: '2',
-      numeroPedido: '#12344',
-      nomeProduto: 'Kit Completo Crescimento Sobrancelhas',
-      imagemProduto: '/api/placeholder/80/80',
-      preco: 129.90,
-      status: 'recusado',
-      medicoResponsavel: 'Dr. João Santos',
-      dataAnalise: '2024-01-14',
-      motivoRecusa: 'Produto não indicado para o seu perfil devido a sensibilidade reportada no questionário.'
-    },
-    {
-      id: '3',
-      numeroPedido: '#12343',
-      nomeProduto: 'Óleo Nutritivo para Sobrancelhas',
-      imagemProduto: '/api/placeholder/80/80',
-      preco: 45.90,
-      status: 'analisando',
-      medicoResponsavel: 'Em análise'
-    }
-  ];
+const AvaliacoesPage = () => {
+  const [avaliacoes, setAvaliacoes] = useState<Avaliacao[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Função para obter configuração do status
-  const getStatusConfig = (status: ProdutoAprovacao['status']) => {
-    const configs = {
-      aprovado: {
-        label: 'Aprovado',
-        color: 'text-green-700 bg-green-100 border-green-200',
-        icon: CheckCircle,
-        iconColor: 'text-green-600'
-      },
-      recusado: {
-        label: 'Recusado',
-        color: 'text-red-700 bg-red-100 border-red-200',
-        icon: XCircle,
-        iconColor: 'text-red-600'
-      },
-      analisando: {
-        label: 'Em Análise',
-        color: 'text-orange-700 bg-orange-100 border-orange-200',
-        icon: Clock,
-        iconColor: 'text-orange-600'
+  useEffect(() => {
+    const buscarAvaliacoes = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch("/api/user/avaliacoes");
+
+        if (!response.ok) {
+          throw new Error("Erro ao buscar avaliações");
+        }
+
+        const data = await response.json();
+        setAvaliacoes(data.data || []);
+      } catch (err) {
+        setError("Erro ao carregar avaliações");
+        console.error("Erro:", err);
+      } finally {
+        setIsLoading(false);
       }
     };
-    return configs[status];
+
+    buscarAvaliacoes();
+  }, []);
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case "aprovado":
+        return <CheckCircle className="w-5 h-5 text-green-600" />;
+      case "negado":
+        return <XCircle className="w-5 h-5 text-red-600" />;
+      default:
+        return <AlertCircle className="w-5 h-5 text-yellow-600" />;
+    }
   };
 
-  const handleSolicitarReembolso = (produtoId: string) => {
-    // Aqui você implementaria a lógica de reembolso
-    console.log(`Solicitando reembolso para produto ${produtoId}`);
-    alert('Solicitação de reembolso enviada! Você receberá um e-mail com as instruções.');
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "aprovado":
+        return "bg-green-100 text-green-800 border-green-200";
+      case "negado":
+        return "bg-red-100 text-red-800 border-red-200";
+      default:
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+    }
   };
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case "aprovado":
+        return "Aprovado";
+      case "negado":
+        return "Negado";
+      default:
+        return "Pendente";
+    }
+  };
+
+  const formatarData = (data: string) => {
+    return new Date(data).toLocaleDateString("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600 mx-auto"></div>
+          <p className="mt-2 text-gray-600">Carregando avaliações...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-8">
+        <XCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+        <p className="text-red-600">{error}</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen p-4 sm:p-6 lg:p-8">
-      <div className="">
-
-        <div className="mb-8">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-2">Aprovação Médica</h2>
-          <p className="text-gray-700">Acompanhe o status da análise médica dos seus produtos</p>
-        </div>
-
-        {produtos.length === 0 ? (
-          <div className="bg-white rounded-lg shadow-sm p-8 text-center">
-            <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">Nenhum produto em análise</h3>
-            <p className="text-gray-700">Você ainda não possui produtos aguardando aprovação médica.</p>
-          </div>
-        ) : (
-          <div className="space-y-6">
-            {produtos.map((produto) => {
-              const statusConfig = getStatusConfig(produto.status);
-              const StatusIcon = statusConfig.icon;
-              
-              return (
-                <div key={produto.id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                  <div className="p-4 sm:p-6">
-                    <div className="flex flex-col sm:flex-row gap-4">
-                      <div className="flex-shrink-0">
-                        <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 rounded-lg flex items-center justify-center">
-                          <Package className="w-10 h-10 text-gray-400" />
-                        </div>
-                      </div>
-
-                      <div className="flex-1 min-w-0">
-                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-                          <div>
-                            <h2 className="font-bold  text-lg mb-1">{produto.nomeProduto}</h2>
-                            <p className="text-sm text-gray-700 mb-2">Pedido {produto.numeroPedido} • R$ {produto.preco.toFixed(2).replace('.', ',')}</p>
-                            
-                            {/* Médico Responsável */}
-                            <div className="flex items-center gap-2 text-sm text-gray-700">
-                              <User className="w-4 h-4" />
-                              <span>{produto.medicoResponsavel}</span>
-                              {produto.dataAnalise && (
-                                <span className="text-gray-400">
-                                  • {new Date(produto.dataAnalise).toLocaleDateString('pt-BR')}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Status Badge */}
-                          <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium border ${statusConfig.color}`}>
-                            <StatusIcon className={`w-4 h-4 mr-2 ${statusConfig.iconColor}`} />
-                            {statusConfig.label}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Conteúdo Específico por Status */}
-                  {produto.status === 'aprovado' && (
-                    <div className="px-4 sm:px-6 pb-4 sm:pb-6">
-                      <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                        <div className="flex items-start gap-3">
-                          <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <h4 className="font-medium text-green-800 mb-1">
-                              Produto Aprovado!
-                            </h4>
-                            <p className="text-green-700 text-sm">
-                              Seu produto foi aprovado pelo médico e será enviado em breve. 
-                              Você receberá um e-mail com o código de rastreamento.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {produto.status === 'recusado' && (
-                    <div className="px-4 sm:px-6 pb-4 sm:pb-6">
-                      <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
-                        <div className="flex items-start gap-3">
-                          <XCircle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
-                          <div className="flex-1">
-                            <h4 className="font-medium text-red-800 mb-2">
-                              Produto Recusado
-                            </h4>
-                            {produto.motivoRecusa && (
-                              <div className="mb-3">
-                                <p className="text-sm font-medium text-red-700 mb-1">
-                                  Motivo da recusa:
-                                </p>
-                                <p className="text-red-600 text-sm">
-                                  {produto.motivoRecusa}
-                                </p>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Botão de Reembolso */}
-                      <div className="flex flex-col sm:flex-row gap-3">
-                        <button
-                          onClick={() => handleSolicitarReembolso(produto.id)}
-                          className="flex items-center cursor-pointer justify-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
-                        >
-                          <RefreshCcw className="w-4 h-4" />
-                          Solicitar Reembolso
-                        </button>
-                        <button className="flex items-center cursor-pointer justify-center gap-2 border border-gray-300 hover:bg-gray-50 text-gray-700 px-6 py-3 rounded-lg font-medium transition-colors">
-                          Falar com Suporte
-                        </button>
-                      </div>
-                    </div>
-                  )}
-
-                  {produto.status === 'analisando' && (
-                    <div className="px-4 sm:px-6 pb-4 sm:pb-6">
-                      <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-                        <div className="flex items-start gap-3">
-                          <Clock className="w-5 h-5 text-orange-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <h4 className="font-medium text-orange-800 mb-1">
-                              Análise em Andamento
-                            </h4>
-                            <p className="text-orange-700 text-sm">
-                              Nossos médicos estão analisando seu perfil e histórico médico. 
-                              O resultado será enviado por e-mail em até 24 horas.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        )}
+    <div className="space-y-6">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          Minhas Avaliações Médicas
+        </h2>
+        <p className="text-gray-600">
+          Acompanhe o status das suas avaliações médicas e prescrições.
+        </p>
       </div>
+
+      {avaliacoes.length === 0 ? (
+        <div className="text-center py-12">
+          <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-gray-900 mb-2">
+            Nenhuma avaliação encontrada
+          </h3>
+          <p className="text-gray-600">
+            Você ainda não possui avaliações médicas. Complete um questionário
+            para solicitar uma avaliação.
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {avaliacoes.map((avaliacao) => (
+            <div
+              key={avaliacao.id}
+              className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
+            >
+              {/* Cabeçalho da avaliação */}
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center space-x-3">
+                  {getStatusIcon(avaliacao.status)}
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      Avaliação #{avaliacao.id.slice(-6)}
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      Medicamento: {avaliacao.medicamento}
+                    </p>
+                  </div>
+                </div>
+                <span
+                  className={`px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(
+                    avaliacao.status
+                  )}`}
+                >
+                  {getStatusText(avaliacao.status)}
+                </span>
+              </div>
+
+              {/* Informações de data */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <Calendar className="w-4 h-4" />
+                  <span>
+                    Submetido em: {formatarData(avaliacao.submetidoEm)}
+                  </span>
+                </div>
+                {avaliacao.avaliadoEm && (
+                  <div className="flex items-center space-x-2 text-sm text-gray-600">
+                    <Clock className="w-4 h-4" />
+                    <span>
+                      Avaliado em: {formatarData(avaliacao.avaliadoEm)}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Médico responsável */}
+              {avaliacao.medico && (
+                <div className="flex items-center space-x-2 text-sm text-gray-600 mb-4">
+                  <User className="w-4 h-4" />
+                  <span>
+                    Médico responsável: Dr(a). {avaliacao.medico.nome}
+                  </span>
+                </div>
+              )}
+
+              {/* Notas médicas */}
+              {avaliacao.notasMedicas && (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                  <h4 className="font-medium text-blue-900 mb-2">
+                    Notas Médicas:
+                  </h4>
+                  <p className="text-blue-800">{avaliacao.notasMedicas}</p>
+                </div>
+              )}
+
+              {/* Motivo da negativa */}
+              {avaliacao.status === "negado" && avaliacao.motivoNegativa && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                  <h4 className="font-medium text-red-900 mb-2">
+                    Motivo da Negativa:
+                  </h4>
+                  <p className="text-red-800">{avaliacao.motivoNegativa}</p>
+                </div>
+              )}
+
+              {/* Respostas do questionário */}
+              {avaliacao.respostas && avaliacao.respostas.length > 0 && (
+                <div className="border-t pt-4">
+                  <h4 className="font-medium text-gray-900 mb-3">
+                    Respostas do Questionário:
+                  </h4>
+                  <div className="space-y-2">
+                    {avaliacao.respostas.map((resposta, index) => (
+                      <div key={index} className="bg-gray-50 rounded-lg p-3">
+                        <p className="text-sm font-medium text-gray-700 mb-1">
+                          {resposta.pergunta}
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          {resposta.resposta}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-export default AprovacaoMedicaPage;
+export default AvaliacoesPage;

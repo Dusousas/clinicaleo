@@ -1,32 +1,32 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react';
-import { Home, HelpCircle, TrendingUp, User } from 'lucide-react';
+import React, { useState } from "react";
+import { Home, HelpCircle, TrendingUp, User } from "lucide-react";
 
-import InicioPage from './components/InicioPage';
-import SuportePage from './components/SuportePage'; 
-import EvolucaoPage from './components/EvolucaoPage'; 
-import ContaPage from './components/ContaPage';
+import InicioPage from "./components/InicioPage";
+import SuportePage from "./components/SuportePage";
+import EvolucaoPage from "./components/EvolucaoPage";
+import ContaPage from "./components/ContaPage";
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState('inicio');
+  const [activeTab, setActiveTab] = useState("inicio");
 
   const sidebarItems = [
-    { id: 'inicio', label: 'Início', icon: Home },
-    { id: 'suporte', label: 'Suporte', icon: HelpCircle },
-    { id: 'evolucao', label: 'Evolução', icon: TrendingUp },
-    { id: 'conta', label: 'Conta', icon: User },
+    { id: "inicio", label: "Início", icon: Home },
+    { id: "suporte", label: "Suporte", icon: HelpCircle },
+    { id: "evolucao", label: "Evolução", icon: TrendingUp },
+    { id: "conta", label: "Conta", icon: User },
   ];
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'inicio':
+      case "inicio":
         return <InicioPage />;
-      case 'suporte':
+      case "suporte":
         return <SuportePage />;
-      case 'evolucao':
+      case "evolucao":
         return <EvolucaoPage />;
-      case 'conta':
+      case "conta":
         return <ContaPage />;
       default:
         return <InicioPage />;
@@ -47,8 +47,8 @@ export default function Dashboard() {
                   onClick={() => setActiveTab(item.id)}
                   className={`w-full flex items-center px-4 py-3 text-left rounded-lg transition-colors ${
                     activeTab === item.id
-                      ? 'bg-teal-50 text-teal-700 border-l-4 border-teal-600'
-                      : 'text-gray-600 hover:bg-gray-50'
+                      ? "bg-teal-50 text-teal-700 border-l-4 border-teal-600"
+                      : "text-gray-600 hover:bg-gray-50"
                   }`}
                 >
                   <IconComponent className="w-5 h-5 mr-3" />
@@ -75,9 +75,7 @@ export default function Dashboard() {
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
                 className={`flex-1 flex flex-col items-center py-2 px-1 transition-colors ${
-                  activeTab === item.id
-                    ? 'text-teal-700'
-                    : 'text-gray-600'
+                  activeTab === item.id ? "text-teal-700" : "text-gray-600"
                 }`}
               >
                 <IconComponent className="w-6 h-6 mb-1" />

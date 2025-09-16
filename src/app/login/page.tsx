@@ -23,7 +23,7 @@ import { Label } from "@/components/ui/label";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { authClient } from "@/lib/auth-client";
+import { authClient, signInWithGoogle } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -62,7 +62,7 @@ export default function LoginPage() {
         {
           onSuccess: () => {
             toast.success("Login realizado com sucesso!");
-            router.push("/dashboard");
+            router.push("/account");
           },
           onError: (error) => {
             toast.error("Email ou senha inválidos.");
@@ -76,9 +76,15 @@ export default function LoginPage() {
     }
   }
 
-  const handleGoogleLogin = () => {
-    toast.info("Login com Google em desenvolvimento...");
-    // TODO: Implementar Google OAuth
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithGoogle();
+      // O redirecionamento será automático para /account
+      toast.success("Login com Google realizado com sucesso!");
+    } catch (error) {
+      console.error("Erro no login com Google:", error);
+      toast.error("Erro ao fazer login com Google. Tente novamente.");
+    }
   };
 
   return (

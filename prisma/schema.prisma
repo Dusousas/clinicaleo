@@ -15,20 +15,28 @@ enum UserRole {
 }
 
 model User {
-  id            String         @id
-  name          String         @db.Text
-  email         String
-  emailVerified Boolean
-  image         String?        @db.Text
-  dateOfBirth   DateTime?      @db.Date
-  whatsapp      String?        @db.VarChar(20)
-  acceptsOffers Boolean        @default(false)
-  role          UserRole       @default(PACIENTE)
-  createdAt     DateTime
-  updatedAt     DateTime
-  sessions      Session[]
-  accounts      Account[]
-  quizResponses QuizResponse[]
+  id                  String                @id
+  name                String                @db.Text
+  email               String
+  emailVerified       Boolean
+  image               String?               @db.LongText
+  dateOfBirth         DateTime?             @db.Date
+  whatsapp            String?               @db.VarChar(20)
+  cpf                 String?               @db.VarChar(14)
+  address             String?               @db.Text
+  number              String?               @db.VarChar(10)
+  complement          String?               @db.Text
+  city                String?               @db.VarChar(100)
+  state               String?               @db.VarChar(2)
+  zipCode             String?               @db.VarChar(9)
+  acceptsOffers       Boolean               @default(false)
+  role                UserRole              @default(PACIENTE)
+  createdAt           DateTime
+  updatedAt           DateTime
+  sessions            Session[]
+  accounts            Account[]
+  quizResponses       QuizResponse[]
+  avaliacoes_clinicas avaliacoes_clinicas[]
 
   @@unique([email])
   @@map("user")
@@ -81,7 +89,7 @@ model Verification {
 
 model avaliacoes_clinicas {
   id                 BigInt                     @id @default(autoincrement()) @db.UnsignedBigInt
-  paciente_id        BigInt                     @db.UnsignedBigInt
+  user_id            String // Mudado para conectar com User
   medico_id          BigInt?                    @db.UnsignedBigInt
   status             avaliacoes_clinicas_status @default(aguardando_avaliacao)
   dados_questionario Json
@@ -90,13 +98,13 @@ model avaliacoes_clinicas {
   notas_medicas      String?                    @db.Text
   submetido_em       DateTime?                  @default(now()) @db.Timestamp(0)
   avaliado_em        DateTime?                  @db.Timestamp(0)
-  pacientes          pacientes                  @relation(fields: [paciente_id], references: [id], map: "avaliacoes_clinicas_ibfk_1")
+  user               User                       @relation(fields: [user_id], references: [id], map: "avaliacoes_clinicas_ibfk_1")
   medicos            medicos?                   @relation(fields: [medico_id], references: [id], map: "avaliacoes_clinicas_ibfk_2")
   pedidos            pedidos[]
   prescricoes        prescricoes?
 
   @@index([medico_id], map: "idx_avaliacoes_medico_id")
-  @@index([paciente_id], map: "idx_avaliacoes_paciente_id")
+  @@index([user_id], map: "idx_avaliacoes_user_id")
 }
 
 model consentimentos {
@@ -144,20 +152,19 @@ model medicos {
 }
 
 model pacientes {
-  id                  BigInt                @id @default(autoincrement()) @db.UnsignedBigInt
-  nome_completo       String                @db.VarChar(255)
-  email               String                @unique(map: "email") @db.VarChar(255)
-  senha_hash          String                @db.VarChar(255)
-  cpf                 String                @unique(map: "cpf") @db.VarChar(14)
-  telefone            String?               @db.VarChar(20)
-  data_nascimento     DateTime              @db.Date
-  created_at          DateTime?             @default(now()) @db.Timestamp(0)
-  updated_at          DateTime?             @default(now()) @db.Timestamp(0)
-  avaliacoes_clinicas avaliacoes_clinicas[]
-  consentimentos      consentimentos[]
-  enderecos           enderecos[]
-  pedidos             pedidos[]
-  prescricoes         prescricoes[]
+  id              BigInt           @id @default(autoincrement()) @db.UnsignedBigInt
+  nome_completo   String           @db.VarChar(255)
+  email           String           @unique(map: "email") @db.VarChar(255)
+  senha_hash      String           @db.VarChar(255)
+  cpf             String           @unique(map: "cpf") @db.VarChar(14)
+  telefone        String?          @db.VarChar(20)
+  data_nascimento DateTime         @db.Date
+  created_at      DateTime?        @default(now()) @db.Timestamp(0)
+  updated_at      DateTime?        @default(now()) @db.Timestamp(0)
+  consentimentos  consentimentos[]
+  enderecos       enderecos[]
+  pedidos         pedidos[]
+  prescricoes     prescricoes[]
 }
 
 model pagamentos {
@@ -248,4 +255,82 @@ model QuizResponse {
   updatedAt   DateTime @updatedAt
 
   @@map("quiz_responses")
+}
+
+model Produto {
+  id          String   @id @default(cuid())
+  nome        String   @db.VarChar(255)
+  descricao   String?  @db.Text
+  preco       Decimal  @db.Decimal(10, 2)
+  categoria   String   @db.VarChar(100)
+  ativo       Boolean  @default(true)
+  estoque     Int?     @default(0)
+  observacoes String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("produtos")
+}
+
+model Cupom {
+  id            String    @id @default(cuid())
+  codigo        String    @unique @db.VarChar(50)
+  desconto      Decimal   @db.Decimal(10, 2)
+  tipo          TipoCupom
+  dataExpiracao DateTime  @db.Date
+  ativo         Boolean   @default(true)
+  usoMaximo     Int       @default(0)
+  usosAtuais    Int       @default(0)
+  observacoes   String?   @db.Text
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("cupons")
+}
+
+enum TipoCupom {
+  PERCENTUAL
+  FIXO
+}
+
+model Questionario {
+  id        String     @id @default(cuid())
+  titulo    String     @db.VarChar(255)
+  descricao String?    @db.Text
+  tipo      String     @db.VarChar(100) // hair, sexual, etc
+  ativo     Boolean    @default(true)
+  ordem     Int        @default(0)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  perguntas Pergunta[]
+
+  @@map("questionarios")
+}
+
+model Pergunta {
+  id              String       @id @default(cuid())
+  questionario_id String
+  questionario    Questionario @relation(fields: [questionario_id], references: [id], onDelete: Cascade)
+  titulo          String       @db.VarChar(500)
+  descricao       String?      @db.Text
+  tipo            TipoPergunta
+  opcoes          Json? // Para perguntas de múltipla escolha
+  obrigatoria     Boolean      @default(true)
+  ordem           Int          @default(0)
+  ativa           Boolean      @default(true)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  @@map("perguntas")
+}
+
+enum TipoPergunta {
+  TEXTO
+  MULTIPLA_ESCOLHA
+  VERDADEIRO_FALSO
+  ESCALA
+  TEXTAREA
+  EMAIL
+  TELEFONE
+  DATA
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import Question1 from "./components/Question1";
+import QuizDinamico from "./components/QuizDinamico";
 import ProtectedQuiz from "@/components/ProtectedQuiz";
 
 export default function page() {
@@ -8,7 +8,7 @@ export default function page() {
       <section className="bg-gray-100">
         <div className="maxW">
           <ProtectedQuiz>
-            <Question1 />
+            <QuizDinamico />
           </ProtectedQuiz>
         </div>
       </section>
