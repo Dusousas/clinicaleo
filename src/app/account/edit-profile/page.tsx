@@ -147,31 +147,33 @@ export default function EditProfilePage() {
   };
 
   // Image upload handler
-  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
     // Validar tipo de arquivo
-    if (!file.type.startsWith('image/')) {
-      toast.error('Por favor, selecione um arquivo de imagem válido');
+    if (!file.type.startsWith("image/")) {
+      toast.error("Por favor, selecione um arquivo de imagem válido");
       return;
     }
 
     // Validar tamanho do arquivo (máximo 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      toast.error('A imagem deve ter no máximo 5MB');
+      toast.error("A imagem deve ter no máximo 5MB");
       return;
     }
 
     try {
       // Importar e usar a função de processamento de imagem
-      const { processImageFile } = await import('@/lib/utils/imageUtils');
+      const { processImageFile } = await import("@/lib/utils/imageUtils");
       const processedImage = await processImageFile(file);
       setProfileImage(processedImage);
-      toast.success('Imagem carregada com sucesso!');
+      toast.success("Imagem carregada com sucesso!");
     } catch (error) {
-      console.error('Erro ao processar imagem:', error);
-      toast.error('Erro ao processar a imagem');
+      console.error("Erro ao processar imagem:", error);
+      toast.error("Erro ao processar a imagem");
     }
   };
 
