@@ -19,7 +19,20 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { dateOfBirth, whatsapp, acceptsOffers } = body;
+    const {
+      name,
+      dateOfBirth,
+      whatsapp,
+      cpf,
+      address,
+      number,
+      complement,
+      city,
+      state,
+      zipCode,
+      acceptsOffers,
+      image,
+    } = body;
 
     // Converte a data de nascimento para DateTime se fornecida
     let parsedDateOfBirth = null;
@@ -27,15 +40,24 @@ export async function POST(request: NextRequest) {
       parsedDateOfBirth = new Date(dateOfBirth);
     }
 
-    // Atualiza o usuário com as informações adicionais
+    // Atualiza o usuário com as informações
     const updatedUser = await prisma.user.update({
       where: {
         id: session.user.id,
       },
       data: {
+        ...(name && { name }),
         dateOfBirth: parsedDateOfBirth,
         whatsapp: whatsapp || null,
+        cpf: cpf || null,
+        address: address || null,
+        number: number || null,
+        complement: complement || null,
+        city: city || null,
+        state: state || null,
+        zipCode: zipCode || null,
         acceptsOffers: acceptsOffers || false,
+        ...(image && { image }),
       },
     });
 
@@ -47,7 +69,15 @@ export async function POST(request: NextRequest) {
         email: updatedUser.email,
         dateOfBirth: updatedUser.dateOfBirth,
         whatsapp: updatedUser.whatsapp,
+        cpf: updatedUser.cpf,
+        address: updatedUser.address,
+        number: updatedUser.number,
+        complement: updatedUser.complement,
+        city: updatedUser.city,
+        state: updatedUser.state,
+        zipCode: updatedUser.zipCode,
         acceptsOffers: updatedUser.acceptsOffers,
+        image: updatedUser.image,
       },
     });
   } catch (error) {

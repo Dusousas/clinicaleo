@@ -6,3 +6,17 @@ export const authClient = createAuthClient({
 });
 
 export const { signIn, signUp, useSession } = authClient;
+
+// Função para login social com Google
+export const signInWithGoogle = async () => {
+  try {
+    const data = await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/account", // Redireciona para dashboard após login
+    });
+    return data;
+  } catch (error) {
+    console.error("Erro no login com Google:", error);
+    throw error;
+  }
+};

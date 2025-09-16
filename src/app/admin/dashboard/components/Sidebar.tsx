@@ -1,7 +1,14 @@
-'use client'
+"use client";
 
-import React from 'react';
-import { ClipboardPlus, DollarSign, MessageSquare, PackageSearch, UserRoundPen } from 'lucide-react';
+import React from "react";
+import {
+  ClipboardPlus,
+  DollarSign,
+  MessageSquare,
+  PackageSearch,
+  UserRoundPen,
+  FileText,
+} from "lucide-react";
 
 interface SidebarProps {
   activeTab: string;
@@ -10,12 +17,12 @@ interface SidebarProps {
 
 export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
   const sidebarItems = [
-    { id: 'Usuários', label: 'Usuários', icon: UserRoundPen },
-    { id: 'Mensagens', label: 'Mensagens', icon: MessageSquare },
-    { id: 'Consultas', label: 'Consultas', icon: ClipboardPlus },
-    { id: 'Financeiro', label: 'Financeiro', icon: DollarSign },
-    { id: 'Produtos', label: 'Produtos', icon: PackageSearch },
-
+    { id: "Usuários", label: "Usuários", icon: UserRoundPen },
+    { id: "Mensagens", label: "Mensagens", icon: MessageSquare },
+    { id: "Consultas", label: "Consultas", icon: ClipboardPlus },
+    { id: "Financeiro", label: "Financeiro", icon: DollarSign },
+    { id: "Produtos", label: "Produtos", icon: PackageSearch },
+    { id: "Questionários", label: "Questionários", icon: FileText },
   ];
 
   return (
@@ -32,8 +39,8 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
                   onClick={() => setActiveTab(item.id)}
                   className={`w-full flex items-center px-4 py-3 text-left rounded-lg transition-colors ${
                     activeTab === item.id
-                      ? 'bg-teal-50 text-teal-700 border-l-4 border-teal-600'
-                      : 'text-gray-600 hover:bg-gray-50'
+                      ? "bg-teal-50 text-teal-700 border-l-4 border-teal-600"
+                      : "text-gray-600 hover:bg-gray-50"
                   }`}
                 >
                   <IconComponent className="w-5 h-5 mr-3" />
@@ -55,7 +62,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
                 className={`flex-1 flex flex-col items-center py-2 px-1 transition-colors ${
-                  activeTab === item.id ? 'text-teal-700' : 'text-gray-600'
+                  activeTab === item.id ? "text-teal-700" : "text-gray-600"
                 }`}
               >
                 <IconComponent className="w-6 h-6 mb-1" />

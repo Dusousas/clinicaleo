@@ -11,6 +11,7 @@ interface QuizResponse {
   responses: {
     answers: Array<{
       questionId: number;
+      question?: string;
       answer: string;
     }>;
     completedAt: string;
@@ -123,7 +124,7 @@ export default function QuizResultsPage() {
                         className="border-l-4 border-[#09243C] pl-4"
                       >
                         <p className="text-sm text-gray-600">
-                          Pergunta {answer.questionId}:
+                          {answer.question || `Pergunta ${answer.questionId}`}:
                         </p>
                         <p className="font-medium text-[#09243C]">
                           {answer.answer}

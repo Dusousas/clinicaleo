@@ -25,7 +25,7 @@ export default function Completed({
       <div className="maxW max-w-2xl mx-auto px-4">
         <div className="text-center">
           <h2 className="text-2xl font-Quicksand uppercase font-semibold text-[#09243C] mb-6">
-            Quiz Concluído!
+            Quiz concluído!
           </h2>
 
           {isSubmitting ? (
