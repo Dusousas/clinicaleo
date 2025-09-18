@@ -4,7 +4,7 @@ import Head from 'next/head';
 // Substitua pelos dados da sua empresa
 const COMPANY_NAME = "Sua Empresa";
 const CONTACT_EMAIL = "contato@suaempresa.com";
-const DPO_EMAIL = "dpo@suaempresa.com"; // responsável pela proteção de dados (opcional)
+const DPO_EMAIL = "dpo@suaempresa.com";
 const LAST_UPDATED = "09 de Setembro de 2025";
 
 export default function Page() {
@@ -15,8 +15,8 @@ export default function Page() {
         <meta name="description" content={`Política de Privacidade de ${COMPANY_NAME}`} />
       </Head>
 
-      <section className="lg:pt-30">
-        <div className="max-w-4xl mx-auto p-6 sm:p-12">
+      <section className="py-10 bg-Azul/5">
+        <div className="max-w-4xl mx-auto p-6">
           <h1 className="text-3xl font-bold mb-6">Política de Privacidade</h1>
 
           <p className="mb-4">

@@ -5,7 +5,8 @@ import {
   Clock,
   RefreshCcw,
   Package,
-  User
+  User,
+  Link
 } from 'lucide-react';
 
 // Tipos TypeScript
@@ -198,9 +199,9 @@ const AprovacaoMedicaPage = () => {
                           <RefreshCcw className="w-4 h-4" />
                           Solicitar Reembolso
                         </button>
-                        <button className="flex items-center cursor-pointer justify-center gap-2 border border-gray-300 hover:bg-gray-50 text-gray-700 px-6 py-3 rounded-lg font-medium transition-colors">
+                        <a href='/chat-medicos' className="flex items-center cursor-pointer justify-center gap-2 border border-gray-300 hover:bg-gray-50 text-gray-700 px-6 py-3 rounded-lg font-medium transition-colors">
                           Falar com Suporte
-                        </button>
+                        </a>
                       </div>
                     </div>
                   )}

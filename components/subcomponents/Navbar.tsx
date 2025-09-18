@@ -73,7 +73,7 @@ export default function Navbar(): JSX.Element {
                 <nav>
                     <ul className="flex gap-6 items-center text-md uppercase tracking-widest text-white">
                         <li><button onClick={() => handleNavigation('/', 'home')} className="hover:opacity-70 transition-opacity uppercase cursor-pointer" type="button">Início</button></li>
-                        <li><button onClick={() => handleNavigation('/', 'home')} className="hover:opacity-70 transition-opacity uppercase cursor-pointer" type="button">Quem somos</button></li>
+                        <li><button onClick={() => handleNavigation('/sobre-nos', 'Quem Somos')} className="hover:opacity-70 transition-opacity uppercase cursor-pointer" type="button">Quem somos</button></li>
                     </ul>
                 </nav>
             </div>
@@ -83,7 +83,7 @@ export default function Navbar(): JSX.Element {
                 <nav className={`fixed top-0 right-0 h-screen w-full bg-Azul shadow-md z-40 flex flex-col items-center justify-center transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"}`}>
                     <ul className="flex flex-col items-center gap-8 text-lg">
                         <li><button onClick={() => handleNavigation('/', 'home')} className="hover:opacity-70 transition-opacity uppercase cursor-pointer" type="button">Início</button></li>
-                        <li><button onClick={() => handleNavigation('/', 'home')} className="hover:opacity-70 transition-opacity uppercase cursor-pointer" type="button">Quem somos</button></li>
+                        <li><button onClick={() => handleNavigation('/sobre-nos', 'Quem somos')} className="hover:opacity-70 transition-opacity uppercase cursor-pointer" type="button">Quem somos</button></li>
                         
                         {user ? (
                             <>

@@ -16,7 +16,7 @@ export default function NotFoundPage() {
   };
 
   return (
-    <div className="bg-Bg1 h-[100vh] flex flex-col items-center justify-center px-4">
+    <div className="bg-Laranja/40 h-[63vh] flex flex-col items-center justify-center px-4">
       <div className="maxW text-center">
 
         <h2 className="text-8xl font-semibold mb-2">404</h2>

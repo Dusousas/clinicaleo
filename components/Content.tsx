@@ -55,7 +55,7 @@ export default function CardsMain() {
 
                      
                             <div className="mt-10">
-                                <a className="bg-Laranja text-white px-10 py-4 rounded-2xl font-Quicksand tracking-wider uppercase font-semibold" href="">Começar tratamento</a>
+                                <a className="bg-Laranja text-white px-10 py-4 rounded-2xl font-Quicksand tracking-wider uppercase font-semibold" href="/questionario">Começar tratamento</a>
                             </div>
                      
 

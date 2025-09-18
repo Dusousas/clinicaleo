@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form } from "@/components/ui/form";
@@ -291,13 +292,19 @@ export default function Page() {
                         </FormControl>
                         <label className="text-sm text-gray-700 leading-relaxed cursor-pointer">
                           Eu concordo com os{" "}
-                          <span className="text-red-400 underline cursor-pointer hover:text-red-500">
+                          <Link 
+                            href="/termos"
+                            className="text-red-400 underline cursor-pointer hover:text-red-500"
+                          >
                             Termos & Condições
-                          </span>{" "}
+                          </Link>{" "}
                           e{" "}
-                          <span className="text-red-400 underline cursor-pointer hover:text-red-500">
+                          <Link 
+                            href="/politica-privacidade"
+                            className="text-red-400 underline cursor-pointer hover:text-red-500"
+                          >
                             Política de Privacidade
-                          </span>
+                          </Link>
                         </label>
                       </div>
                       <FormMessage />
@@ -322,9 +329,12 @@ export default function Page() {
                         <label className="text-sm text-gray-700 leading-relaxed cursor-pointer">
                           Eu concordo com a coleta e tratamento dos meus dados
                           conforme{" "}
-                          <span className="text-red-400 underline cursor-pointer hover:text-red-500">
+                          <Link 
+                            href="/politica-privacidade"
+                            className="text-red-400 underline cursor-pointer hover:text-red-500"
+                          >
                             Política de Proteção de Dados
-                          </span>
+                          </Link>
                         </label>
                       </div>
                       <FormMessage />

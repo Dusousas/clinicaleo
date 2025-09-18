@@ -28,11 +28,12 @@ export default function Produtos() {
 
     // Mock data - produtos digitais/serviços
     const [produtos, setProdutos] = useState<Produto[]>([
-        { id: 1, nome: 'Curso Completo de Marketing Digital', preco: 497, categoria: 'Educação', ativo: true, descricao: 'Curso completo com certificado' },
-        { id: 2, nome: 'E-book: Guia do Empreendedor', preco: 47, categoria: 'E-book', ativo: true, descricao: 'Manual completo para empreendedores' },
-        { id: 3, nome: 'Consultoria 1:1 (1 hora)', preco: 297, categoria: 'Consultoria', ativo: true, descricao: 'Sessão individual de consultoria' },
-        { id: 4, nome: 'Template Pack Design', preco: 97, categoria: 'Design', ativo: false, descricao: 'Pack com 50+ templates' },
-        { id: 5, nome: 'Mentoria Premium (3 meses)', preco: 1497, categoria: 'Mentoria', ativo: true, descricao: 'Acompanhamento completo por 3 meses' }
+        { id: 1, nome: 'Gel para Sobrancelha', preco: 45, categoria: 'Saúde', ativo: true, descricao: '' },
+        { id: 2, nome: 'Gel para Sobrancelha', preco: 45, categoria: 'Saúde', ativo: true, descricao: '' },
+        { id: 3, nome: 'Gel para Sobrancelha', preco: 45, categoria: 'Saúde', ativo: true, descricao: '' },
+        { id: 4, nome: 'Gel para Sobrancelha', preco: 45, categoria: 'Saúde', ativo: true, descricao: '' },
+
+
     ]);
 
     const [cupons, setCupons] = useState<Cupom[]>([
@@ -169,9 +170,6 @@ export default function Produtos() {
                                                         </button>
                                                     </div>
                                                 )}
-                                                <button className="text-blue-600 hover:text-blue-900 text-xs font-medium">
-                                                    Ver Detalhes
-                                                </button>
                                             </div>
                                         </div>
                                     ))}
@@ -187,7 +185,6 @@ export default function Produtos() {
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoria</th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Preço Atual</th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
@@ -261,11 +258,6 @@ export default function Produtos() {
                                                             {produto.ativo ? 'Ativo' : 'Inativo'}
                                                         </span>
                                                     </label>
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    <button className="text-blue-600 hover:text-blue-900 text-sm font-medium">
-                                                        Ver Detalhes
-                                                    </button>
                                                 </td>
                                             </tr>
                                         ))}

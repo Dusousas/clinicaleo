@@ -247,13 +247,19 @@ export default function LoginPage() {
         <div className="text-center text-xs text-gray-500 mt-4">
           <p>Ao continuar, você concorda com nossos</p>
           <div className="flex justify-center gap-4 mt-1">
-            <button className="hover:text-blue-600 transition-colors">
+            <Link 
+              href="/termos"
+              className="hover:text-blue-600 transition-colors"
+            >
               Termos de Uso
-            </button>
+            </Link>
             <span>•</span>
-            <button className="hover:text-blue-600 transition-colors">
+            <Link 
+              href="/politica-privacidade"
+              className="hover:text-blue-600 transition-colors"
+            >
               Política de Privacidade
-            </button>
+            </Link>
           </div>
         </div>
       </div>

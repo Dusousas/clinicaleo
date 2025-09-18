@@ -228,7 +228,7 @@ export default function ChatAdmin() {
                                             <p className='text-sm text-gray-600'>
                                                 {pacienteAtual.online ? (
                                                     <span className='flex items-center gap-1'>
-                                                        <div className='w-2 h-2 bg-green-400 rounded-full' />
+                                                        <div className='w-2 h-2 bg-green-400 rounded-full'></div>
                                                         Online
                                                     </span>
                                                 ) : (

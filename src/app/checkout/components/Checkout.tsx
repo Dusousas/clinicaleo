@@ -12,6 +12,7 @@ interface FormData {
   cardExpiry: string;
   cardCvv: string;
   cardName: string;
+  couponCode: string;
 }
 
 interface FormErrors {
@@ -35,6 +36,7 @@ export default function CheckoutPage() {
     cardExpiry: '',
     cardCvv: '',
     cardName: '',
+    couponCode: '',
   });
   const [errors, setErrors] = useState<FormErrors>({
     cpf: false,
@@ -43,6 +45,9 @@ export default function CheckoutPage() {
     endereco: false,
     cidade: false,
   });
+  const [couponApplied, setCouponApplied] = useState<boolean>(false);
+  const [couponDiscount, setCouponDiscount] = useState<number>(0);
+  const [couponError, setCouponError] = useState<string>('');
 
   // Formatação de CPF
   const formatCPF = (value: string): string => {
@@ -116,6 +121,42 @@ export default function CheckoutPage() {
     return cepPattern.test(cep);
   };
 
+  // Validação e aplicação do cupom
+  const applyCoupon = () => {
+    const coupon = formData.couponCode.toUpperCase().trim();
+    setCouponError('');
+    
+    // Simulação de cupons válidos
+    const validCoupons: { [key: string]: number } = {
+      'DESCONTO10': 10.00,
+      'SAVE20': 20.00,
+      'PRIMEIRA15': 15.00,
+      'BEM-VINDO': 25.00
+    };
+
+    if (!coupon) {
+      setCouponError('Digite um código de cupom');
+      return;
+    }
+
+    if (validCoupons[coupon]) {
+      setCouponDiscount(validCoupons[coupon]);
+      setCouponApplied(true);
+    } else {
+      setCouponError('Cupom inválido ou expirado');
+      setCouponDiscount(0);
+      setCouponApplied(false);
+    }
+  };
+
+  // Remover cupom
+  const removeCoupon = () => {
+    setCouponApplied(false);
+    setCouponDiscount(0);
+    setCouponError('');
+    setFormData(prev => ({ ...prev, couponCode: '' }));
+  };
+
   // Handler para mudanças nos inputs
   const handleInputChange = (field: keyof FormData, value: string) => {
     let formattedValue = value;
@@ -133,13 +174,20 @@ export default function CheckoutPage() {
       case 'cardExpiry':
         formattedValue = formatExpiry(value);
         break;
+      case 'couponCode':
+        formattedValue = value.toUpperCase();
+        if (couponApplied) {
+          setCouponApplied(false);
+          setCouponDiscount(0);
+        }
+        setCouponError('');
+        break;
       default:
         formattedValue = value;
     }
 
     setFormData(prev => ({ ...prev, [field]: formattedValue }));
     
-    // Remover erro quando o usuário começar a digitar
     if (field in errors) {
       setErrors(prev => ({ ...prev, [field]: false }));
     }
@@ -198,7 +246,6 @@ export default function CheckoutPage() {
     return isValid;
   };
 
-  // Seleção do método de pagamento
   const selectPaymentMethod = (method: string) => {
     setFormData(prev => ({ ...prev, paymentMethod: method }));
   };
@@ -219,6 +266,15 @@ export default function CheckoutPage() {
 
     alert('Compra realizada com sucesso! 🎉');
   };
+
+  // Cálculo do total
+  const subtotal = 92.19; // Soma dos produtos
+  const avaliacaoMedica = 10.00;
+  const descontoPrimeiroPedido = -27.06;
+  const presenteManual = -10.00;
+  
+  const totalBeforeCoupon = subtotal + avaliacaoMedica + descontoPrimeiroPedido + presenteManual;
+  const finalTotal = totalBeforeCoupon - couponDiscount;
 
   return (
     <div className="py-20">
@@ -476,69 +532,79 @@ export default function CheckoutPage() {
                 <h3 className="text-lg sm:text-xl font-semibold mb-4 md:mb-5 text-gray-800">Resumo da Compra</h3>
                 
                 <div className="space-y-3 sm:space-y-4 mb-5 md:mb-6">
-                  <div className="flex items-center pb-3 sm:pb-4 border-b border-gray-100">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-100 rounded-lg mr-3 sm:mr-4 flex items-center justify-center text-xs text-gray-500">
-                      IMG
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="font-medium mb-1 text-sm sm:text-base truncate">Bloqueador de DHT</div>
-                      <div className="text-gray-600 text-xs sm:text-sm">R$ 15,75/mês</div>
-                    </div>
-                  </div>
                   
                   <div className="flex items-center pb-3 sm:pb-4 border-b border-gray-100">
                     <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-100 rounded-lg mr-3 sm:mr-4 flex items-center justify-center text-xs text-gray-500">
                       IMG
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-medium mb-1 text-sm sm:text-base truncate">Ativador de crescimento</div>
-                      <div className="text-gray-600 text-xs sm:text-sm">R$ 31,50/mês</div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center pb-3 sm:pb-4 border-b border-gray-100">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-100 rounded-lg mr-3 sm:mr-4 flex items-center justify-center text-xs text-gray-500">
-                      IMG
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="font-medium mb-1 text-sm sm:text-base truncate">Shampoo Antiqueda</div>
-                      <div className="text-gray-600 text-xs sm:text-sm">R$ 21,00/mês</div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center pb-3 sm:pb-4 border-b border-gray-100">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-100 rounded-lg mr-3 sm:mr-4 flex items-center justify-center text-xs text-gray-500">
-                      IMG
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="font-medium mb-1 text-sm sm:text-base truncate">Biotina</div>
-                      <div className="text-gray-600 text-xs sm:text-sm">R$ 23,94/mês</div>
+                      <div className="font-medium mb-1 text-sm sm:text-base truncate">Produto 1</div>
+                      <div className="text-gray-600 text-xs sm:text-sm">R$ 23,94</div>
                     </div>
                   </div>
                 </div>
+
+                <div className="mb-5 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                  <label className="block mb-2 font-medium text-gray-700 text-sm sm:text-base">
+                    Cupom de Desconto
+                  </label>
+                  <div className="">
+                    <input
+                      type="text"
+                      value={formData.couponCode}
+                      onChange={(e) => handleInputChange('couponCode', e.target.value)}
+                      className="flex-1 p-2 sm:p-3 border border-gray-300 rounded-lg text-sm sm:text-base focus:border-blue-500 focus:outline-none"
+                      placeholder="Digite seu cupom"
+                      disabled={couponApplied}
+                    />
+                    {!couponApplied ? (
+                      <button
+                        onClick={applyCoupon}
+                        className="px-3 mt-2 cursor-pointer sm:px-4 py-2 sm:py-3 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap"
+                      >
+                        Aplicar
+                      </button>
+                    ) : (
+                      <button
+                        onClick={removeCoupon}
+                        className="px-3 sm:px-4 py-2 sm:py-3 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 transition-colors whitespace-nowrap"
+                      >
+                        Remover
+                      </button>
+                    )}
+                  </div>
+                  {couponError && (
+                    <div className="text-red-500 text-xs sm:text-sm mt-2">{couponError}</div>
+                  )}
+                  {couponApplied && (
+                    <div className="text-green-600 text-xs sm:text-sm mt-2 flex items-center">
+                      ✓ Cupom aplicado com sucesso!
+                    </div>
+                  )}
+                </div>
                 
                 <div className="space-y-1 sm:space-y-2 mb-5 md:mb-6">
-                  <div className="flex justify-between py-1 text-sm sm:text-base">
-                    <span className="truncate mr-2">Avaliação Médica (prescrição)</span>
-                    <span className="whitespace-nowrap">R$ 10,00</span>
-                  </div>
+
                   <div className="flex justify-between py-1 text-sm sm:text-base">
                     <span className="truncate mr-2">30% OFF Primeira Pedido</span>
-                    <span className="text-green-600 whitespace-nowrap">-R$ 27,06</span>
+                    <span className="text-green-600 whitespace-nowrap">-R$ 00,0</span>
                   </div>
                   <div className="flex justify-between py-1 text-sm sm:text-base">
                     <span className="truncate mr-2">Entrega</span>
                     <span className="text-green-600 whitespace-nowrap">Grátis</span>
                   </div>
-                  <div className="flex justify-between py-1 text-sm sm:text-base">
-                    <span className="truncate mr-2">Presente MANUAL</span>
-                    <span className="whitespace-nowrap">-R$ 10,00</span>
-                  </div>
+
+                  {couponApplied && (
+                    <div className="flex justify-between py-1 text-sm sm:text-base">
+                      <span className="truncate mr-2">Cupom {formData.couponCode}</span>
+                      <span className="text-green-600 whitespace-nowrap">-R$ {couponDiscount.toFixed(2)}</span>
+                    </div>
+                  )}
                 </div>
                 
                 <div className="flex justify-between text-lg sm:text-xl font-bold pt-3 sm:pt-4 border-t-2 border-gray-200">
                   <span>Total</span>
-                  <span>R$ 553,14</span>
+                  <span>R$ {finalTotal.toFixed(2)}</span>
                 </div>
               </div>
             </div>

@@ -1,7 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { User, Mail, Phone, MapPin, CreditCard, Bell, Shield, ChevronRight } from 'lucide-react';
+import InformacoesPessoaisModal from './subc/InfoPessoais';
+import HistoricoPedidosModal from './subc/HistoricoPedidos';
 
-const ContaPage = () => {
+interface UserData {
+  nome: string;
+  email: string;
+  membro: string;
+  telefone: string;
+  endereco: string;
+  plano: string;
+  status: string;
+}
+
+const ContaPage: React.FC = () => {
+  const [showInfoModal, setShowInfoModal] = useState<boolean>(false);
+  const [showHistoricoModal, setShowHistoricoModal] = useState<boolean>(false);
+
+  const userData: UserData = {
+    nome: "Eduardo Sousa",
+    email: "du.brotas@hotmail.com",
+    membro: "Membro desde Janeiro 2025",
+    telefone: "(11) 99999-9999",
+    endereco: "São Paulo, SP",
+    plano: "Premium",
+    status: "Ativo"
+  };
+
+  const handleOpenInfoModal = (): void => {
+    setShowInfoModal(true);
+  };
+
+  const handleCloseInfoModal = (): void => {
+    setShowInfoModal(false);
+  };
+
+  const handleOpenHistoricoModal = (): void => {
+    setShowHistoricoModal(true);
+  };
+
+  const handleCloseHistoricoModal = (): void => {
+    setShowHistoricoModal(false);
+  };
+
   return (
     <div className="p-8">
       <h2 className="text-2xl sm:text-3xl font-bold mb-2">Conta</h2>
@@ -43,14 +84,20 @@ const ContaPage = () => {
           <h2 className="text-lg font-semibold mb-4">Configurações Pessoais</h2>
 
           <div className="space-y-3">
-            <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+            <div 
+              onClick={handleOpenInfoModal}
+              className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors"
+            >
               <div className="flex items-center">
                 <User className="w-5 h-5 text-gray-400 mr-3" />
                 <span className="text-gray-700">Informações Pessoais</span>
               </div>
               <ChevronRight className="w-4 h-4 text-gray-400" />
             </div>
-            <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+            <div 
+              onClick={() => window.location.href = '/documento-tratamento'}
+              className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors"
+            >
               <div className="flex items-center">
                 <User className="w-5 h-5 text-gray-400 mr-3" />
                 <span className="text-gray-700">Documentos do tratamento</span>
@@ -72,18 +119,17 @@ const ContaPage = () => {
               <ChevronRight className="w-4 h-4 text-gray-400" />
             </div>
 
-            <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+            <div 
+              onClick={handleOpenHistoricoModal}
+              className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors"
+            >
               <div className="flex items-center">
                 <CreditCard className="w-5 h-5 text-gray-400 mr-3" />
                 <span className="text-gray-700">Histórico de Pedidos</span>
               </div>
               <ChevronRight className="w-4 h-4 text-gray-400" />
             </div>
-
-
           </div>
-
-
         </div>
       </div>
 
@@ -105,6 +151,19 @@ const ContaPage = () => {
           </a>
         </div>
       </div>
+
+      {/* Modal de Informações Pessoais */}
+      <InformacoesPessoaisModal 
+        isOpen={showInfoModal}
+        onClose={handleCloseInfoModal}
+        userData={userData}
+      />
+
+      {/* Modal de Histórico de Pedidos */}
+      <HistoricoPedidosModal 
+        isOpen={showHistoricoModal}
+        onClose={handleCloseHistoricoModal}
+      />
     </div>
   );
 };

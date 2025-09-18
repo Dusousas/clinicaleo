@@ -10,7 +10,6 @@ export default function Home() {
       <Main />
       <Content />
       <Testimonials />
-
       <Treatments />
     </>
   );

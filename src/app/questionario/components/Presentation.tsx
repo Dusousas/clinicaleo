@@ -22,9 +22,9 @@ export default function Presentation() {
 
 
                     </article>
-                    <p className='text-sm font-Quicksand mx-auto mt-6 text-center max-w-[500px]'>Li e concordo com o <a className='underline' href="">Termo de Consentimento para Telessaúde</a>, <a className='underline' href="">Política de dados pessoais,</a> <a className='underline' href="">Termos e condições de uso,</a> autorizando a coleta e tratamento de meus dados pela MARCA.</p>
+                    <p className='text-sm font-Quicksand mx-auto mt-6 text-center max-w-[500px]'>Li e concordo com o <Link className='underline' href="/termos">Termo de Consentimento para Telessaúde</Link>, <Link className='underline' href="/politica-privacidade">Política de dados pessoais,</Link> <Link className='underline' href="/termos">Termos e condições de uso,</Link> autorizando a coleta e tratamento de meus dados pela MARCA.</p>
                     <div className="mt-10 flex justify-center">
-                        <a className="bg-Azul text-white px-10 py-4 rounded-2xl font-Quicksand tracking-wider uppercase font-semibold" href="/quiz">Sim, Eu concordo</a>
+                        <Link className="bg-Azul text-white px-10 py-4 rounded-2xl font-Quicksand tracking-wider uppercase font-semibold" href="/quiz">Sim, Eu concordo</Link>
                     </div>
                 </div>
             </section>

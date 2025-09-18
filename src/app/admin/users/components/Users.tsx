@@ -122,9 +122,9 @@ function AdminUsersContent() {
 
   return (
     <section className="">
-      <div className="maxW">
+      <div className="">
         <div className="mb-6">
-          <h2 className="font-bold">Gerenciar Usuários</h2>
+          <h2 className="font-bold text-3xl">Gerenciar Usuários</h2>
           <p className="text-gray-700">Visualize e gerencie os roles dos usuários do sistema.</p>
         </div>
 
