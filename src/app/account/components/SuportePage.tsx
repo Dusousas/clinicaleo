@@ -3,7 +3,7 @@ import { HelpCircle, Phone, MessageSquare, MessageCircle, ChevronRight } from 'l
 
 const SuportePage = () => {
   return (
-    <div className="p-8 h-[100vh]">
+    <div className="py-20 px-8 lg:p-8 lg:h-[100vh]">
       <h2 className="text-2xl sm:text-3xl font-bold mb-2">Suporte</h2>
 
       <div className="mb-8">

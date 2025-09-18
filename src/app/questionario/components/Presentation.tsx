@@ -4,7 +4,7 @@ import React from 'react';
 export default function Presentation() {
     return (
         <>
-            <section className='h-[63vh] flex items-center justify-center w-full'>
+            <section className='flex  items-center justify-center w-full py-20 lg:h-[63vh] lg:py-0'>
                 <div className='maxW'>
                     <h2 className='text-center text-2xl font-Quicksand uppercase font-semibold'>Vamos fazer algumas perguntas para encontrar seu plano ideal</h2>
                     <p className='text-center text-sm mt-2'>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>

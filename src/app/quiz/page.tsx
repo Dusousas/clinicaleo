@@ -5,7 +5,7 @@ import ProtectedQuiz from "@/components/ProtectedQuiz";
 export default function page() {
   return (
     <>
-      <section className="bg-gray-100">
+      <section className="bg-Azul/5">
         <div className="maxW">
           <ProtectedQuiz>
             <Question1 />

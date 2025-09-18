@@ -5,17 +5,18 @@ export default function CardsMain() {
         <section className='bg-Azul/5 pt-20'>
             <div className="maxW">
                 <h3 className="font-Quicksand uppercase tracking-widest text-center font-semibold text-Laranja">Aprovado por mais de 100 mil pacientes</h3>
-                <h1 className="font-Quicksand font-bold text-5xl text-textPrimary text-center"><span className="uppercase">Verté Beauty </span>é a evolução da consulta médica</h1>
+                <h1 className="font-Quicksand font-bold  text-textPrimary text-center mt-2 text-3xl lg:text-5xl"><span className="uppercase">Verté Beauty </span>é a evolução da consulta médica</h1>
 
 
-                <article className="flex justify-center gap-20 items-center mt-20">
+                <article className="flex flex-col justify-center gap-20 items-center mt-20 lg:flex-row">
+
                     <div className="lg:w-1/2 flex justify-end">
                         <img src="/mockup-mobile.webp" alt="" />
                     </div>
 
                     <div className="lg:w-1/2">
-                        <h2 className="text-3xl font-semibold ">Como funciona uma consulta médica via chat?</h2>
-                        <p className="mt-2 text-gray-600">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Delectus ipsa pariatur provident debitis hic fugiat!</p>
+                        <h2 className="text-3xl font-semibold text-center lg:text-left">Como funciona uma consulta médica via chat?</h2>
+                        <p className="mt-2 text-gray-600 text-center lg:text-left">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Delectus ipsa pariatur provident debitis hic fugiat!</p>
 
                         <div className="flex items-center mt-8 gap-2">
                             <div className="bg-Laranja w-10 h-10 flex justify-center items-center rounded-full  font-Quicksand font-bold">
@@ -54,7 +55,7 @@ export default function CardsMain() {
                         </div>
 
                      
-                            <div className="mt-10">
+                            <div className="mt-10 flex justify-center lg:justify-start">
                                 <a className="bg-Laranja text-white px-10 py-4 rounded-2xl font-Quicksand tracking-wider uppercase font-semibold" href="/questionario">Começar tratamento</a>
                             </div>
                      

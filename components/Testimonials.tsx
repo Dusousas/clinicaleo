@@ -81,7 +81,7 @@ const Testimonials: React.FC = () => {
                     <h3 className="font-Quicksand uppercase tracking-widest text-center font-semibold text-Laranja">
                         O que nossos clientes dizem
                     </h3>
-                    <h1 className="font-Quicksand font-bold text-5xl text-textPrimary text-center">
+                    <h1 className="font-Quicksand font-bold text-textPrimary text-center text-3xl lg:text-5xl">
                         Quem provou, Aprovou!
                     </h1>
 

@@ -105,7 +105,7 @@ export default function Question1() {
   // Mostrar loading enquanto está salvando e redirecionando
   if (isSubmitting) {
     return (
-      <section className="h-[63vh] flex items-center justify-center w-full">
+      <section className="flex items-center justify-center w-full py-20 lg:h-[63vh] lg:py-0">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#09243C] mx-auto mb-4"></div>
           <p className="text-[#09243C] font-medium">Processando suas respostas...</p>
@@ -115,7 +115,7 @@ export default function Question1() {
   }
 
   return (
-    <section className="h-[63vh] flex items-center justify-center w-full">
+    <section className="flex items-center justify-center w-full py-20 lg:h-[63vh] lg:py-0">
       <div className="maxW max-w-2xl mx-auto px-4">
         <div className="text-center mb-8">
           <h2 className="text-center text-2xl font-Quicksand uppercase font-semibold text-[#09243C] mb-8 lg:w-[750px] lg:mx-auto">
