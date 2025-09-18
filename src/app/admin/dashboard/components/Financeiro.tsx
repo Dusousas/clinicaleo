@@ -142,13 +142,13 @@ export default function Financeiro() {
 
   return (
     <>
-      <section className='py-4 sm:py-6'>
-        <div className='maxW px-4 sm:px-6 lg:px-8'>
-          {/* Header */}
+      <section className=''>
+        <div className=''>
+
           <div className='flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mb-6'>
             <div>
-              <h1 className='text-xl sm:text-2xl font-bold text-gray-900'>Financeiro</h1>
-              <p className='text-gray-600 mt-1 text-sm sm:text-base'>Controle suas receitas</p>
+              <h2 className='text-3xl font-bold'>Financeiro</h2>
+              <p className='text-gray-700 mt-1 text-sm sm:text-base'>Controle suas receitas</p>
             </div>
             
             <div className='flex flex-col sm:flex-row items-stretch sm:items-center gap-3'>

@@ -26,7 +26,7 @@ export default function FaqSlugPage() {
         <p className="text-gray-700">Tente voltar para a central de ajuda.</p>
         <Link
           href="/central-ajuda"
-          className="inline-block mt-6 px-6 py-2 bg-textPrimary text-white rounded-lg shadow hover:bg-[#123b63] transition"
+          className="inline-block mt-6 px-6 py-2 bg-Azul text-white rounded-lg shadow transition"
         >
           Voltar para Central de Ajuda
         </Link>
@@ -35,12 +35,12 @@ export default function FaqSlugPage() {
   }
 
   return (
-    <section className="max-w-4xl mx-auto pt-10 pb-10 px-4 lg:pt-40 lg:pb-20">
+    <section className="max-w-4xl mx-auto py-20">
       {/* Botão de voltar */}
       <div className="mb-8">
         <Link
           href="/central-ajuda"
-          className="inline-block px-5 py-2 bg-textPrimary text-white rounded-lg shadow hover:bg-[#123b63] transition"
+          className="inline-block px-5 py-2 bg-Azul text-white rounded-lg shadow transition"
         >
           ← Voltar para Central da Ajuda
         </Link>

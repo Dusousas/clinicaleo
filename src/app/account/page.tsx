@@ -34,9 +34,9 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="bg-Bg1 h-full flex">
+    <div className="bg-Azul/5 h-full flex">
       {/* Desktop Sidebar */}
-      <div className="hidden lg:block w-64 bg-white shadow-lg lg:pt-40">
+      <div className="hidden lg:block w-64 bg-white shadow-lg lg:pt-10">
         <div className="p-6">
           <nav className="space-y-2">
             {sidebarItems.map((item) => {
@@ -47,7 +47,7 @@ export default function Dashboard() {
                   onClick={() => setActiveTab(item.id)}
                   className={`w-full flex items-center px-4 py-3 text-left rounded-lg transition-colors ${
                     activeTab === item.id
-                      ? 'bg-teal-50 text-teal-700 border-l-4 border-teal-600'
+                      ? 'bg-Verde/10 text-teal-700 border-l-4 border-Verde'
                       : 'text-gray-600 hover:bg-gray-50'
                   }`}
                 >
@@ -61,7 +61,7 @@ export default function Dashboard() {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-auto lg:pt-40 pb-20 lg:pb-0">
+      <div className="flex-1 overflow-auto">
         {renderContent()}
       </div>
 

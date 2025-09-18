@@ -62,7 +62,7 @@ export default function LoginPage() {
         {
           onSuccess: () => {
             toast.success("Login realizado com sucesso!");
-            router.push("/dashboard");
+            router.push("/account");
           },
           onError: (error) => {
             toast.error("Email ou senha inválidos.");
@@ -82,10 +82,10 @@ export default function LoginPage() {
   };
 
   return (
-    <section className="lg:h-[calc(100vh-72px)] py-20 lg:py-0">
+    <section className="py-20">
       <div className="maxW h-full flex justify-center items-center flex-col">
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden relative lg:top-30">
-          <div className="bg-[#09243C] px-8 py-6 text-center">
+        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden relative">
+          <div className="bg-Azul px-8 py-6 text-center">
             <h3 className="text-2xl font-bold text-white mb-2">
               Bem-vindo de volta!
             </h3>
@@ -216,7 +216,7 @@ export default function LoginPage() {
                 <Button
                   type="submit"
                   disabled={form.formState.isSubmitting}
-                  className="w-full mt-6 bg-[#09243C] hover:bg-[#0a2a40] text-white py-3 px-4 rounded-xl font-medium focus:ring-4 focus:ring-blue-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98] h-auto"
+                  className="w-full mt-6 bg-Azul cursor-pointer text-white py-3 px-4 rounded-xl font-medium focus:ring-4 focus:ring-blue-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98] h-auto"
                 >
                   {form.formState.isSubmitting ? (
                     <div className="flex items-center justify-center gap-2">
@@ -244,7 +244,7 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <div className="text-center text-xs text-gray-500 mt-4 lg:mt-33">
+        <div className="text-center text-xs text-gray-500 mt-4">
           <p>Ao continuar, você concorda com nossos</p>
           <div className="flex justify-center gap-4 mt-1">
             <button className="hover:text-blue-600 transition-colors">

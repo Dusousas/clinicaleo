@@ -115,7 +115,7 @@ export default function EditProfilePage() {
     };
 
     return (
-        <div className='min-h-screen bg-Bg1 pt-40'>
+        <div className='min-h-screen bg-Azul/5'>
             {/* Header */}
             <div className='bg-white border-b border-gray-200'>
                 <div className='max-w-4xl mx-auto px-6 py-6'>
@@ -141,7 +141,7 @@ export default function EditProfilePage() {
                 <div className='bg-white rounded-2xl border border-gray-200 overflow-hidden'>
                     
                     {/* Profile Image Section */}
-                    <div className='bg-gradient-to-r from-slate-900 to-slate-800 px-8 py-12'>
+                    <div className='bg-gradient-to-r from-Azul to-Azul/40 px-8 py-12'>
                         <div className='flex flex-col items-center text-center'>
                             <div className='relative mb-6'>
                                 <div className='w-32 h-32 bg-white/10 rounded-full flex items-center justify-center overflow-hidden border-4 border-white/20'>
@@ -165,10 +165,10 @@ export default function EditProfilePage() {
                                     />
                                 </label>
                             </div>
-                            <h2 className='text-white text-xl font-semibold mb-2'>
+                            <h3 className='text-white text-xl font-semibold mb-2'>
                                 {formData.firstName} {formData.lastName}
-                            </h2>
-                            <p className='text-white/70 text-sm'>Atualize sua foto de perfil</p>
+                            </h3>
+                            <p className='text-white text-sm'>Atualize sua foto de perfil</p>
                         </div>
                     </div>
 
@@ -178,7 +178,7 @@ export default function EditProfilePage() {
                             
                             {/* Personal Information */}
                             <div>
-                                <h3 className='text-lg font-semibold text-gray-900 mb-6'>Informações Pessoais</h3>
+                                <h3 className='text-lg font-semibold text-textPrimary mb-6'>Informações Pessoais</h3>
                                 
                                 <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
                                     <div>
@@ -381,7 +381,7 @@ export default function EditProfilePage() {
                                 className={`px-6 py-3 rounded-xl font-medium transition-all ${
                                     isLoading 
                                         ? 'bg-gray-200 cursor-not-allowed text-gray-400' 
-                                        : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400'
+                                        : 'bg-white border cursor-pointer border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400'
                                 }`}
                             >
                                 Cancelar
@@ -393,7 +393,7 @@ export default function EditProfilePage() {
                                 className={`px-8 py-3 rounded-xl font-medium transition-all ${
                                     isLoading 
                                         ? 'bg-gray-400 cursor-not-allowed text-white' 
-                                        : 'bg-slate-900 hover:bg-slate-800 text-white shadow-lg hover:shadow-xl'
+                                        : 'bg-Azul cursor-pointer text-white shadow-lg hover:shadow-xl'
                                 }`}
                             >
                                 {isLoading ? (

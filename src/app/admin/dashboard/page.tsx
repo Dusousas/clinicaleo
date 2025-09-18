@@ -6,7 +6,7 @@ export default function page() {
   return (
     <>
       
-      <section className='bg-Bg1'>
+      <section className=''>
         <div className='h-full'>
           <MainDash />
         </div>

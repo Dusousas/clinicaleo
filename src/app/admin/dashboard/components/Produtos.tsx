@@ -58,11 +58,11 @@ export default function Produtos() {
     };
 
     return (
-        <section className="min-h-screen bg-gray-50">
-            <div className="maxW py-8">
+        <section className="">
+            <div className="">
                 <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">Gerenciamento de Produtos</h1>
-                    <p className="text-gray-600">Gerencie preços, cupons de desconto e relatórios de vendas</p>
+                    <h2 className="text-3xl font-bold">Gerenciamento de Produtos</h2>
+                    <p className="text-gray-700">Gerencie preços, cupons de desconto e relatórios de vendas</p>
                 </div>
 
                 {/* Navigation Tabs */}

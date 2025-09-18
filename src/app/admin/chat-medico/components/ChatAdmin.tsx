@@ -194,10 +194,10 @@ export default function ChatAdmin() {
     const pacienteAtual = pacientes.find(p => p.id === pacienteSelecionado);
 
     return (
-        <section className='min-h-screen bg-Bg1'>
-            <div className=' mx-auto px-4'>
+        <section className=''>
+            <div className='mx-auto'>
                 <div className='mb-6'>
-                    <h2 className='text-3xl font-bold'>Painel Administrativo</h2>
+                    <h2 className='text-3xl font-bold'>Mensagens de Pacientes</h2>
                     <p className='text-gray-700 mt-2'>Gerencie as conversas com seus pacientes</p>
                 </div>
 

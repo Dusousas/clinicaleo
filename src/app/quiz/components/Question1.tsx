@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Completed from "./Completed";
+import { useRouter } from "next/navigation";
 import { useQuizManager } from "@/lib/hooks/useQuizManager";
 
 interface Question {
@@ -56,15 +56,14 @@ const questions: Question[] = [
 ];
 
 export default function Question1() {
+  const router = useRouter();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<{ [key: number]: string }>({});
-  const [isQuizCompleted, setIsQuizCompleted] = useState(false);
 
   const { saveQuizResponses, isSubmitting } = useQuizManager({
     quizType: "sexual_health",
     onCompleted: () => {
-      // Você pode redirecionar para uma página específica ou manter na mesma página
-      // router.push('/dashboard');
+      router.push('/tratamento');
     },
   });
 
@@ -91,36 +90,32 @@ export default function Question1() {
   const handleQuizCompletion = async (finalAnswers: {
     [key: number]: string;
   }) => {
-    setIsQuizCompleted(true);
-
     // Salvar as respostas no banco de dados
     const result = await saveQuizResponses(finalAnswers);
 
     if (!result.success) {
       console.error("Erro ao salvar respostas:", result.error);
-      // Você pode manter as respostas localmente mesmo se falhar para salvar
+      // Mesmo se houver erro, redirecionar para checkout
+      // Você pode decidir se quer redirecionar mesmo com erro ou mostrar uma mensagem
+      router.push('/checkout');
     }
+    // Se sucesso, o redirect já será feito pelo onCompleted callback
   };
 
-  const resetQuiz = () => {
-    setCurrentQuestionIndex(0);
-    setAnswers({});
-    setIsQuizCompleted(false);
-  };
-
-  if (isQuizCompleted) {
+  // Mostrar loading enquanto está salvando e redirecionando
+  if (isSubmitting) {
     return (
-      <Completed
-        questions={questions}
-        answers={answers}
-        onReset={resetQuiz}
-        isSubmitting={isSubmitting}
-      />
+      <section className="h-[63vh] flex items-center justify-center w-full">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#09243C] mx-auto mb-4"></div>
+          <p className="text-[#09243C] font-medium">Processando suas respostas...</p>
+        </div>
+      </section>
     );
   }
 
   return (
-    <section className="h-[calc(100vh-72px)] flex items-center justify-center w-full">
+    <section className="h-[63vh] flex items-center justify-center w-full">
       <div className="maxW max-w-2xl mx-auto px-4">
         <div className="text-center mb-8">
           <h2 className="text-center text-2xl font-Quicksand uppercase font-semibold text-[#09243C] mb-8 lg:w-[750px] lg:mx-auto">

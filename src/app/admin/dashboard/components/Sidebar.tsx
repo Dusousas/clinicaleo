@@ -22,7 +22,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
     <>
       {/* Desktop Sidebar */}
       <div className="hidden lg:block w-64 bg-white shadow-lg ">
-        <div className="p-6 pt-50 h-full">
+        <div className="p-6  h-full lg:pt-10">
           <nav className="space-y-2">
             {sidebarItems.map((item) => {
               const IconComponent = item.icon;
@@ -32,7 +32,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
                   onClick={() => setActiveTab(item.id)}
                   className={`w-full flex items-center px-4 py-3 text-left rounded-lg transition-colors ${
                     activeTab === item.id
-                      ? 'bg-teal-50 text-teal-700 border-l-4 border-teal-600'
+                      ? 'bg-Verde/10 text-teal-700 border-l-4 border-Verde'
                       : 'text-gray-600 hover:bg-gray-50'
                   }`}
                 >

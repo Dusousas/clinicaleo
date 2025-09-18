@@ -7,12 +7,21 @@
   --font-Inter: var(--font-inter);
   --font-Quicksand: var(--font-quicksand);
 
+  /* IDENTIDADE VISUAL OFICIAL */
+  --color-Verde: #d9fb5f;
+  --color-Laranja: #ef6a3f;
+  --color-Azul: #96a8fe;
+  --color-Rosa: #ffb6d9;
+  /* IDENTIDADE VISUAL OFICIAL */
+
+
+
 
   --color-Primary: #F5F1EE;
 
   --color-Bg1: #F9FAFB;
 
-  --color-textPrimary: #09243C;
+  --color-textPrimary: #212529;
 
 
 
@@ -58,21 +67,20 @@ body {
   font-family: "Inter", sans-serif;
 }
 
-.maxW{
+.maxW {
   max-width: 1620px;
   padding: 0 2%;
   margin: 0 auto;
 }
 
-h2{
+h2 {
   font-family: "Quicksand", sans-serif;
   color: var(--color-textPrimary);
-
 }
 
 
 
-.bgCardsmain{
+.bgCardsmain {
   background-image: url('/id.webp');
   background-size: cover;
   background-position: center;
@@ -151,6 +159,7 @@ h2{
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }

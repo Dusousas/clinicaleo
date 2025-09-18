@@ -13,8 +13,8 @@ export default function Page() {
   };
 
   return (
-    <section className="bg-Bg1 lg:px-12 p-4 lg:pt-34">
-      <div className="bg-textPrimary rounded-xl">
+    <section className="bg-Azul/5 py-20 px-6">
+      <div className="bg-Azul rounded-xl">
         <div className="relative z-10 pt-10 pb-4 mx-auto px-4 text-center">
           <h3 className="font-bold text-4xl text-white mb-8 font-Quicksand">Suas perguntas, respondidas!</h3>
         </div>
@@ -47,7 +47,7 @@ export default function Page() {
         <div className="max-w-4xl mx-auto">
           <h2 className="font-bold text-3xl mb-8 text-center lg:text-left">Perguntas frequentes</h2>
 
-          <div className="space-y-4 mb-16">
+          <div className="space-y-4 ">
             {data.categorias.flatMap((category) =>
               category.faqs.map(
                 (faq: { id: number; question: string; answer: string }) => {

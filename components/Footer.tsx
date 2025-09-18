@@ -3,7 +3,7 @@ import React from 'react';
 export default function Footer() {
     return (
         <>
-            <section className='bg-[#09243C] py-6 text-white'>
+            <section className='bg-Azul py-6 text-white'>
                 <div className='maxW'>
                     <article className='flex flex-col justify-between items-center lg:flex-row lg:px-40'>
 

@@ -71,7 +71,7 @@ export default function DeactivateAccountPage() {
     };
 
     return (
-        <section className='bg-Bg1 lg:pt-50 lg:pb-20'>
+        <section className='bg-Bg1 py-20'>
             <div className='maxW'>
 
                 <div className='bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto'>

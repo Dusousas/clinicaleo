@@ -136,8 +136,8 @@ export default function Consultas() {
 
   return (
     <>
-      <section className='py-4 sm:py-6'>
-        <div className='maxW px-4 sm:px-6 lg:px-8'>
+      <section className=''>
+        <div className=''>
           <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6'>
             <div>
               <h2 className='text-3xl font-bold'>Consultas</h2>

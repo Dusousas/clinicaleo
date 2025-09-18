@@ -221,7 +221,7 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="py-20">
       <section className="relative">
         <div className="">
           <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
@@ -277,7 +277,7 @@ export default function CheckoutPage() {
                       
                       <button
                         onClick={validateStep1}
-                        className="w-full sm:w-auto bg-[#09243C] cursor-pointer text-white px-6 sm:px-8 py-3 rounded-xl uppercase tracking-wider font-semibold text-sm sm:text-base hover:bg-[#0a2a47] transition-colors"
+                        className="w-full sm:w-auto bg-Azul cursor-pointer text-white px-6 sm:px-8 py-3 rounded-xl uppercase tracking-wider font-semibold text-sm sm:text-base hover:bg-[#0a2a47] transition-colors"
                       >
                         Continuar
                       </button>
@@ -343,7 +343,7 @@ export default function CheckoutPage() {
                       
                       <button
                         onClick={validateStep2}
-                        className="w-full sm:w-auto bg-[#09243C] cursor-pointer text-white px-6 sm:px-8 py-3 rounded-xl uppercase tracking-wider font-semibold text-sm sm:text-base hover:bg-[#0a2a47] transition-colors"
+                        className="w-full sm:w-auto bg-Azul cursor-pointer text-white px-6 sm:px-8 py-3 rounded-xl uppercase tracking-wider font-semibold text-sm sm:text-base hover:bg-[#0a2a47] transition-colors"
                       >
                         Continuar
                       </button>

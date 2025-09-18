@@ -73,7 +73,6 @@ export default function Navbar(): JSX.Element {
                 <nav>
                     <ul className="flex gap-6 items-center text-md uppercase tracking-widest text-white">
                         <li><button onClick={() => handleNavigation('/', 'home')} className="hover:opacity-70 transition-opacity uppercase cursor-pointer" type="button">Início</button></li>
-                        <li><button onClick={() => handleNavigation('/', 'home')} className="hover:opacity-70 transition-opacity uppercase cursor-pointer" type="button">Produtos</button></li>
                         <li><button onClick={() => handleNavigation('/', 'home')} className="hover:opacity-70 transition-opacity uppercase cursor-pointer" type="button">Quem somos</button></li>
                     </ul>
                 </nav>
@@ -81,10 +80,9 @@ export default function Navbar(): JSX.Element {
 
             <div className="lg:hidden">
                 <button onClick={() => setIsOpen(!isOpen)} className="text-3xl text-white focus:outline-none relative z-50" type="button" aria-label={isOpen ? "Fechar menu" : "Abrir menu"}>{isOpen ? <FiX /> : <FiMenu />}</button>
-                <nav className={`fixed top-0 right-0 h-screen w-full bg-white shadow-md z-40 flex flex-col items-center justify-center transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"}`}>
+                <nav className={`fixed top-0 right-0 h-screen w-full bg-Azul shadow-md z-40 flex flex-col items-center justify-center transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"}`}>
                     <ul className="flex flex-col items-center gap-8 text-lg">
                         <li><button onClick={() => handleNavigation('/', 'home')} className="hover:opacity-70 transition-opacity uppercase cursor-pointer" type="button">Início</button></li>
-                        <li><button onClick={() => handleNavigation('/', 'home')} className="hover:opacity-70 transition-opacity uppercase cursor-pointer" type="button">Produtos</button></li>
                         <li><button onClick={() => handleNavigation('/', 'home')} className="hover:opacity-70 transition-opacity uppercase cursor-pointer" type="button">Quem somos</button></li>
                         
                         {user ? (
@@ -93,7 +91,7 @@ export default function Navbar(): JSX.Element {
                                 <li><button onClick={handleLogout} className="hover:opacity-70 transition-opacity uppercase cursor-pointer text-red-600" type="button">Sair</button></li>
                             </>
                         ) : (
-                            <li><button onClick={() => handleNavigation('/login', '')} className="hover:opacity-70 transition-opacity uppercase cursor-pointer" type="button">Minha conta</button></li>
+                            <li><button onClick={() => handleNavigation('/login', '')} className="hover:opacity-70 transition-opacity uppercase text-white cursor-pointer" type="button">Minha conta</button></li>
                         )}
                     </ul>
                 </nav>

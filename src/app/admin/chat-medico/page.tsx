@@ -4,7 +4,7 @@ import ChatAdmin from './components/ChatAdmin';
 export default function page() {
     return (
         <>
-            <section className='lg:pt-40 lg:pb-20'>
+            <section className=''>
                 <div className='maxW'>
                     <ChatAdmin />
                 </div>

@@ -66,9 +66,9 @@ export default function ChangePasswordPage() {
     };
 
     return (
-        <section className='h-[calc(100vh-72px)] bg-gray-100 flex items-center justify-center px-4'>
+        <section className='bg-Azul/5 flex items-center justify-center py-20 px-4'>
             <div className='w-full maxW'>
-                <div className='bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto lg:mt-25'>
+                <div className='bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto'>
                     <h2 className='text-2xl font-bold text-textPrimary text-center mb-2'>Alterar Senha</h2>
                     <p className='text-gray-600 text-center mb-8 text-sm leading-relaxed'>
                         Digite sua senha atual e escolha uma nova senha<br />para sua conta
@@ -173,7 +173,7 @@ export default function ChangePasswordPage() {
                     <div className='space-y-3'>
                         <button 
                             onClick={handleSubmit}
-                            className='w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 cursor-pointer rounded-md transition duration-200'
+                            className='w-full bg-Azul text-white font-medium py-3 px-4 cursor-pointer rounded-md transition duration-200'
                         >
                             Alterar Senha
                         </button>

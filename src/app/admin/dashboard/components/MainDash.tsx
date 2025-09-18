@@ -34,7 +34,7 @@ export default function Dashboard() {
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
       <div className="flex-1 flex flex-col overflow-hidden">
 
-        <div className="flex-1 overflow-auto lg:pt-50 pb-30 bg-Bg1">
+        <div className="flex-1 overflow-auto py-20 bg-Azul/5 px-6">
           {renderContent()}
         </div>
       </div>

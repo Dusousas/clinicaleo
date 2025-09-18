@@ -4,7 +4,7 @@ import Users from './components/Users';
 export default function page() {
   return (
     <>
-      <section className='lg:pt-40 pb-20'>
+      <section className=''>
         <div className='maxW'>
           <Users />
         </div>

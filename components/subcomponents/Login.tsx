@@ -40,7 +40,7 @@ export default function Login() {
             <ul>
                 <li className='hidden uppercase text-white lg:block'>
                     <div className='flex items-center gap-4'>
-                        <a className='flex items-center gap-2 hover:opacity-70 transition-opacity' href="/dashboard">
+                        <a className='flex items-center gap-2 hover:opacity-70 transition-opacity' href="/account">
                             <IoPerson />
                             {user.name}
                         </a>
@@ -63,7 +63,7 @@ export default function Login() {
             <li className='hidden uppercase text-white lg:block'>
                 <a className='flex items-center gap-2 hover:opacity-70 transition-opacity' href="/login">
                     <IoPerson />
-                    Minha conta
+                    Entrar
                 </a>
             </li>
         </ul>
